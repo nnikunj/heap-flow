@@ -5,11 +5,14 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 //, uniqueConstraints = @UniqueConstraint(columnNames = { "CODE" })
 @Entity
+@NamedQuery(name = "MachineDO.byCode", query = "from MachineDO where code=:code")
+@NamedQuery(name = "MachineDO.all", query = "from MachineDO")
 @Table(name = "machines")
 public class MachineDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
@@ -44,61 +47,6 @@ public class MachineDO extends BaseDO {
 
 	public void setUsedStokcs(Collection<EgressLedgerDO> usedStokcs) {
 		this.usedStokcs = usedStokcs;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((code == null) ? 0 : code.hashCode());
-		result = prime * result + ((make == null) ? 0 : make.hashCode());
-		result = prime * result + ((model == null) ? 0 : model.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((serialNo == null) ? 0 : serialNo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		MachineDO other = (MachineDO) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
-		if (code == null) {
-			if (other.code != null)
-				return false;
-		} else if (!code.equals(other.code))
-			return false;
-		if (make == null) {
-			if (other.make != null)
-				return false;
-		} else if (!make.equals(other.make))
-			return false;
-		if (model == null) {
-			if (other.model != null)
-				return false;
-		} else if (!model.equals(other.model))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (serialNo == null) {
-			if (other.serialNo != null)
-				return false;
-		} else if (!serialNo.equals(other.serialNo))
-			return false;
-		return true;
 	}
 
 	public String getSerialNo() {

@@ -3,9 +3,9 @@ package com.paranika.erp.heap_flow.services.machines;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -102,7 +102,7 @@ public class MachineServiceImpl implements MachineServiceIX {
 			Sheet machineSheet = workbook.getSheetAt(0);
 			Iterator<Row> iterator = machineSheet.iterator();
 			int rowCounter = 0;
-			LinkedHashSet<MachineDO> machineDos = new LinkedHashSet<MachineDO>();
+			ArrayList<MachineDO> machineDos = new ArrayList<MachineDO>();
 			while (iterator.hasNext()) {
 				Row nextRow = iterator.next();
 				// ignore first 2 rows
@@ -114,7 +114,7 @@ public class MachineServiceImpl implements MachineServiceIX {
 				}
 
 			}
-			machinesDao.saveAll(machineDos);
+			machinesDao.mergeAll(machineDos);
 
 		} catch (IOException e) {
 			throw new HeapFlowException(e);

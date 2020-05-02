@@ -9,9 +9,13 @@ import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
 
 @Repository
 public interface MachinesDaoIx {
-	public List<MachineDO> getAllCategories() throws Exception;
+	public List<MachineDO> getAllMachines() throws Exception;
+
+	public List<MachineDO> getAllMachinesWithPagination(int startRecord, int pageSize) throws Exception;
 
 	public void add(MachineDO machineDO) throws Exception;
 
 	public void saveAll(Collection<MachineDO> machineDOs) throws Exception;
+
+	public void mergeAll(Collection<MachineDO> machineDOs) throws Exception;
 }

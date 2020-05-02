@@ -1,4 +1,4 @@
-package com.paranika.erp.heap_flow.daos.machines;
+package com.paranika.erp.heap_flow.daos.defaultProviders;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
