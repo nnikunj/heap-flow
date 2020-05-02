@@ -36,7 +36,6 @@ public class MachineController {
 
 		}
 		try {
-
 			machinesService.importAndUpdateMachinesInventory(book);
 			response = new ResponseEntity<String>("Operation Successfull", HttpStatus.CREATED);
 		} catch (HeapFlowException hfe) {

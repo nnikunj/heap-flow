@@ -5,10 +5,13 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
+@NamedQuery(name = "VendorDO.bySearchName", query = "from VendorDO where searchName=:searchName")
+@NamedQuery(name = "VendorDO.all", query = "from VendorDO")
 @Table(name = "vendors")
 public class VendorDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
