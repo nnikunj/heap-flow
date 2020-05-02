@@ -1,35 +1,50 @@
 package com.paranika.erp.heap_flow.common.models.dos;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 //, uniqueConstraints = @UniqueConstraint(columnNames = { "CODE" })
 @Entity
-@Table(name = "MACHINES")
+@Table(name = "machines")
 public class MachineDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "SERIAL_NO", nullable = true, length = 32)
+	@Column(name = "serial_no", nullable = true, length = 32)
 	private String serialNo;
 
-	@Column(name = "NAME", nullable = false, length = 256)
+	@Column(name = "name", nullable = false, length = 256)
 	private String name;
 
-	@Column(name = "CODE", nullable = true, length = 256)
+	@Column(name = "code", nullable = true, length = 256)
 	private String code;
 
-	@Column(name = "MODEL", nullable = true, length = 256)
+	@Column(name = "model", nullable = true, length = 256)
 	private String model;
 
-	@Column(name = "MAKE", nullable = true, length = 256)
+	@Column(name = "make", nullable = true, length = 256)
 	private String make;
 
-	@Column(name = "CATEGORY", nullable = true, length = 256)
+	@Column(name = "category", nullable = true, length = 256)
 	private String category;
 
-	@Column(name = "KW_KVA", nullable = true, length = 32)
+	@Column(name = "kw_kva", nullable = true, length = 32)
 	private String kWKva;
+
+	@OneToMany(mappedBy = "consumingMachine")
+	private Collection<EgressLedgerDO> usedStokcs = new ArrayList<EgressLedgerDO>();
+
+	public Collection<EgressLedgerDO> getUsedStokcs() {
+		return usedStokcs;
+	}
+
+	public void setUsedStokcs(Collection<EgressLedgerDO> usedStokcs) {
+		this.usedStokcs = usedStokcs;
+	}
 
 	@Override
 	public int hashCode() {
@@ -147,7 +162,7 @@ public class MachineDO extends BaseDO {
 		StringBuilder builder = new StringBuilder();
 		String baseDo = super.toString();
 		builder.append(baseDo);
-		builder.append("MachineDO [serialNo=");
+		builder.append("\nMachineDO [serialNo=");
 		builder.append(serialNo);
 		builder.append(", name=");
 		builder.append(name);

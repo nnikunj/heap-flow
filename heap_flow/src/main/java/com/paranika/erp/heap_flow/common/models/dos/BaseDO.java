@@ -20,18 +20,18 @@ public abstract class BaseDO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID", nullable = false)
+	@Column(name = "id", nullable = false)
 	private Long id;
 
 	@Version
-	@Column(name = "VERSION", nullable = false)
+	@Column(name = "version", nullable = false)
 	private Integer version;
 
-	@Column(name = "MODIFIED", nullable = false)
+	@Column(name = "modified", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date modified;
 
-	@Column(name = "CREATION", nullable = false)
+	@Column(name = "creation", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creation;
 
@@ -90,8 +90,5 @@ public abstract class BaseDO implements Serializable {
 		builder.append("]\n");
 		return builder.toString();
 	}
-	
-	
-	
-	
+
 }
