@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
 
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -16,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
@@ -26,48 +26,29 @@ public class MachineServiceImpl implements MachineServiceIX {
 
 	@Autowired
 	MachinesDaoIx machinesDao;
-
-	private String getStringDataFromCell(Cell cell) {
-
-		String retVal = null;
-		switch (cell.getCellType()) {
-
-		case STRING:
-			retVal = cell.getStringCellValue();
-			break;
-		case BOOLEAN:
-			retVal = String.valueOf(cell.getBooleanCellValue());
-			break;
-		case NUMERIC:
-			retVal = String.valueOf(cell.getNumericCellValue());
-		default:
-			retVal = null;
-			break;
-		}
-		return retVal;
-
-	}
+	@Autowired
+	CommonUtil util;
 
 	private MachineDO extractDataFromRowIntoDo(Row nextRow) {
-		String code = (getStringDataFromCell(nextRow.getCell(1)));
+		String code = (util.getStringDataFromCell(nextRow.getCell(1)));
 		code = (code == null) ? null : code.trim().toUpperCase();
 
-		String name = getStringDataFromCell(nextRow.getCell(2));
+		String name = util.getStringDataFromCell(nextRow.getCell(2));
 		name = (name == null) ? null : name.trim().toUpperCase();
 
-		String category = getStringDataFromCell(nextRow.getCell(3));
+		String category = util.getStringDataFromCell(nextRow.getCell(3));
 		category = (category == null) ? null : category.trim().toUpperCase();
 
-		String kva = getStringDataFromCell(nextRow.getCell(4));
+		String kva = util.getStringDataFromCell(nextRow.getCell(4));
 		kva = (kva == null) ? null : kva.trim().toUpperCase();
 
-		String serialNumber = getStringDataFromCell(nextRow.getCell(5));
+		String serialNumber = util.getStringDataFromCell(nextRow.getCell(5));
 		serialNumber = (serialNumber == null) ? null : serialNumber.trim().toUpperCase();
 
-		String model = getStringDataFromCell(nextRow.getCell(6));
+		String model = util.getStringDataFromCell(nextRow.getCell(6));
 		model = (model == null) ? null : model.trim().toUpperCase();
 
-		String make = getStringDataFromCell(nextRow.getCell(7));
+		String make = util.getStringDataFromCell(nextRow.getCell(7));
 		make = (make == null) ? null : make.trim().toUpperCase();
 
 		if (StringUtils.isEmpty(name)) {

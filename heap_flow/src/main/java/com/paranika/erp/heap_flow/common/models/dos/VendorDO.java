@@ -159,4 +159,37 @@ public class VendorDO extends BaseDO {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("VendorDO [vendorId=");
+		builder.append(vendorId);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", searchName=");
+		builder.append(searchName);
+		builder.append(", gstRegNo=");
+		builder.append(gstRegNo);
+		builder.append(", panNumber=");
+		builder.append(panNumber);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append(", address2=");
+		builder.append(address2);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", stateCode=");
+		builder.append(stateCode);
+		builder.append(", contactPerson=");
+		builder.append(contactPerson);
+		builder.append(", phone=");
+		builder.append(phone);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", suppliedItems=");
+		builder.append(suppliedItems);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
