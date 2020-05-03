@@ -16,7 +16,7 @@ import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 
 @RestController
 @RequestMapping(HeapFlowApiEndPoints.BASE_END_POINT_VENDORS)
-public class vendorController {
+public class VendorController {
 	@Autowired
 	VendorServiceIX vendorService;
 

@@ -6,16 +6,19 @@ import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
+@NamedQuery(name = "InventoryItemDO.inventoryItemCode", query = "from InventoryItemDO where inventoryItemCode=:inventoryItemCode")
+@NamedQuery(name = "InventoryItemDO.all", query = "from InventoryItemDO")
 @Table(name = "inventory_items")
 public class InventoryItemDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "inventory_item_code", nullable = false, length = 32)
-	private String InventoryItemCode;
+	private String inventoryItemCode;
 
 	// This column will hold json form of descriptions
 	@Column(name = "descriptions", nullable = true)
@@ -36,19 +39,22 @@ public class InventoryItemDO extends BaseDO {
 	@Column(name = "hsn_sac_code", nullable = true, length = 10)
 	private String hsnSacCode;
 
+	public String getInventoryItemCode() {
+		return inventoryItemCode;
+	}
+
+	public void setInventoryItemCode(String inventoryItemCode) {
+		this.inventoryItemCode = inventoryItemCode;
+	}
+
 	@OneToMany(mappedBy = "item")
 	private Collection<InventoryDO> stocks = new ArrayList<InventoryDO>();
 
 	@OneToMany(mappedBy = "incomingMaterial")
-	private Collection<IngressLedgerDO> inputLedgers = new ArrayList<IngressLedgerDO>();
+	private Collection<IngressLedgerDO> ingressLedgers = new ArrayList<IngressLedgerDO>();
 
-	public String getInventoryItemCode() {
-		return InventoryItemCode;
-	}
-
-	public void setInventoryItemCode(String inventoryItemCode) {
-		InventoryItemCode = inventoryItemCode;
-	}
+	@OneToMany(mappedBy = "outgoingMaterial")
+	private Collection<EgressLedgerDO> egressLedgers = new ArrayList<EgressLedgerDO>();
 
 	public String getDescriptions() {
 		return descriptions;
@@ -106,8 +112,28 @@ public class InventoryItemDO extends BaseDO {
 		this.hsnSacCode = hsnSacCode;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Collection<InventoryDO> getStocks() {
+		return stocks;
+	}
+
+	public void setStocks(Collection<InventoryDO> stocks) {
+		this.stocks = stocks;
+	}
+
+	public Collection<IngressLedgerDO> getIngressLedgers() {
+		return ingressLedgers;
+	}
+
+	public void setIngressLedgers(Collection<IngressLedgerDO> ingressLedgers) {
+		this.ingressLedgers = ingressLedgers;
+	}
+
+	public Collection<EgressLedgerDO> getEgressLedgers() {
+		return egressLedgers;
+	}
+
+	public void setEgressLedgers(Collection<EgressLedgerDO> egressLedgers) {
+		this.egressLedgers = egressLedgers;
 	}
 
 	@Override
@@ -115,8 +141,8 @@ public class InventoryItemDO extends BaseDO {
 		StringBuilder builder = new StringBuilder();
 		String baseDo = super.toString();
 		builder.append(baseDo);
-		builder.append("\nInventoryItem [InventoryItemCode=");
-		builder.append(InventoryItemCode);
+		builder.append("\nInventoryItem [inventoryItemCode=");
+		builder.append(inventoryItemCode);
 		builder.append(", descriptions=");
 		builder.append(descriptions);
 		builder.append(", baseUnitMeasure=");

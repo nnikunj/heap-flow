@@ -51,4 +51,76 @@ public class IngressLedgerDO extends BaseDO {
 	@JoinColumn(name = "vendor_fk")
 	private VendorDO vendor;
 
+	public Date getRecordDate() {
+		return recordDate;
+	}
+
+	public void setRecordDate(Date recordDate) {
+		this.recordDate = recordDate;
+	}
+
+	public InventoryTypeDO getInventoryType() {
+		return inventoryType;
+	}
+
+	public void setInventoryType(InventoryTypeDO inventoryType) {
+		this.inventoryType = inventoryType;
+	}
+
+	public double getIncomingQuantity() {
+		return incomingQuantity;
+	}
+
+	public void setIncomingQuantity(double incomingQuantity) {
+		this.incomingQuantity = incomingQuantity;
+	}
+
+	public double getPricePerUnit() {
+		return pricePerUnit;
+	}
+
+	public void setPricePerUnit(double pricePerUnit) {
+		this.pricePerUnit = pricePerUnit;
+	}
+
+	public InventoryItemDO getIncomingMaterial() {
+		return incomingMaterial;
+	}
+
+	public void setIncomingMaterial(InventoryItemDO incomingMaterial) {
+		this.incomingMaterial = incomingMaterial;
+	}
+
+	public String getClassificationCategory() {
+		return classificationCategory;
+	}
+
+	public void setClassificationCategory(String classificationCategory) {
+		this.classificationCategory = classificationCategory;
+	}
+
+	public String getInvoiceNumber() {
+		return invoiceNumber;
+	}
+
+	public void setInvoiceNumber(String invoiceNumber) {
+		this.invoiceNumber = invoiceNumber;
+	}
+
+	public String getGrnNumber() {
+		return grnNumber;
+	}
+
+	public void setGrnNumber(String grnNumber) {
+		this.grnNumber = grnNumber;
+	}
+
+	public VendorDO getVendor() {
+		return vendor;
+	}
+
+	public void setVendor(VendorDO vendor) {
+		this.vendor = vendor;
+	}
+
 }

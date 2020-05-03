@@ -43,8 +43,8 @@ public class VendorsServiceImpl implements VendorServiceIX {
 
 		try {
 			workbook = new XSSFWorkbook(targetStream);
-			Sheet machineSheet = workbook.getSheetAt(0);
-			Iterator<Row> iterator = machineSheet.iterator();
+			Sheet vendorSheet = workbook.getSheetAt(0);
+			Iterator<Row> iterator = vendorSheet.iterator();
 			int rowCounter = 0;
 			ArrayList<VendorDO> vendorsDos = new ArrayList<VendorDO>();
 			while (iterator.hasNext()) {

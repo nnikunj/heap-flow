@@ -42,4 +42,63 @@ public class EgressLedgerDO extends BaseDO {
 	@JoinColumn(name = "machine_fk")
 	private MachineDO consumingMachine;
 
+	@Column(name = "issued_to", nullable = true)
+	private String issuedTo;
+
+	public Date getRecordDate() {
+		return recordDate;
+	}
+
+	public void setRecordDate(Date recordDate) {
+		this.recordDate = recordDate;
+	}
+
+	public InventoryTypeDO getInventoryType() {
+		return inventoryType;
+	}
+
+	public void setInventoryType(InventoryTypeDO inventoryType) {
+		this.inventoryType = inventoryType;
+	}
+
+	public double getOutgoingQuantity() {
+		return outgoingQuantity;
+	}
+
+	public void setOutgoingQuantity(double outgoingQuantity) {
+		this.outgoingQuantity = outgoingQuantity;
+	}
+
+	public InventoryItemDO getOutgoingMaterial() {
+		return outgoingMaterial;
+	}
+
+	public void setOutgoingMaterial(InventoryItemDO outgoingMaterial) {
+		this.outgoingMaterial = outgoingMaterial;
+	}
+
+	public String getClassificationCategory() {
+		return classificationCategory;
+	}
+
+	public void setClassificationCategory(String classificationCategory) {
+		this.classificationCategory = classificationCategory;
+	}
+
+	public MachineDO getConsumingMachine() {
+		return consumingMachine;
+	}
+
+	public void setConsumingMachine(MachineDO consumingMachine) {
+		this.consumingMachine = consumingMachine;
+	}
+
+	public String getIssuedTo() {
+		return issuedTo;
+	}
+
+	public void setIssuedTo(String issuedTo) {
+		this.issuedTo = issuedTo;
+	}
+
 }
