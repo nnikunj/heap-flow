@@ -13,5 +13,6 @@ public interface HeapFlowApiEndPoints {
 
 	public String BASE_END_POINT_INVENTORYITEM = BASE_END_POINT + "/inventory-items";
 	public String INVENTORYITEM_IMPORT_ENDPOINT = "/import-and-update-inventory-items-list";
+	public String GET_INVENTORYITEM_PAGE_WISE = "/fetch-inventory-items-list-page-wise";
 
 }

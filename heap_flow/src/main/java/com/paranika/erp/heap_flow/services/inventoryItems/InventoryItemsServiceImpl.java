@@ -27,7 +27,7 @@ import com.paranika.erp.heap_flow.daos.inventoryItems.InventoryItemDaoIx;
 public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 
 	@Autowired
-	InventoryItemDaoIx InventoryItemDO;
+	InventoryItemDaoIx inventoryItemDao;
 	@Autowired
 	CommonUtil util;
 
@@ -61,7 +61,7 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 			// processing in batch of 500 since list is huge
 			List<List<InventoryItemDO>> batchedList = Lists.partition(inventoryItemDOs, 500);
 			for (List<InventoryItemDO> list : batchedList) {
-				InventoryItemDO.mergeAll(list);
+				inventoryItemDao.mergeAll(list);
 			}
 
 		} catch (IOException e) {
@@ -137,6 +137,18 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 		// System.out.println("\n----------------------\n" + inventoryItemDO +
 		// "\n----------------------\n");
 		return inventoryItemDO;
+	}
+
+	@Override
+	public List<InventoryItemDO> getPagedInventoryItemList(int startRecord, int pageSize) throws HeapFlowException {
+		List<InventoryItemDO> retList = null;
+		try {
+			retList = inventoryItemDao.getAllInventoryItemsWithPagination(startRecord, pageSize);
+		} catch (Exception e) {
+			throw new HeapFlowException(e);
+		}
+
+		return retList;
 	}
 
 }

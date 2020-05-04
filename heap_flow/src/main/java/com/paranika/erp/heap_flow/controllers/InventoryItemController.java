@@ -1,5 +1,7 @@
 package com.paranika.erp.heap_flow.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
+import com.paranika.erp.heap_flow.common.models.InputPagedFetchCallData;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.services.inventoryItems.InventoryItemsServiceIX;
 
 @RestController
@@ -20,6 +24,22 @@ public class InventoryItemController {
 
 	@Autowired
 	InventoryItemsServiceIX service;
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)
+	ResponseEntity<List<InventoryItemDO>> getPagedInventoryItemList(@RequestBody InputPagedFetchCallData pageInfo) {
+		List<InventoryItemDO> fetchedList = null;
+		ResponseEntity<List<InventoryItemDO>> response;
+		try {
+			fetchedList = service.getPagedInventoryItemList(pageInfo.getStartRecord(), pageInfo.getPageSize());
+		} catch (HeapFlowException e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<List<InventoryItemDO>>((List<InventoryItemDO>) null,
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		response = new ResponseEntity<List<InventoryItemDO>>(fetchedList, HttpStatus.OK);
+		return response;
+	}
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.INVENTORYITEM_IMPORT_ENDPOINT)
 	public ResponseEntity<String> importAndUpdateVendorList(@RequestBody InputExcelBook book) {
