@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import com.paranika.erp.heap_flow.services.inventoryItems.InventoryItemsServiceI
 
 @RestController
 @RequestMapping(HeapFlowApiEndPoints.BASE_END_POINT_INVENTORYITEM)
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = { "Origin", "Content-Type", "Accept",
+		"Authorization" }, exposedHeaders = { "Origin", "Content-Type", "Accept", "Authorization" })
 public class InventoryItemController {
 
 	@Autowired
@@ -42,7 +45,7 @@ public class InventoryItemController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)
 	ResponseEntity<List<InventoryItemDisplayDO>> getPagedInventoryItemList(
 			@RequestBody InputPagedFetchCallData pageInfo) {
 		List<InventoryItemDisplayDO> fetchedList = null;

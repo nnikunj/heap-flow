@@ -1,0 +1,23 @@
+<div class="content-container"> 
+    <div>
+        <clr-vertical-nav>
+
+            <a clrVerticalNavLink routerLink="inventory-items-list"  skipLocationChange>
+                <clr-icon shape="storage" class="is-solid"></clr-icon>
+                Inventory Items
+            </a>
+            <div class="nav-divider"></div>
+            <a clrVerticalNavLink routerLink="" routerLinkActive="active" skipLocationChange>
+                <clr-icon shape="rupee" class="is-solid"></clr-icon>
+                Inventory Summary
+            </a>
+            <div class="nav-divider"></div>
+            <a clrVerticalNavLink routerLink="" routerLinkActive="active" skipLocationChange>
+
+            </a>
+        </clr-vertical-nav>
+    </div >
+    <div class="bordered">
+        <router-outlet></router-outlet>
+    </div>
+</div>

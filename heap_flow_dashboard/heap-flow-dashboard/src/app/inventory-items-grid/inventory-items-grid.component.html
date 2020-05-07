@@ -1,0 +1,123 @@
+<clr-datagrid id="all-items-list" (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading"
+  style="height: 99%;overflow-x: hidden;">
+  <clr-dg-column [clrDgField]="'itemCode'">Item Code</clr-dg-column>
+
+  <clr-dg-column>Desc 1</clr-dg-column>
+  <clr-dg-column>Desc 2</clr-dg-column>
+  <clr-dg-column>Desc 3</clr-dg-column>
+  <clr-dg-column>Desc 4</clr-dg-column>
+  <clr-dg-column>Desc 5</clr-dg-column>
+  <clr-dg-column>Desc 6</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'baseUnitMeasure'">Base Unit Measure</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'productGrpCode'">Product Group Code</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'genProductPostingGrp'">Gen Product Posting Group</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'itemCategoryCode'">Item Category Code</clr-dg-column>
+  <clr-dg-column>Gst Grp Code</clr-dg-column>
+  <clr-dg-column>HSN-SAC Code</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'createdTimestamp'" >Created Date</clr-dg-column>
+  <clr-dg-column [clrDgSortBy]="'createdTimestamp'" >Modified Date</clr-dg-column>
+  <clr-dg-placeholder>No Items found</clr-dg-placeholder>
+  <clr-dg-row *ngFor="let item of items; trackBy: trackByFn;let i = index;" [clrDgItem]="items"
+    (click)="showItemDetails(item)" [id]="[item.inventoryItemCode ? item.inventoryItemCode : 'N/A']"
+    class="cursor-pointer">
+
+    <clr-dg-cell>
+      <span
+        title="{{ item.inventoryItemCode ? item.inventoryItemCode  : '-'  }}">
+          {{ item.inventoryItemCode  ? item.inventoryItemCode  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description ? item.descriptions.description  : '-'  }}">
+          {{ item.descriptions.description  ? item.descriptions.description : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description2 ? item.descriptions.description2  : '-'  }}">
+          {{ item.descriptions.description2  ? item.descriptions.description2  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description3 ? item.descriptions.description3  : '-'  }}">
+          {{ item.descriptions.description3  ? item.descriptions.description3  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description4 ? item.descriptions.description4  : '-'  }}">
+          {{ item.descriptions.description4  ? item.descriptions.description4  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description5 ? item.descriptions.description5  : '-'  }}">
+          {{ item.descriptions.description5  ? item.descriptions.description5  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.descriptions.description6 ? item.descriptions.description6  : '-'  }}">
+          {{ item.descriptions.description6  ? item.descriptions.description6  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.baseUnitMeasure? item.baseUnitMeasure  : '-'  }}">
+          {{ item.baseUnitMeasure ? item.baseUnitMeasure  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.productGrpCode? item.productGrpCode  : '-'  }}">
+          {{ item.productGrpCode ? item.productGrpCode  : '-'  }}
+      </span>
+    </clr-dg-cell>
+     
+    <clr-dg-cell>
+      <span
+        title="{{ item.genProductPostingGrp? item.genProductPostingGrp  : '-'  }}">
+          {{ item.genProductPostingGrp ? item.genProductPostingGrp  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.itemCategoryCode? item.itemCategoryCode  : '-'  }}">
+          {{ item.itemCategoryCode ? item.itemCategoryCode  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.gstGrpCode? item.gstGrpCode  : '-'  }}">
+          {{ item.gstGrpCode ? item.gstGrpCode  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.hsnSacCode? item.hsnSacCode  : '-'  }}">
+          {{ item.hsnSacCode ? item.hsnSacCode  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.creation? item.creation  : '-'  }}">
+          {{ item.creation ? item.creation  : '-'  }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span
+        title="{{ item.modified? item.modified  : '-'  }}">
+          {{ item.modified ? item.modified  : '-'  }}
+      </span>
+    </clr-dg-cell>
+     </clr-dg-row>
+
+  <clr-dg-footer>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[5, 10, 25, 50, 100]">Items per page</clr-dg-page-size>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
