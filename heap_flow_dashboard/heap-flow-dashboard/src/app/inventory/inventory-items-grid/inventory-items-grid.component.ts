@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ClrDatagridStateInterface} from "@clr/angular";
 import { HttpParams } from "@angular/common/http";
-import { ApiHandlerService } from '../services/api-handler.service';
+import { ApiHandlerService } from '../../services/api-handler.service';
 
 @Component({
   selector: 'app-inventory-items-grid',
@@ -20,7 +20,7 @@ export class InventoryItemsGridComponent implements OnInit {
      
   }
   showItemDetails(obj) {
-
+    alert(JSON.stringify(obj));
   }
   trackByFn(index, item) {
     return item.id;
