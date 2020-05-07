@@ -18,6 +18,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AcceptMaterialComponent } from './transactions/accept-material/accept-material.component';
 import { IssueMaterialComponent } from './transactions/issue-material/issue-material.component';
 import { InventorySummaryComponent } from './inventory/inventory-summary/inventory-summary.component';
+import { VendorsListComponent } from './vendors/vendors-list/vendors-list.component';
+import { VendorsAddComponent } from './vendors/vendors-add/vendors-add.component';
+import { MachinesListComponent } from './machines/machines-list/machines-list.component';
+import { MachinesAddComponent } from './machines/machines-add/machines-add.component';
+import { InventoryImportComponent } from './inventory/inventory-import/inventory-import.component';
+import { MachineImportComponent } from './machines/machine-import/machine-import.component';
+import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
+import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
  
  
 @NgModule({
@@ -33,7 +41,15 @@ import { InventorySummaryComponent } from './inventory/inventory-summary/invento
     InventoryItemsGridComponent,
     AcceptMaterialComponent,
     IssueMaterialComponent,
-    InventorySummaryComponent
+    InventorySummaryComponent,
+    VendorsListComponent,
+    VendorsAddComponent,
+    MachinesListComponent,
+    MachinesAddComponent,
+    InventoryImportComponent,
+    MachineImportComponent,
+    VendorImportComponent,
+    AddInventoryItemComponent
   ],
   imports: [
     BrowserModule,
