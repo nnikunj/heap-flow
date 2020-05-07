@@ -159,4 +159,21 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 		return convertedDataList;
 	}
 
+	@Override
+	public List<InventoryItemDisplayDO> getItemListWithIdLike(String idLike) throws HeapFlowException {
+		List<InventoryItemDO> retList = null;
+		ArrayList<InventoryItemDisplayDO> convertedDataList = new ArrayList<InventoryItemDisplayDO>();
+		try {
+			retList = inventoryItemDao.getAllInventoryItemsLikeItemCode(idLike);
+			for (InventoryItemDO inventoryItemDO : retList) {
+				InventoryItemDisplayDO convertedObj = new InventoryItemDisplayDO(inventoryItemDO);
+				convertedDataList.add(convertedObj);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HeapFlowException(e);
+		}
+
+		return convertedDataList;
+	}
 }

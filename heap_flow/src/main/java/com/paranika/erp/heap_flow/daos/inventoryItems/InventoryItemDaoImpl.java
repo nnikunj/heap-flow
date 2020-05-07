@@ -35,6 +35,15 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 	}
 
 	@Override
+	public List<InventoryItemDO> getAllInventoryItemsLikeItemCode(String idLike) throws Exception {
+		if (idLike == null || idLike.isEmpty()) {
+			return null;
+		}
+		List<InventoryItemDO> l = inventoryItemsRepo.findItemsWithIdLike(idLike.toUpperCase());
+		return l;
+	}
+
+	@Override
 	public List<InventoryItemDO> getAllInventoryItemsWithPagination(int startRecord, int pageSize) throws Exception {
 
 		if (startRecord < 0 || pageSize == 0) {

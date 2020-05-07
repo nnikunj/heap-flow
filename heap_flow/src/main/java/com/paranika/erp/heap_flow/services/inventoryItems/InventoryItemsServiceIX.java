@@ -16,4 +16,6 @@ public interface InventoryItemsServiceIX {
 	public List<InventoryItemDisplayDO> getPagedInventoryItemList(int startRecord, int pageSize)
 			throws HeapFlowException;
 
+	public List<InventoryItemDisplayDO> getItemListWithIdLike(String idLike) throws HeapFlowException;
+
 }

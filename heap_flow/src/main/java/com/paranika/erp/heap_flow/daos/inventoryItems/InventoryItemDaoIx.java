@@ -18,4 +18,6 @@ public interface InventoryItemDaoIx {
 	public void saveAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception;
 
 	public void mergeAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception;
+
+	public List<InventoryItemDO> getAllInventoryItemsLikeItemCode(String idLike) throws Exception;
 }

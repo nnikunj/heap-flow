@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +25,22 @@ public class InventoryItemController {
 
 	@Autowired
 	InventoryItemsServiceIX service;
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE)
+	ResponseEntity<List<InventoryItemDisplayDO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
+		List<InventoryItemDisplayDO> fetchedList = null;
+		ResponseEntity<List<InventoryItemDisplayDO>> response;
+		try {
+			fetchedList = service.getItemListWithIdLike(idLike);
+		} catch (HeapFlowException e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<List<InventoryItemDisplayDO>>((List<InventoryItemDisplayDO>) null,
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
+		return response;
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)
 	ResponseEntity<List<InventoryItemDisplayDO>> getPagedInventoryItemList(
