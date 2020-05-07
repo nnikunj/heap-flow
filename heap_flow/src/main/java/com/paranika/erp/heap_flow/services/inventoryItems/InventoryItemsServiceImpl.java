@@ -20,6 +20,7 @@ import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
+import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.daos.inventoryItems.InventoryItemDaoIx;
 
@@ -140,15 +141,22 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	}
 
 	@Override
-	public List<InventoryItemDO> getPagedInventoryItemList(int startRecord, int pageSize) throws HeapFlowException {
+	public List<InventoryItemDisplayDO> getPagedInventoryItemList(int startRecord, int pageSize)
+			throws HeapFlowException {
 		List<InventoryItemDO> retList = null;
+		ArrayList<InventoryItemDisplayDO> convertedDataList = new ArrayList<InventoryItemDisplayDO>();
 		try {
 			retList = inventoryItemDao.getAllInventoryItemsWithPagination(startRecord, pageSize);
+			for (InventoryItemDO inventoryItemDO : retList) {
+				InventoryItemDisplayDO convertedObj = new InventoryItemDisplayDO(inventoryItemDO);
+				convertedDataList.add(convertedObj);
+			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new HeapFlowException(e);
 		}
 
-		return retList;
+		return convertedDataList;
 	}
 
 }
