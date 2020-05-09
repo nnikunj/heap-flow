@@ -6,12 +6,13 @@
       </div>
       <div class="card-block">
         <form clrForm #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)" clrLayout="horizontal">
-
           <div class="card-block">
-            <clr-input-container clrLayout="horizontal">
+            <clr-input-container >
               <label>Vendor Name: </label>
               <input clrInput type="text" name="vendor.id" placeholder="Enter your Vendor Name"
                 [(ngModel)]=acceptMaterialModel.vendor.id>
+            </clr-input-container>
+            <clr-input-container >
               <label>Date: </label>
               <input clrInput type="date" name="recordDate" placeholder="Enter Date"
                 [(ngModel)]=acceptMaterialModel.recordDate>
@@ -20,17 +21,19 @@
               <label>GRN: </label>
               <input clrInput type="text" name="grn" placeholder="GRN number for the invoice"
                 [(ngModel)]=acceptMaterialModel.grn>
+            </clr-input-container>
+            <clr-input-container>
               <label>Invoice Number: </label>
               <input clrInput type="text" name="invoice" placeholder="Enter invoice number"
                 [(ngModel)]=acceptMaterialModel.invoice>
             </clr-input-container>
 
-           
+
           </div>
           <div class="card-block">
             <clr-input-container>
               <label>Accepting Material Code: </label>
-              <input clrInput type="text" name="acceptingMaterialCode" placeholder="Scan the item to generate code"
+              <input clrInput type="text" name="acceptingMaterialCode" placeholder="Scan the item code"
                 [(ngModel)]=acceptMaterialModel.acceptingMaterialCode>
             </clr-input-container>
             <clr-input-container>
@@ -42,7 +45,7 @@
                 <option value="REPAIRED_OR_REJECTED">REPAIRED_OR_REJECTED</option>
                 <option value="SERVICE_OR_AMC">SERVICE_OR_AMC</option>
                 <option value="CMC">CMC</option>
-                
+
               </select>
             </clr-input-container>
             <clr-input-container>
