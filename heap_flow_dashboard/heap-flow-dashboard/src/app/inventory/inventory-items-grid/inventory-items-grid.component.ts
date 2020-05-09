@@ -11,6 +11,7 @@ import { ApiHandlerService } from '../../services/api-handler.service';
 export class InventoryItemsGridComponent implements OnInit {
   currentPaginationState:any;
   items: Array<any>;
+   
   apiEndPoint: string = 'http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-page-wise';
 
   defaultPageInfo={"page":{"from":0,"to":9,"size":10,"current":1},"sort":{"by":"createdTimestamp","reverse":true}};
