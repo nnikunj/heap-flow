@@ -10,10 +10,13 @@ export class AcceptMaterialComponent implements OnInit {
 
 
   acceptMaterialModel :AcceptMaterial;
-  
-  constructor() { }
+
+  constructor() { 
+    this.acceptMaterialModel=null;
+  }
 
   ngOnInit(): void {
+    
   }
 
 }

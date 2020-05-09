@@ -1,7 +1,11 @@
 import { Vendor } from './vendor';
 import { InventoryItem } from './inventory-item';
+import { Injectable } from '@angular/core';
 
-export interface AcceptMaterial {
+@Injectable({
+    providedIn: 'root'
+  })
+export class AcceptMaterial {
     vendor: Vendor;
     invoice: string;
     grn: string;
@@ -15,4 +19,6 @@ export interface AcceptMaterial {
 
     items: InventoryItem[];
 
+    constructor() {}
+   
 }
