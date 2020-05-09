@@ -23,7 +23,7 @@
                 </div>
                 <div class="card-block">
 
-                  <label>P Code: </label>
+                  <label>Accepting Material Code: </label>
                   <input type = "text" name = "acceptingMaterialCode" placeholder = "Scan the item to generate code" [(ngModel)]=acceptMaterialModel.acceptingMaterialCode>
 
                   <label>Classification: </label>
@@ -40,14 +40,38 @@
                   <label>Price: </label>
                   <input type = "text" name = "price" placeholder = "Enter price" [(ngModel)]=acceptMaterialModel.price>
 
-                  <button class="btn btn-success-outline">Show summary</button>
+                  <button type=submit class="btn btn-success-outline">Add record</button>
 
                 </div>
                 <div class="card-block">
                   Your Summary
+                  <table border=1>
+                    <tr>
+                      <td>#</td>
+                      <td>Vendor Name</td>
+                      <td>Record Date</td>
+                      <td>GRM</td>
+                      <td>Invoice Number</td>
+                      <td>Accepting Material Code</td>
+                      <td>Classification</td>
+                      <td>Quantity</td>
+                      <td>Price</td>
+                    </tr>
+                    <tr *ngFor="let item of addedRecords let i = index">
+                      <td>{{i}}</td>
+                      <td>{{item.vendor.id}}</td>
+                      <td>{{item.recordDate}}</td>
+                      <td>{{item.grn}}</td>
+                      <td>{{item.invoice}}</td>
+                      <td>{{item.acceptingMaterialCode}}</td>
+                      <td>{{item.classification}}</td>
+                      <td>{{item.quantity}}</td>
+                      <td>{{item.price}}</td>
+                    </tr>
+                  </table>
                 </div>
               <div class="card-footer">
-                <button type=submit class="btn btn-success">Accept</button>
+                <button class="btn btn-success" (click) = "acceptRecord()">Accept</button>
             </div>
              </form>
           </div>
