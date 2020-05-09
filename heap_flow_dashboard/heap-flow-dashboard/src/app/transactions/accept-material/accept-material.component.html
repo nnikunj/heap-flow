@@ -1,82 +1,96 @@
 <div class="clr-row is-solid">
-  <div class= "clr-col-12">
-      <div class="card">
-          <div class="card-header">
-             Accept Materials
+  <div class="clr-col-12">
+    <div class="card">
+      <div class="card-header">
+        Accept Materials
+      </div>
+      <div class="card-block">
+        <form clrForm #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)" clrLayout="horizontal">
+
+          <div class="card-block">
+            <clr-input-container clrLayout="horizontal">
+              <label>Vendor Name: </label>
+              <input clrInput type="text" name="vendor.id" placeholder="Enter your Vendor Name"
+                [(ngModel)]=acceptMaterialModel.vendor.id>
+              <label>Date: </label>
+              <input clrInput type="date" name="recordDate" placeholder="Enter Date"
+                [(ngModel)]=acceptMaterialModel.recordDate>
+            </clr-input-container>
+            <clr-input-container>
+              <label>GRN: </label>
+              <input clrInput type="text" name="grn" placeholder="GRN number for the invoice"
+                [(ngModel)]=acceptMaterialModel.grn>
+              <label>Invoice Number: </label>
+              <input clrInput type="text" name="invoice" placeholder="Enter invoice number"
+                [(ngModel)]=acceptMaterialModel.invoice>
+            </clr-input-container>
+
+           
           </div>
           <div class="card-block">
-              <form clrForm #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)" >
+            <clr-input-container>
+              <label>Accepting Material Code: </label>
+              <input clrInput type="text" name="acceptingMaterialCode" placeholder="Scan the item to generate code"
+                [(ngModel)]=acceptMaterialModel.acceptingMaterialCode>
+            </clr-input-container>
+            <clr-input-container>
+              <label>Classification: </label>
+              <select clrInput id="category" name="classification" [(ngModel)]=acceptMaterialModel.classification>
+                <option value="FOC">FREE_OF_COST</option>
+                <option value="PURCHASED">PURCHASED</option>
+                <option value="IMPORTED"> IMPORTED</option>
+                <option value="REPAIRED_OR_REJECTED">REPAIRED_OR_REJECTED</option>
+                <option value="SERVICE_OR_AMC">SERVICE_OR_AMC</option>
+                <option value="CMC">CMC</option>
+                
+              </select>
+            </clr-input-container>
+            <clr-input-container>
+              <label>Quantity: </label>
+              <input clrInput type="text" name="quantity" placeholder="Enter total number of items"
+                [(ngModel)]=acceptMaterialModel.quantity>
+            </clr-input-container>
+            <clr-input-container>
+              <label>Price: </label>
+              <input clrInput type="text" name="price" placeholder="Enter price" [(ngModel)]=acceptMaterialModel.price>
+            </clr-input-container>
+            <button type=submit class="btn btn-success-outline">Add record</button>
 
-                <div class="card-block">
-                    <label>Vendor Name: </label>
-                    <input  type = "text" name = "vendor.id" placeholder = "Enter your Vendor Name" [(ngModel)]=acceptMaterialModel.vendor.id>
-                    <label>Date: </label>
-                    <input  type = "test" name = "recordDate" placeholder = "Enter Date" [(ngModel)]=acceptMaterialModel.recordDate>
-                <br/>
-                    <label>GRM: </label>
-                    <input  type = "text" name = "grn" placeholder = "Your 14 digit GRM number" [(ngModel)]=acceptMaterialModel.grn>
-                    <label>Invoice Number: </label>
-                    <input  type = "test" name = "invoice" placeholder = "Enter invoice number" [(ngModel)]=acceptMaterialModel.invoice>
-
-
-                  <br/>
-                </div>
-                <div class="card-block">
-
-                  <label>Accepting Material Code: </label>
-                  <input type = "text" name = "acceptingMaterialCode" placeholder = "Scan the item to generate code" [(ngModel)]=acceptMaterialModel.acceptingMaterialCode>
-
-                  <label>Classification: </label>
-                  <select id="cars" name="classification" [(ngModel)]=acceptMaterialModel.classification>
-                    <option value="item 1">Item 1</option>
-                    <option value="item 2">Item 2</option>
-                    <option value="item 3">Item 3</option>
-                    <option value="item 4">Item 4</option>
-                  </select>
-
-                  <label>Quantity: </label>
-                  <input type = "text" name = "quantity" placeholder = "Enter total number of items" [(ngModel)]=acceptMaterialModel.quantity>
-
-                  <label>Price: </label>
-                  <input type = "text" name = "price" placeholder = "Enter price" [(ngModel)]=acceptMaterialModel.price>
-
-                  <button type=submit class="btn btn-success-outline">Add record</button>
-
-                </div>
-                <div class="card-block">
-                  Your Summary
-                  <table border=1>
-                    <tr>
-                      <td>#</td>
-                      <td>Vendor Name</td>
-                      <td>Record Date</td>
-                      <td>GRM</td>
-                      <td>Invoice Number</td>
-                      <td>Accepting Material Code</td>
-                      <td>Classification</td>
-                      <td>Quantity</td>
-                      <td>Price</td>
-                    </tr>
-                    <tr *ngFor="let item of addedRecords let i = index">
-                      <td>{{i}}</td>
-                      <td>{{item.vendor.id}}</td>
-                      <td>{{item.recordDate}}</td>
-                      <td>{{item.grn}}</td>
-                      <td>{{item.invoice}}</td>
-                      <td>{{item.acceptingMaterialCode}}</td>
-                      <td>{{item.classification}}</td>
-                      <td>{{item.quantity}}</td>
-                      <td>{{item.price}}</td>
-                    </tr>
-                  </table>
-                </div>
-              <div class="card-footer">
-                <button class="btn btn-success" (click) = "acceptRecord()">Accept</button>
-            </div>
-             </form>
           </div>
-
+          <div class="card-block">
+            Your Summary
+            <table border=1>
+              <tr>
+                <td>#</td>
+                <td>Vendor Name</td>
+                <td>Record Date</td>
+                <td>GRM</td>
+                <td>Invoice Number</td>
+                <td>Accepting Material Code</td>
+                <td>Classification</td>
+                <td>Quantity</td>
+                <td>Price</td>
+              </tr>
+              <tr *ngFor="let item of addedRecords let i = index">
+                <td>{{i}}</td>
+                <td>{{item.vendor.id}}</td>
+                <td>{{item.recordDate}}</td>
+                <td>{{item.grn}}</td>
+                <td>{{item.invoice}}</td>
+                <td>{{item.acceptingMaterialCode}}</td>
+                <td>{{item.classification}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-success" (click)="acceptRecord()">Accept</button>
+          </div>
+        </form>
       </div>
+
+    </div>
   </div>
 
-  </div>
+</div>

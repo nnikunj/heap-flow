@@ -21,6 +21,7 @@ export class AcceptMaterial {
 
     constructor() {
       this.vendor = new Vendor();
+      this.recordDate= (new Date()).getDate().toString();
     }
 
 }
