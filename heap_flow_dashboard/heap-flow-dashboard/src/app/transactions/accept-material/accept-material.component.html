@@ -5,16 +5,56 @@
              Accept Materials
           </div>
           <div class="card-block">
-              Generic Info
+              <form clrForm #userlogin = "ngForm" (ngSubmit) = "onClickSubmit(userlogin.value)" >
+
+                <div class="card-block">
+                    <label>Vendor Name: </label>
+                    <input  type = "text" name = "vendor" placeholder = "Enter your Vendor Name" [(ngModel)]=acceptMaterialModel.invoice>
+                    <label>Date: </label>
+                    <input  type = "test" name = "recordDate" placeholder = "Enter Date" ngModel>
+                <br/>
+                    <label>GRM: </label>
+                    <input  type = "text" name = "grn" placeholder = "Your 14 digit GRM number" ngModel>
+                    <label>Invoice Number: </label>
+                    <input  type = "test" name = "invoice" placeholder = "Enter invoice number" ngModel>
+
+
+                  <br/>
+                </div>
+                <div class="card-block">
+
+                  <label>P Code: </label>
+                  <input type = "text" name = "acceptingMaterialCode" placeholder = "Scan the item to generate code" ngModel>
+
+                  <label>Classification: </label>
+
+
+                  <select id="cars" name="classification" ngModel>
+                    <option value="item 1">Item 1</option>
+                    <option value="item 2">Item 2</option>
+                    <option value="item 3">Item 3</option>
+                    <option value="item 4">Item 4</option>
+                  </select>
+
+                  <label>Quantity: </label>
+                  <input type = "text" name = "quantity" placeholder = "Enter total number of items" ngModel>
+
+                  <label>Price: </label>
+                  <input type = "text" name = "price" placeholder = "Enter price" ngModel>
+
+                  <button class="btn btn-success-outline">Show summary</button>
+
+                </div>
+                <div class="card-block">
+                  Your Summary
+                </div>
+              <div class="card-footer">
+                <button type=submit class="btn btn-success">Accept</button>
+            </div>
+             </form>
           </div>
-          <div class="card-block">
-           Item Info
-        </div>
-        <div class="card-block">
-          Grid/table to show added item
-        </div>
-        <div class="card-footer">
-          <button type=submit class="btn btn-success">Accept</button>
+
       </div>
-      </div>
+  </div>
+
   </div>
