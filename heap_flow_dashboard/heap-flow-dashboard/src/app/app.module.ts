@@ -26,6 +26,7 @@ import { InventoryImportComponent } from './inventory/inventory-import/inventory
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
+import { FormsModule } from '@angular/forms';
  
  
 @NgModule({
@@ -56,7 +57,8 @@ import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-in
     AppRoutingModule,
     ClarityModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
