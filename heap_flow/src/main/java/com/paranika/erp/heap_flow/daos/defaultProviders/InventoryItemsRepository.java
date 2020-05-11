@@ -12,4 +12,8 @@ public interface InventoryItemsRepository extends CrudRepository<InventoryItemDO
 
 	@Query("from InventoryItemDO item where item.inventoryItemCode LIKE CONCAT('%',:idLike,'%')")
 	List<InventoryItemDO> findItemsWithIdLike(@Param("idLike") String idLike);
+
+	@Query("from InventoryItemDO item where item.inventoryItemCode = UPPER(:prodCode)")
+	InventoryItemDO findItemWithId(@Param("prodCode") String prodCode);
+
 }

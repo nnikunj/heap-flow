@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,8 @@ import com.paranika.erp.heap_flow.services.machines.MachineServiceIX;
 
 @RestController
 @RequestMapping(HeapFlowApiEndPoints.BASE_END_POINT_MACHINES)
+@CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = { "Origin", "Content-Type", "Accept",
+		"Authorization" }, exposedHeaders = { "Origin", "Content-Type", "Accept", "Authorization" })
 public class MachineController {
 	@Autowired
 	MachineServiceIX machinesService;

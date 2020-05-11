@@ -176,4 +176,22 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 
 		return convertedDataList;
 	}
+
+	@Override
+	public InventoryItemDisplayDO getItemWithProdCode(String prodCode) throws HeapFlowException {
+		InventoryItemDO retItem = null;
+		InventoryItemDisplayDO convertedObj = null;
+		try {
+			retItem = inventoryItemDao.getInventoryItemswithCode(prodCode);
+			if (retItem != null)
+				convertedObj = new InventoryItemDisplayDO(retItem);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HeapFlowException(e);
+		}
+
+		return convertedObj;
+	}
+
 }

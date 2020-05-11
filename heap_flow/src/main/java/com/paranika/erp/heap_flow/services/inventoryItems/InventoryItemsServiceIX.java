@@ -18,4 +18,6 @@ public interface InventoryItemsServiceIX {
 
 	public List<InventoryItemDisplayDO> getItemListWithIdLike(String idLike) throws HeapFlowException;
 
+	public InventoryItemDisplayDO getItemWithProdCode(String prodCode) throws HeapFlowException;
+
 }

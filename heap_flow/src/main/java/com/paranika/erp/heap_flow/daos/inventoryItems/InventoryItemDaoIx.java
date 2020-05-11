@@ -20,4 +20,6 @@ public interface InventoryItemDaoIx {
 	public void mergeAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception;
 
 	public List<InventoryItemDO> getAllInventoryItemsLikeItemCode(String idLike) throws Exception;
+
+	public InventoryItemDO getInventoryItemswithCode(String prodCode) throws Exception;
 }

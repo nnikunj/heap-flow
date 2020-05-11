@@ -29,6 +29,22 @@ public class InventoryItemController {
 	@Autowired
 	InventoryItemsServiceIX service;
 
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_WITH_PRODUCT_CODE)
+	ResponseEntity<InventoryItemDisplayDO> getItemWithProd(@PathVariable("prodCode") String prodCode) {
+		InventoryItemDisplayDO fethcedObj = null;
+		ResponseEntity<InventoryItemDisplayDO> response;
+		try {
+			fethcedObj = service.getItemWithProdCode(prodCode);
+		} catch (HeapFlowException e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<InventoryItemDisplayDO>((InventoryItemDisplayDO) null,
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		response = new ResponseEntity<InventoryItemDisplayDO>(fethcedObj, HttpStatus.OK);
+		return response;
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE)
 	ResponseEntity<List<InventoryItemDisplayDO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
 		List<InventoryItemDisplayDO> fetchedList = null;

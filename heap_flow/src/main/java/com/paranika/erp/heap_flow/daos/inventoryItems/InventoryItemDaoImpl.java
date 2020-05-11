@@ -35,6 +35,16 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 	}
 
 	@Override
+	public InventoryItemDO getInventoryItemswithCode(String prodCode) throws Exception {
+		if (prodCode == null || prodCode.isEmpty()) {
+			return null;
+		}
+		InventoryItemDO fetchedObj = inventoryItemsRepo.findItemWithId(prodCode);
+		return fetchedObj;
+
+	}
+
+	@Override
 	public List<InventoryItemDO> getAllInventoryItemsLikeItemCode(String idLike) throws Exception {
 		if (idLike == null || idLike.isEmpty()) {
 			return null;
