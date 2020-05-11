@@ -10,6 +10,7 @@ public interface HeapFlowApiEndPoints {
 
 	public String BASE_END_POINT_VENDORS = BASE_END_POINT + "/vendors";
 	public String VENDORS_IMPORT_ENDPOINT = "/import-and-update-vendors-list";
+	public String GET_VENDORS_LIST_WITH_NAME_LIKE = "/fetch-vendors-with-name-like/{nameLike}";
 
 	public String BASE_END_POINT_INVENTORYITEM = BASE_END_POINT + "/inventory-items";
 	public String INVENTORYITEM_IMPORT_ENDPOINT = "/import-and-update-inventory-items-list";

@@ -1,10 +1,13 @@
 package com.paranika.erp.heap_flow.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
+import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
 import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 
 @RestController
@@ -21,7 +25,7 @@ import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 		"Authorization" }, exposedHeaders = { "Origin", "Content-Type", "Accept", "Authorization" })
 public class VendorController {
 	@Autowired
-	VendorServiceIX vendorService;
+	VendorServiceIX service;
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.VENDORS_IMPORT_ENDPOINT)
 	public ResponseEntity<String> importAndUpdateVendorList(@RequestBody InputExcelBook book) {
@@ -39,7 +43,7 @@ public class VendorController {
 
 		}
 		try {
-			vendorService.importAndUpdateVendorsList(book);
+			service.importAndUpdateVendorsList(book);
 			response = new ResponseEntity<String>("Operation Successfull", HttpStatus.CREATED);
 		} catch (HeapFlowException hfe) {
 
@@ -47,6 +51,21 @@ public class VendorController {
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
+		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_VENDORS_LIST_WITH_NAME_LIKE)
+	ResponseEntity<List<VendorDO>> getNameLikeVendorsList(@PathVariable("nameLike") String nameLike) {
+		List<VendorDO> fetchedList = null;
+		ResponseEntity<List<VendorDO>> response;
+		try {
+			fetchedList = service.getVendorListWithNameLike(nameLike);
+		} catch (HeapFlowException e) {
+
+			e.printStackTrace();
+			response = new ResponseEntity<List<VendorDO>>((List<VendorDO>) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
 		return response;
 	}
 

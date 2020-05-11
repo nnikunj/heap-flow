@@ -34,6 +34,15 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 	}
 
 	@Override
+	public List<VendorDO> getAllVendorsWithNameLike(String nameLike) throws Exception {
+		if (nameLike == null || nameLike.isEmpty()) {
+			return null;
+		}
+		List<VendorDO> l = vendorsRepo.findVendorsWithNameLike(nameLike);
+		return l;
+	}
+
+	@Override
 	public List<VendorDO> getAllvendorsWithPagination(int startRecord, int pageSize) throws Exception {
 		if (startRecord < 0 || pageSize == 0) {
 			// False pagination criteria send them all records.

@@ -13,9 +13,11 @@ public interface VendorsDaoIx {
 
 	public List<VendorDO> getAllvendorsWithPagination(int startRecord, int pageSize) throws Exception;
 
-	public void add(VendorDO machineDO) throws Exception;
+	public void add(VendorDO vendorDO) throws Exception;
 
-	public void saveAll(Collection<VendorDO> machineDOs) throws Exception;
+	public void saveAll(Collection<VendorDO> vendorDOs) throws Exception;
 
-	public void mergeAll(Collection<VendorDO> machineDOs) throws Exception;
+	public void mergeAll(Collection<VendorDO> vendorDOs) throws Exception;
+
+	public List<VendorDO> getAllVendorsWithNameLike(String nameLike) throws Exception;
 }

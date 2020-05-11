@@ -32,6 +32,23 @@ public class VendorsServiceImpl implements VendorServiceIX {
 	CommonUtil util;
 
 	@Override
+	public List<VendorDO> getVendorListWithNameLike(String nameLike) throws HeapFlowException {
+		List<VendorDO> retList = null;
+		if (nameLike == null || nameLike.isEmpty()) {
+			return null;
+		}
+		try {
+			retList = vendorsDao.getAllVendorsWithNameLike(nameLike);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new HeapFlowException(e);
+		}
+
+		return retList;
+	}
+
+	@Override
 	public void importAndUpdateVendorsList(InputExcelBook ieb) throws HeapFlowException {
 		String base64EncodedWorkBook = ieb.getBase64EncodedWorkbook();
 
