@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -49,7 +50,7 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 		if (idLike == null || idLike.isEmpty()) {
 			return null;
 		}
-		List<InventoryItemDO> l = inventoryItemsRepo.findItemsWithIdLike(idLike.toUpperCase());
+		List<InventoryItemDO> l = inventoryItemsRepo.findItemsWithIdLike(idLike.toUpperCase(), PageRequest.of(0, 20));
 		return l;
 	}
 

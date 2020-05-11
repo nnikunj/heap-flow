@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -38,7 +39,7 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 		if (nameLike == null || nameLike.isEmpty()) {
 			return null;
 		}
-		List<VendorDO> l = vendorsRepo.findVendorsWithNameLike(nameLike);
+		List<VendorDO> l = vendorsRepo.findVendorsWithNameLike(nameLike, PageRequest.of(0, 20));
 		return l;
 	}
 
