@@ -18,7 +18,7 @@ import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.InputPagedFetchCallData;
 import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
-import com.paranika.erp.heap_flow.services.inventoryItems.InventoryItemsServiceIX;
+import com.paranika.erp.heap_flow.services.inventory.InventoryItemsServiceIX;
 
 @RestController
 @RequestMapping(HeapFlowApiEndPoints.BASE_END_POINT_INVENTORYITEM)
@@ -35,13 +35,14 @@ public class InventoryItemController {
 		ResponseEntity<InventoryItemDisplayDO> response;
 		try {
 			fethcedObj = service.getItemWithProdCode(prodCode);
+			response = new ResponseEntity<InventoryItemDisplayDO>(fethcedObj, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
 			response = new ResponseEntity<InventoryItemDisplayDO>((InventoryItemDisplayDO) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		response = new ResponseEntity<InventoryItemDisplayDO>(fethcedObj, HttpStatus.OK);
+
 		return response;
 	}
 
@@ -51,13 +52,14 @@ public class InventoryItemController {
 		ResponseEntity<List<InventoryItemDisplayDO>> response;
 		try {
 			fetchedList = service.getItemListWithIdLike(idLike);
+			response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
 			response = new ResponseEntity<List<InventoryItemDisplayDO>>((List<InventoryItemDisplayDO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
+
 		return response;
 	}
 
@@ -68,13 +70,14 @@ public class InventoryItemController {
 		ResponseEntity<List<InventoryItemDisplayDO>> response;
 		try {
 			fetchedList = service.getPagedInventoryItemList(pageInfo.getStartRecord(), pageInfo.getPageSize());
+			response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
 			response = new ResponseEntity<List<InventoryItemDisplayDO>>((List<InventoryItemDisplayDO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
+
 		return response;
 	}
 

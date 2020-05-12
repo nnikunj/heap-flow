@@ -1,4 +1,4 @@
-package com.paranika.erp.heap_flow.services.inventoryItems;
+package com.paranika.erp.heap_flow.services.inventory;
 
 import java.util.List;
 
