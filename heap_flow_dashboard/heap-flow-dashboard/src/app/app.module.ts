@@ -26,8 +26,16 @@ import { InventoryImportComponent } from './inventory/inventory-import/inventory
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
-import { FormsModule } from '@angular/forms';
- 
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; 
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTableModule } from '@angular/material/table';
+import { MatSnackBarModule  } from '@angular/material/snack-bar';
  
 @NgModule({
   declarations: [
@@ -58,7 +66,17 @@ import { FormsModule } from '@angular/forms';
     ClarityModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule ,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatTableModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,92 +5,138 @@
         Accept Materials
       </div>
       <div class="card-block">
-        <form clrForm #userlogin="ngForm" (ngSubmit)="onClickSubmit(userlogin.value)" clrLayout="horizontal">
-          <div class="card-block">
-            <clr-input-container >
-              <label>Vendor Name: </label>
-              <input clrInput type="text" name="vendor.id" placeholder="Enter your Vendor Name"
-                [(ngModel)]=acceptMaterialModel.vendor.id>
-            </clr-input-container>
-            <clr-input-container >
-              <label>Date: </label>
-              <input clrInput type="date" name="recordDate" placeholder="Enter Date"
-                [(ngModel)]=acceptMaterialModel.recordDate>
-            </clr-input-container>
-            <clr-input-container>
-              <label>GRN: </label>
-              <input clrInput type="text" name="grn" placeholder="GRN number for the invoice"
-                [(ngModel)]=acceptMaterialModel.grn>
-            </clr-input-container>
-            <clr-input-container>
-              <label>Invoice Number: </label>
-              <input clrInput type="text" name="invoice" placeholder="Enter invoice number"
-                [(ngModel)]=acceptMaterialModel.invoice>
-            </clr-input-container>
 
+        <form class="heap-form">
 
-          </div>
-          <div class="card-block">
-            <clr-input-container>
-              <label>Accepting Material Code: </label>
-              <input clrInput type="text" name="acceptingMaterialCode" placeholder="Scan the item code"
-                [(ngModel)]=acceptMaterialModel.acceptingMaterialCode>
-            </clr-input-container>
-            <clr-input-container>
-              <label>Classification: </label>
-              <select clrInput id="category" name="classification" [(ngModel)]=acceptMaterialModel.classification>
-                <option value="FOC">FREE_OF_COST</option>
-                <option value="PURCHASED">PURCHASED</option>
-                <option value="IMPORTED"> IMPORTED</option>
-                <option value="REPAIRED_OR_REJECTED">REPAIRED_OR_REJECTED</option>
-                <option value="SERVICE_OR_AMC">SERVICE_OR_AMC</option>
-                <option value="CMC">CMC</option>
+          <mat-form-field class="heap-full-width">
+            <mat-label>Vendor Name</mat-label>
+            <input type="text" matInput [formControl]="vendorNameControl" [matAutocomplete]="auto_material_vendor">
+            <mat-autocomplete #auto_material_vendor="matAutocomplete" [displayWith]="displayVendorName">
+              <mat-option *ngFor="let vendor of vendors " [value]="vendor">
+                {{vendor.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
 
-              </select>
-            </clr-input-container>
-            <clr-input-container>
-              <label>Quantity: </label>
-              <input clrInput type="text" name="quantity" placeholder="Enter total number of items"
-                [(ngModel)]=acceptMaterialModel.quantity>
-            </clr-input-container>
-            <clr-input-container>
-              <label>Price: </label>
-              <input clrInput type="text" name="price" placeholder="Enter price" [(ngModel)]=acceptMaterialModel.price>
-            </clr-input-container>
-            <button type=submit class="btn btn-success-outline">Add record</button>
+          <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="material_accept_date" [formControl]="materialAcceptDateControl">
+            <mat-datepicker-toggle matSuffix [for]="material_accept_date"></mat-datepicker-toggle>
+            <mat-datepicker #material_accept_date></mat-datepicker>
+          </mat-form-field>
 
-          </div>
-          <div class="card-block">
-            Your Summary
-            <table border=1>
-              <tr>
-                <td>#</td>
-                <td>Vendor Name</td>
-                <td>Record Date</td>
-                <td>GRM</td>
-                <td>Invoice Number</td>
-                <td>Accepting Material Code</td>
-                <td>Classification</td>
-                <td>Quantity</td>
-                <td>Price</td>
-              </tr>
-              <tr *ngFor="let item of addedRecords let i = index">
-                <td>{{i}}</td>
-                <td>{{item.vendor.id}}</td>
-                <td>{{item.recordDate}}</td>
-                <td>{{item.grn}}</td>
-                <td>{{item.invoice}}</td>
-                <td>{{item.acceptingMaterialCode}}</td>
-                <td>{{item.classification}}</td>
-                <td>{{item.quantity}}</td>
-                <td>{{item.price}}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-footer">
-            <button class="btn btn-success" (click)="acceptRecord()">Accept</button>
-          </div>
+          <mat-form-field class="heap-full-width">
+            <mat-label>GRN</mat-label>
+            <input matInput placeholder="GRN number for invoice." [formControl]="materialAcceptGRNControl">
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Invoice Number</mat-label>
+            <input matInput placeholder="Please enter Invoice Number." [formControl]="materialAcceptInvoiceControl">
+          </mat-form-field>
+
         </form>
+
+        <div class="card-block"></div>
+
+        <form class="heap-form">
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Accepting Material Code</mat-label>
+            <input matInput placeholder="Scan the item code." [formControl]="materialAcceptItemCodeControl">
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Classification</mat-label>
+            <mat-select [formControl]="materialAcceptClassificationControl">
+
+              <mat-option *ngFor="let classification of classifications" [value]="classification.value">
+                {{classification.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Inventory Type</mat-label>
+            <mat-select [formControl]="materialAcceptInventoryTypeControl">
+
+              <mat-option *ngFor="let inventoryType of inventoryTypes" [value]="inventoryType.value">
+                {{inventoryType.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="number" placeholder="Please enter quantity."
+              [formControl]="materialAcceptQuantityControl">
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" placeholder="Please enter price." [formControl]="materialAcceptPriceyControl">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+          <div class="card-block"></div>
+
+          <div class="example-button-row">
+            <button mat-stroked-button color="primary" (click)="addMaterial($event)">Add Record</button>
+          </div>
+
+
+        </form>
+
+        <div class="card-block"></div>
+
+        <table mat-table [dataSource]="items" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pricePerUnit">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.pricePerUnit}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="productCode">
+            <th mat-header-cell *matHeaderCellDef> Accepting Material Code </th>
+            <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="classification">
+            <th mat-header-cell *matHeaderCellDef> Classification </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="inventoryType">
+            <th mat-header-cell *matHeaderCellDef> Inventory Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.inventoryType}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <!-- <div class="card-block"></div> -->
+
+        <mat-divider></mat-divider>
+
+        <section>
+          <div class="heap-button-row">
+            <button mat-stroked-button color="primary" (click)="submitMaterial($event)">Submit</button>
+            <button mat-stroked-button color="primary" (click)="resetForm($event)">Reset</button>
+          </div>
+        </section>
+
       </div>
 
     </div>
