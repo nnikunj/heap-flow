@@ -41,7 +41,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		Date recordDate = null;
 		String strDate = (incomingMaterials.getRecordDate() == null) ? null : incomingMaterials.getRecordDate().trim();
 		try {
-			recordDate = (new SimpleDateFormat("dd/MM/yyyy")).parse(strDate);
+			recordDate = (new SimpleDateFormat("EEE MMM dd yyyy")).parse(strDate);
 		} catch (ParseException e) {
 
 			e.printStackTrace();

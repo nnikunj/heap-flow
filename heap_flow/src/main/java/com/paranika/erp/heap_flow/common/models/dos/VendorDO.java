@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -52,7 +53,7 @@ public class VendorDO extends BaseDO {
 	@Column(name = "email", nullable = true, length = 128)
 	private String email;
 
-	@OneToMany(mappedBy = "vendor")
+	@OneToMany(mappedBy = "vendor", fetch = FetchType.LAZY)
 	private Collection<IngressLedgerDO> suppliedItems = new ArrayList<IngressLedgerDO>();
 
 	public Collection<IngressLedgerDO> getSuppliedItems() {

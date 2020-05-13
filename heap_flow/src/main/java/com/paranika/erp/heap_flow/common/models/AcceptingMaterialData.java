@@ -79,8 +79,8 @@ public class AcceptingMaterialData {
 		data.setInvoice("invoice001");
 
 		data.setVendorCode("VEND5857");
-
-		data.setRecordDate((new SimpleDateFormat("dd/MM/yyyy")).format(new Date()));
+		// Thu May 14 2020
+		data.setRecordDate((new SimpleDateFormat("EEE MMM dd yyyy")).format(new Date()));
 		data.setIncomingItemsList(l);
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(data));
