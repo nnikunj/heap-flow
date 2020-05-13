@@ -1,7 +1,11 @@
 package com.paranika.erp.heap_flow.common.models;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import com.google.gson.Gson;
 
 public class AcceptingMaterialData {
 
@@ -52,4 +56,34 @@ public class AcceptingMaterialData {
 		this.incomingItemsList = incomingItemsList;
 	}
 
+	public static void main(String[] args) {
+		MaterialData md1 = new MaterialData();
+		md1.setClassification("PROJECT");
+		md1.setInventoryType("PURCHASED");
+		md1.setProductCode("ASBEL0039");
+		md1.setPricePerUnit(867.98);
+		md1.setQuantity(10.00);
+
+		MaterialData md2 = new MaterialData();
+		md2.setClassification("R&D");
+		md2.setInventoryType("IMPORTED");
+		md2.setProductCode("ASBEL0031");
+		md2.setPricePerUnit(1867.98);
+		md2.setQuantity(56.00);
+		ArrayList<MaterialData> l = new ArrayList<MaterialData>();
+		l.add(md1);
+		l.add(md2);
+
+		AcceptingMaterialData data = new AcceptingMaterialData();
+		data.setGrn("GenratedGRN");
+		data.setInvoice("invoice001");
+
+		data.setVendorCode("VEND5857");
+
+		data.setRecordDate((new SimpleDateFormat("dd/MM/yyyy")).format(new Date()));
+		data.setIncomingItemsList(l);
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(data));
+
+	}
 }

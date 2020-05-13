@@ -33,7 +33,7 @@ public class InventoryController {
 		}
 		try {
 			service.acceptInventory(data);
-			response = new ResponseEntity<String>("Success", HttpStatus.OK);
+			response = new ResponseEntity<String>("Success", HttpStatus.CREATED);
 		} catch (HeapFlowException e) {
 			e.printStackTrace();
 			response = new ResponseEntity<String>("Failed " + e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);

@@ -20,4 +20,6 @@ public interface VendorsDaoIx {
 	public void mergeAll(Collection<VendorDO> vendorDOs) throws Exception;
 
 	public List<VendorDO> getAllVendorsWithNameLike(String nameLike) throws Exception;
+
+	public VendorDO getVendorwithCode(String vendorCode) throws Exception;
 }

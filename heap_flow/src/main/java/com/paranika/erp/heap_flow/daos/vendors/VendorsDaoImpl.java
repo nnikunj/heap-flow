@@ -105,4 +105,14 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 		}
 
 	}
+
+	@Override
+	public VendorDO getVendorwithCode(String vendorCode) throws Exception {
+
+		if (vendorCode == null || vendorCode.isEmpty()) {
+			return null;
+		}
+		VendorDO fetchedObj = vendorsRepo.findVendorWithId(vendorCode);
+		return fetchedObj;
+	}
 }

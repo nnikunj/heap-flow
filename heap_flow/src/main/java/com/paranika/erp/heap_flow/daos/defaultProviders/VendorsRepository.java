@@ -14,4 +14,6 @@ public interface VendorsRepository extends CrudRepository<VendorDO, Long> {
 	@Query("from VendorDO vendor where UPPER(vendor.searchName) LIKE UPPER(CONCAT('%',:nameLike,'%')) ORDER BY vendor.searchName")
 	List<VendorDO> findVendorsWithNameLike(@Param("nameLike") String nameLike, Pageable pageable);
 
+	@Query("from VendorDO vendor where UPPER(vendor.vendorId) = UPPER(:vendorCode)")
+	VendorDO findVendorWithId(@Param("vendorCode") String vendorCode);
 }

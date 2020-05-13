@@ -13,7 +13,7 @@ public interface HeapFlowApiEndPoints {
 	public String GET_VENDORS_LIST_WITH_NAME_LIKE = "/fetch-vendors-with-name-like/{nameLike}";
 
 	public String BASE_END_POINT_INVENTORY = BASE_END_POINT + "/inventory";
-	public String ACCEPT_INVENTORY = BASE_END_POINT_INVENTORY + "/accept-materials";
+	public String ACCEPT_INVENTORY = "/accept-materials";
 
 	public String BASE_END_POINT_INVENTORYITEM = BASE_END_POINT + "/inventory-items";
 	public String INVENTORYITEM_IMPORT_ENDPOINT = "/import-and-update-inventory-items-list";

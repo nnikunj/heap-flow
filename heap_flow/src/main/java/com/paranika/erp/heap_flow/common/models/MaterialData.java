@@ -7,9 +7,18 @@ public class MaterialData {
 	private Double quantity;
 	private String inventoryType;
 	private String classification;
+	private String productCode;
 
 	public MaterialData() {
 
+	}
+
+	public String getProductCode() {
+		return productCode;
+	}
+
+	public void setProductCode(String productCode) {
+		this.productCode = productCode;
 	}
 
 	public Double getPricePerUnit() {

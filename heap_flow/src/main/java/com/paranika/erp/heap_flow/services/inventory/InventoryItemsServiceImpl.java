@@ -22,7 +22,7 @@ import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
-import com.paranika.erp.heap_flow.daos.inventoryItems.InventoryItemDaoIx;
+import com.paranika.erp.heap_flow.daos.inventory.InventoryItemDaoIx;
 
 @Component
 public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
