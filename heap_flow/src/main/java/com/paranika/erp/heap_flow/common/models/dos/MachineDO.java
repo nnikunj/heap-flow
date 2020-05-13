@@ -9,6 +9,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 //, uniqueConstraints = @UniqueConstraint(columnNames = { "CODE" })
 @Entity
 @NamedQuery(name = "MachineDO.byCode", query = "from MachineDO where code=:code")
@@ -38,6 +40,7 @@ public class MachineDO extends BaseDO {
 	@Column(name = "kw_kva", nullable = true, length = 32)
 	private String kWKva;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "consumingMachine")
 	private Collection<EgressLedgerDO> usedStokcs = new ArrayList<EgressLedgerDO>();
 

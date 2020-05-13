@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "ingress_ledgers")
 public class IngressLedgerDO extends BaseDO {
@@ -47,6 +49,7 @@ public class IngressLedgerDO extends BaseDO {
 	@Column(name = "grn_number", nullable = true)
 	private String grnNumber;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "vendor_fk")
 	private VendorDO vendor;

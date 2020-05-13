@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "inventory_types")
 public class InventoryTypeDO extends BaseDO {
@@ -25,9 +27,10 @@ public class InventoryTypeDO extends BaseDO {
 	@Column(name = "is_considered_for_valuation", nullable = false)
 	private boolean isConsideredForValuation;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "type")
 	Collection<InventoryDO> inventories = new ArrayList<InventoryDO>();
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "inventoryType")
 	Collection<IngressLedgerDO> referringIngressLedger = new ArrayList<IngressLedgerDO>();
 

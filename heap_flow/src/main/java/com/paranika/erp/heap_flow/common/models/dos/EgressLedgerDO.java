@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "egress_ledgers")
 public class EgressLedgerDO extends BaseDO {
@@ -38,6 +40,7 @@ public class EgressLedgerDO extends BaseDO {
 	@Column(name = "classification_category", nullable = true)
 	private String classificationCategory;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "machine_fk")
 	private MachineDO consumingMachine;

@@ -10,6 +10,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @NamedQuery(name = "InventoryItemDO.inventoryItemCode", query = "from InventoryItemDO where inventoryItemCode=:inventoryItemCode")
 @NamedQuery(name = "InventoryItemDO.all", query = "from InventoryItemDO")
@@ -50,9 +52,11 @@ public class InventoryItemDO extends BaseDO {
 	@OneToMany(mappedBy = "item")
 	private Collection<InventoryDO> stocks = new ArrayList<InventoryDO>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "incomingMaterial")
 	private Collection<IngressLedgerDO> ingressLedgers = new ArrayList<IngressLedgerDO>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "outgoingMaterial")
 	private Collection<EgressLedgerDO> egressLedgers = new ArrayList<EgressLedgerDO>();
 

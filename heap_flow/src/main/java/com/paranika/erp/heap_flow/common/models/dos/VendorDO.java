@@ -10,6 +10,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @NamedQuery(name = "VendorDO.bySearchName", query = "from VendorDO where searchName=:searchName")
 @NamedQuery(name = "VendorDO.all", query = "from VendorDO")
@@ -53,6 +55,7 @@ public class VendorDO extends BaseDO {
 	@Column(name = "email", nullable = true, length = 128)
 	private String email;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "vendor", fetch = FetchType.LAZY)
 	private Collection<IngressLedgerDO> suppliedItems = new ArrayList<IngressLedgerDO>();
 
@@ -188,7 +191,7 @@ public class VendorDO extends BaseDO {
 		builder.append(", email=");
 		builder.append(email);
 		builder.append(", suppliedItems=");
-		builder.append(suppliedItems);
+		builder.append((suppliedItems == null) ? null : suppliedItems.size());
 		builder.append("]");
 		return builder.toString();
 	}
