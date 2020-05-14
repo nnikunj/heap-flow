@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.AcceptingMaterialData;
 import com.paranika.erp.heap_flow.common.models.MaterialData;
@@ -41,7 +42,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		Date recordDate = null;
 		String strDate = (incomingMaterials.getRecordDate() == null) ? null : incomingMaterials.getRecordDate().trim();
 		try {
-			recordDate = (new SimpleDateFormat("EEE MMM dd yyyy")).parse(strDate);
+			recordDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strDate);
 		} catch (ParseException e) {
 
 			e.printStackTrace();
@@ -82,11 +83,18 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 						"Could not find InventoryTypeDO with name " + materialData.getInventoryType());
 			}
 			IngressLedgerDO ledgerDO = new IngressLedgerDO();
+			if (!inventoryTypeDO.isConsideredForValuation()) {
+				// We will not take price for such items
+				ledgerDO.setPricePerUnit(0.0);
+			} else {
+				ledgerDO.setPricePerUnit(materialData.getPricePerUnit());
+			}
+
 			ledgerDO.setClassificationCategory(materialData.getClassification());
 			ledgerDO.setGrnNumber(grn);
 			ledgerDO.setIncomingMaterial(inventoryItemDO);
 			ledgerDO.setIncomingQuantity(materialData.getQuantity());
-			ledgerDO.setPricePerUnit(materialData.getPricePerUnit());
+
 			ledgerDO.setInvoiceNumber(invoice);
 			ledgerDO.setRecordDate(recordDate);
 			ledgerDO.setInventoryType(inventoryTypeDO);

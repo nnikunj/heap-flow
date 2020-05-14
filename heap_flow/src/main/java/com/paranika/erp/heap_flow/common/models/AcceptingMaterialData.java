@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.paranika.erp.heap_flow.common.AppConstants;
 
 public class AcceptingMaterialData {
 
@@ -80,7 +81,7 @@ public class AcceptingMaterialData {
 
 		data.setVendorCode("VEND5857");
 		// Thu May 14 2020
-		data.setRecordDate((new SimpleDateFormat("EEE MMM dd yyyy")).format(new Date()));
+		data.setRecordDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
 		data.setIncomingItemsList(l);
 		Gson gson = new Gson();
 		System.out.println(gson.toJson(data));

@@ -6,18 +6,18 @@ import org.springframework.stereotype.Service;
 
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
-import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
 
 @Service
 public interface InventoryItemsServiceIX {
 
 	public void importAndUpdateInventoryItemsList(InputExcelBook ieb) throws HeapFlowException;
 
-	public List<InventoryItemDisplayDO> getPagedInventoryItemList(int startRecord, int pageSize)
+	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize)
 			throws HeapFlowException;
 
-	public List<InventoryItemDisplayDO> getItemListWithIdLike(String idLike) throws HeapFlowException;
+	public List<InventoryItemDTO> getItemListWithIdLike(String idLike) throws HeapFlowException;
 
-	public InventoryItemDisplayDO getItemWithProdCode(String prodCode) throws HeapFlowException;
+	public InventoryItemDTO getItemWithProdCode(String prodCode) throws HeapFlowException;
 
 }

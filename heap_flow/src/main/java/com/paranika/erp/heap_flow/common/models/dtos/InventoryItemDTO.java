@@ -1,17 +1,22 @@
-package com.paranika.erp.heap_flow.common.models;
+package com.paranika.erp.heap_flow.common.models.dtos;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import com.paranika.erp.heap_flow.common.AppConstants;
+import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 
-public class InventoryItemDisplayDO {
+public class InventoryItemDTO {
 
-	public InventoryItemDisplayDO() {
+	public InventoryItemDTO() {
 
 	}
 
-	public InventoryItemDisplayDO(InventoryItemDO doOb) {
+	public InventoryItemDTO(InventoryItemDO doOb) {
 		this.inventoryItemCode = doOb.getInventoryItemCode();
 
 		this.dbId = doOb.getId();
@@ -29,11 +34,24 @@ public class InventoryItemDisplayDO {
 		this.gstGrpCode = doOb.getGstGrpCode();
 
 		this.hsnSacCode = doOb.getHsnSacCode();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MMM-dd hh:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
 		this.creation = dateFormat.format(doOb.getCreation());
 		this.modified = dateFormat.format(doOb.getModified());
+
+		Collection<InventoryDO> stoks = doOb.getStocks();
+		for (InventoryDO inventoryDO : stoks) {
+			String typeName = inventoryDO.getType().getTypeName();
+			Double avgPrice = inventoryDO.getAverageUnitPrice();
+			Double quant = inventoryDO.getQuantity();
+			InventoryDTO dto = new InventoryDTO();
+			dto.setAverageUnitPrice(avgPrice);
+			dto.setQuantity(quant);
+			dto.setInventoryTypeName(typeName);
+			this.stokcs.add(dto);
+		}
 	}
 
+	private Collection<InventoryDTO> stokcs = new ArrayList<InventoryDTO>();
 	private String inventoryItemCode;
 
 	private long dbId;
@@ -142,6 +160,14 @@ public class InventoryItemDisplayDO {
 
 	public void setHsnSacCode(String hsnSacCode) {
 		this.hsnSacCode = hsnSacCode;
+	}
+
+	public Collection<InventoryDTO> getStokcs() {
+		return stokcs;
+	}
+
+	public void setStokcs(Collection<InventoryDTO> stokcs) {
+		this.stokcs = stokcs;
 	}
 
 }

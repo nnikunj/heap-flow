@@ -17,7 +17,7 @@ import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.InputPagedFetchCallData;
-import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
 import com.paranika.erp.heap_flow.services.inventory.InventoryItemsServiceIX;
 
 @RestController
@@ -30,16 +30,16 @@ public class InventoryItemController {
 	InventoryItemsServiceIX service;
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_WITH_PRODUCT_CODE)
-	ResponseEntity<InventoryItemDisplayDO> getItemWithProd(@PathVariable("prodCode") String prodCode) {
-		InventoryItemDisplayDO fethcedObj = null;
-		ResponseEntity<InventoryItemDisplayDO> response;
+	ResponseEntity<InventoryItemDTO> getItemWithProd(@PathVariable("prodCode") String prodCode) {
+		InventoryItemDTO fethcedObj = null;
+		ResponseEntity<InventoryItemDTO> response;
 		try {
 			fethcedObj = service.getItemWithProdCode(prodCode);
-			response = new ResponseEntity<InventoryItemDisplayDO>(fethcedObj, HttpStatus.OK);
+			response = new ResponseEntity<InventoryItemDTO>(fethcedObj, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
-			response = new ResponseEntity<InventoryItemDisplayDO>((InventoryItemDisplayDO) null,
+			response = new ResponseEntity<InventoryItemDTO>((InventoryItemDTO) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
@@ -47,16 +47,16 @@ public class InventoryItemController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE)
-	ResponseEntity<List<InventoryItemDisplayDO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
-		List<InventoryItemDisplayDO> fetchedList = null;
-		ResponseEntity<List<InventoryItemDisplayDO>> response;
+	ResponseEntity<List<InventoryItemDTO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
+		List<InventoryItemDTO> fetchedList = null;
+		ResponseEntity<List<InventoryItemDTO>> response;
 		try {
 			fetchedList = service.getItemListWithIdLike(idLike);
-			response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
+			response = new ResponseEntity<List<InventoryItemDTO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
-			response = new ResponseEntity<List<InventoryItemDisplayDO>>((List<InventoryItemDisplayDO>) null,
+			response = new ResponseEntity<List<InventoryItemDTO>>((List<InventoryItemDTO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
@@ -64,17 +64,17 @@ public class InventoryItemController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)
-	ResponseEntity<List<InventoryItemDisplayDO>> getPagedInventoryItemList(
+	ResponseEntity<List<InventoryItemDTO>> getPagedInventoryItemList(
 			@RequestBody InputPagedFetchCallData pageInfo) {
-		List<InventoryItemDisplayDO> fetchedList = null;
-		ResponseEntity<List<InventoryItemDisplayDO>> response;
+		List<InventoryItemDTO> fetchedList = null;
+		ResponseEntity<List<InventoryItemDTO>> response;
 		try {
 			fetchedList = service.getPagedInventoryItemList(pageInfo.getStartRecord(), pageInfo.getPageSize());
-			response = new ResponseEntity<List<InventoryItemDisplayDO>>(fetchedList, HttpStatus.OK);
+			response = new ResponseEntity<List<InventoryItemDTO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 
 			e.printStackTrace();
-			response = new ResponseEntity<List<InventoryItemDisplayDO>>((List<InventoryItemDisplayDO>) null,
+			response = new ResponseEntity<List<InventoryItemDTO>>((List<InventoryItemDTO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
 

@@ -20,8 +20,8 @@ import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
-import com.paranika.erp.heap_flow.common.models.InventoryItemDisplayDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
 import com.paranika.erp.heap_flow.daos.inventory.InventoryItemDaoIx;
 
 @Component
@@ -141,14 +141,14 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	}
 
 	@Override
-	public List<InventoryItemDisplayDO> getPagedInventoryItemList(int startRecord, int pageSize)
+	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize)
 			throws HeapFlowException {
 		List<InventoryItemDO> retList = null;
-		ArrayList<InventoryItemDisplayDO> convertedDataList = new ArrayList<InventoryItemDisplayDO>();
+		ArrayList<InventoryItemDTO> convertedDataList = new ArrayList<InventoryItemDTO>();
 		try {
 			retList = inventoryItemDao.getAllInventoryItemsWithPagination(startRecord, pageSize);
 			for (InventoryItemDO inventoryItemDO : retList) {
-				InventoryItemDisplayDO convertedObj = new InventoryItemDisplayDO(inventoryItemDO);
+				InventoryItemDTO convertedObj = new InventoryItemDTO(inventoryItemDO);
 				convertedDataList.add(convertedObj);
 			}
 		} catch (Exception e) {
@@ -160,13 +160,13 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	}
 
 	@Override
-	public List<InventoryItemDisplayDO> getItemListWithIdLike(String idLike) throws HeapFlowException {
+	public List<InventoryItemDTO> getItemListWithIdLike(String idLike) throws HeapFlowException {
 		List<InventoryItemDO> retList = null;
-		ArrayList<InventoryItemDisplayDO> convertedDataList = new ArrayList<InventoryItemDisplayDO>();
+		ArrayList<InventoryItemDTO> convertedDataList = new ArrayList<InventoryItemDTO>();
 		try {
 			retList = inventoryItemDao.getAllInventoryItemsLikeItemCode(idLike);
 			for (InventoryItemDO inventoryItemDO : retList) {
-				InventoryItemDisplayDO convertedObj = new InventoryItemDisplayDO(inventoryItemDO);
+				InventoryItemDTO convertedObj = new InventoryItemDTO(inventoryItemDO);
 				convertedDataList.add(convertedObj);
 			}
 		} catch (Exception e) {
@@ -178,13 +178,13 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	}
 
 	@Override
-	public InventoryItemDisplayDO getItemWithProdCode(String prodCode) throws HeapFlowException {
+	public InventoryItemDTO getItemWithProdCode(String prodCode) throws HeapFlowException {
 		InventoryItemDO retItem = null;
-		InventoryItemDisplayDO convertedObj = null;
+		InventoryItemDTO convertedObj = null;
 		try {
 			retItem = inventoryItemDao.getInventoryItemswithCode(prodCode);
 			if (retItem != null)
-				convertedObj = new InventoryItemDisplayDO(retItem);
+				convertedObj = new InventoryItemDTO(retItem);
 
 		} catch (Exception e) {
 			e.printStackTrace();
