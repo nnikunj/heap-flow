@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.AcceptingMaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
 import com.paranika.erp.heap_flow.services.inventory.InventoryServiceIX;
 
 @RestController
@@ -23,12 +24,13 @@ public class InventoryController {
 	@Autowired
 	InventoryServiceIX service;
 
-	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY)
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY, produces = "text/plain")
 	ResponseEntity<String> acceptMaterial(@RequestBody AcceptingMaterialData data) {
 		ResponseEntity<String> response;
 		if (data == null) {
 			response = new ResponseEntity<String>(
 					"Failed, cannot operate with null input of type AcceptingMaterialData", HttpStatus.BAD_REQUEST);
+
 			return response;
 		}
 		try {
@@ -42,4 +44,23 @@ public class InventoryController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ISSUE_INVENTORY, produces = "text/plain")
+	ResponseEntity<String> issueMaterial(@RequestBody IssuingMaterialDataDTO data) {
+		ResponseEntity<String> response;
+		if (data == null) {
+			response = new ResponseEntity<String>(
+					"Failed, cannot operate with null input of type AcceptingMaterialData", HttpStatus.BAD_REQUEST);
+
+			return response;
+		}
+		try {
+			service.issueInventory(data);
+			response = new ResponseEntity<String>("Success", HttpStatus.CREATED);
+		} catch (HeapFlowException e) {
+			e.printStackTrace();
+			response = new ResponseEntity<String>("Failed " + e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+	}
 }

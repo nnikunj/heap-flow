@@ -11,15 +11,22 @@ import org.springframework.stereotype.Component;
 
 import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.AcceptingMaterialData;
-import com.paranika.erp.heap_flow.common.models.MaterialData;
+import com.paranika.erp.heap_flow.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryTypeDO;
+import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
+import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
+import com.paranika.erp.heap_flow.common.models.dtos.MaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.OutgoingMaterialDataDTO;
+import com.paranika.erp.heap_flow.daos.defaultProviders.InventoriesRepository;
 import com.paranika.erp.heap_flow.daos.defaultProviders.InventoryTypesRepository;
 import com.paranika.erp.heap_flow.daos.inventory.InventoryDaoIX;
 import com.paranika.erp.heap_flow.daos.inventory.InventoryItemDaoIx;
+import com.paranika.erp.heap_flow.daos.machines.MachinesDaoIx;
 import com.paranika.erp.heap_flow.daos.vendors.VendorsDaoIx;
 
 @Component
@@ -31,10 +38,95 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	InventoryItemDaoIx inventoryItemDao;
 
 	@Autowired
+	MachinesDaoIx machineDao;
+
+	@Autowired
 	InventoryTypesRepository inventoryTypesRepository;
 
 	@Autowired
 	InventoryDaoIX inventoryDao;
+
+	@Autowired
+	InventoriesRepository invRepo;
+
+	@Override
+	public void issueInventory(IssuingMaterialDataDTO outgoingMaterials) throws HeapFlowException {
+		Date recordDate = null;
+		String strDate = (outgoingMaterials.getRecordDate() == null) ? null : outgoingMaterials.getRecordDate().trim();
+		try {
+			recordDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strDate);
+		} catch (ParseException e) {
+
+			e.printStackTrace();
+			// Ignore and take current date
+			recordDate = new Date();
+		}
+		String empID = outgoingMaterials.getIssuedViaEmp();
+		String machineCode = outgoingMaterials.getMachineCode();
+
+		MachineDO machineDO = null;
+
+		try {
+			machineDO = machineDao.getMachinewithCode(machineCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new HeapFlowException("Could find any Machine with code: " + machineCode);
+		}
+
+		ArrayList<EgressLedgerDO> ledgerList = new ArrayList<EgressLedgerDO>();
+
+		List<OutgoingMaterialDataDTO> outgoinMats = outgoingMaterials.getOutgoingItemsList();
+		for (OutgoingMaterialDataDTO outgoingMaterialDataDTO : outgoinMats) {
+			String productCode = outgoingMaterialDataDTO.getProductCode();
+
+			InventoryItemDO inventoryItemDO = null;
+			try {
+				inventoryItemDO = inventoryItemDao.getInventoryItemswithCode(productCode);
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new HeapFlowException("Could not find product with code " + productCode);
+			}
+
+			InventoryTypeDO inventoryTypeDO;
+
+			inventoryTypeDO = inventoryTypesRepository
+					.findInventoryTypeWithName(outgoingMaterialDataDTO.getInventoryType());
+			if (inventoryTypeDO == null) {
+				throw new HeapFlowException(
+						"Could not find InventoryTypeDO with name " + outgoingMaterialDataDTO.getInventoryType());
+			}
+
+			InventoryDO inventory = invRepo.findInventoryWithProductAndType(inventoryItemDO, inventoryTypeDO);
+			if (inventory == null) {
+				throw new HeapFlowException("Stock does not exists for product with code: " + productCode);
+			} else if (inventory.getQuantity() < outgoingMaterialDataDTO.getQuantity()) {
+				throw new HeapFlowException("Insufficient Stock for product with code: " + productCode
+						+ ", We only have " + inventory.getQuantity() + " " + inventoryItemDO.getBaseUnitMeasure()
+						+ " and demand is for " + outgoingMaterialDataDTO.getQuantity() + " "
+						+ inventoryItemDO.getBaseUnitMeasure());
+			}
+
+			else {
+				EgressLedgerDO ledgerDO = new EgressLedgerDO();
+				ledgerDO.setClassificationCategory(outgoingMaterialDataDTO.getClassification());
+				ledgerDO.setConsumingMachine(machineDO);
+				ledgerDO.setInventoryType(inventoryTypeDO);
+				ledgerDO.setIssuedTo(empID);
+				ledgerDO.setOutgoingMaterial(inventoryItemDO);
+				ledgerDO.setOutgoingQuantity(outgoingMaterialDataDTO.getQuantity());
+				ledgerDO.setRecordDate(recordDate);
+
+				ledgerList.add(ledgerDO);
+			}
+		}
+		try {
+			inventoryDao.persistAllEgressLedgers(ledgerList);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new HeapFlowException(e);
+		}
+	}
 
 	@Override
 	public void acceptInventory(AcceptingMaterialData incomingMaterials) throws HeapFlowException {

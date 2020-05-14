@@ -18,10 +18,10 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.InputExcelBook;
-import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
+import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow.daos.inventory.InventoryItemDaoIx;
 
 @Component

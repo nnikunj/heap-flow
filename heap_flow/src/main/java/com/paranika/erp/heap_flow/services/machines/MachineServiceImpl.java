@@ -18,8 +18,8 @@ import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.daos.machines.MachinesDaoIx;
 
 @Component

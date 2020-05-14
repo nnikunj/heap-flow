@@ -1,4 +1,4 @@
-package com.paranika.erp.heap_flow.common.models;
+package com.paranika.erp.heap_flow.common.models.dtos;
 
 import com.google.gson.Gson;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowRuntimeException;

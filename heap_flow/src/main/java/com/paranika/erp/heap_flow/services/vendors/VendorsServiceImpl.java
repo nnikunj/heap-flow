@@ -19,8 +19,8 @@ import org.springframework.util.StringUtils;
 import com.google.common.collect.Lists;
 import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.daos.vendors.VendorsDaoIx;
 
 @Component

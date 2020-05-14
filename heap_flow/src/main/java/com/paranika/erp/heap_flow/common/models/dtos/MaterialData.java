@@ -1,8 +1,7 @@
-package com.paranika.erp.heap_flow.common.models;
+package com.paranika.erp.heap_flow.common.models.dtos;
 
 public class MaterialData {
 
-	private static final long serialVersionUID = 1L;
 	private Double pricePerUnit;
 	private Double quantity;
 	private String inventoryType;

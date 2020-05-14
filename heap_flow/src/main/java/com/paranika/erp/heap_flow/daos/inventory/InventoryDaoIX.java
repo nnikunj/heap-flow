@@ -4,11 +4,14 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Repository;
 
+import com.paranika.erp.heap_flow.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.IngressLedgerDO;
 
 @Repository
 public interface InventoryDaoIX {
 
 	public void persistAllIngressLedgers(Collection<IngressLedgerDO> ledgers) throws Exception;
+
+	public void persistAllEgressLedgers(Collection<EgressLedgerDO> ledgerList) throws Exception;
 
 }

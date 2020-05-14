@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
-import com.paranika.erp.heap_flow.common.models.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
+import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 
 @RestController

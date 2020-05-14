@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.paranika.erp.heap_flow.common.AppConstants;
-import com.paranika.erp.heap_flow.common.models.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 

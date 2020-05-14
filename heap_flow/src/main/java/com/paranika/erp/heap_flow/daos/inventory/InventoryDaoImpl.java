@@ -9,11 +9,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.paranika.erp.heap_flow.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.IngressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryTypeDO;
 import com.paranika.erp.heap_flow.daos.BaseDaoImpl;
+import com.paranika.erp.heap_flow.daos.defaultProviders.EgressLedgersRepository;
 import com.paranika.erp.heap_flow.daos.defaultProviders.IngressLedgersRepository;
 import com.paranika.erp.heap_flow.daos.defaultProviders.InventoriesRepository;
 
@@ -25,6 +27,9 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 
 	@Autowired
 	IngressLedgersRepository ingressRepo;
+
+	@Autowired
+	EgressLedgersRepository egressRepo;
 	@Autowired
 	@PersistenceContext
 	private EntityManager em;
@@ -58,6 +63,28 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 			}
 			ingressRepo.save(ingressLedgerDO);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void persistAllEgressLedgers(Collection<EgressLedgerDO> ledgerList) throws Exception {
+		for (EgressLedgerDO egressLedgerDO : ledgerList) {
+			InventoryItemDO item = egressLedgerDO.getOutgoingMaterial();
+			InventoryTypeDO type = egressLedgerDO.getInventoryType();
+
+			Double quant = egressLedgerDO.getOutgoingQuantity();
+
+			InventoryDO inventory = invRepo.findInventoryWithProductAndType(item, type);
+			Double newQuant = inventory.getQuantity() - quant;
+			if (newQuant == 0) {
+				invRepo.delete(inventory);
+			} else {
+				inventory.setQuantity(newQuant);
+				em.merge(inventory);
+			}
+			egressRepo.save(egressLedgerDO);
+		}
+
 	}
 
 }
