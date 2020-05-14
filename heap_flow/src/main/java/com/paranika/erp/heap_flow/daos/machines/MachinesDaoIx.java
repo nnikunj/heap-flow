@@ -19,7 +19,7 @@ public interface MachinesDaoIx {
 
 	public void mergeAll(Collection<MachineDO> machineDOs) throws Exception;
 
-	public List<MachineDO> getAllMachinesWithNameLike(String nameLike) throws Exception;
+	public List<MachineDO> getAllMachinesWithCodeLike(String nameLike) throws Exception;
 
 	public MachineDO getMachinewithCode(String machineCode) throws Exception;
 }

@@ -54,12 +54,12 @@ public class MachineController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_NAME_LIKE)
-	ResponseEntity<List<MachineDO>> getNameLikeMachinesList(@PathVariable("nameLike") String nameLike) {
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE)
+	ResponseEntity<List<MachineDO>> getNameLikeMachinesList(@PathVariable("codeLike") String codeLike) {
 		List<MachineDO> fetchedList = null;
 		ResponseEntity<List<MachineDO>> response;
 		try {
-			fetchedList = machinesService.getMachineListWithNameLike(nameLike);
+			fetchedList = machinesService.getMachineListWithCodeLike(codeLike);
 			response = new ResponseEntity<List<MachineDO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
 			e.printStackTrace();

@@ -13,6 +13,6 @@ public interface MachineServiceIX {
 
 	public void importAndUpdateMachinesInventory(InputExcelBook ieb) throws HeapFlowException;
 
-	public List<MachineDO> getMachineListWithNameLike(String nameLike) throws HeapFlowException;
+	public List<MachineDO> getMachineListWithCodeLike(String nameLike) throws HeapFlowException;
 
 }

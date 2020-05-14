@@ -145,11 +145,11 @@ public class MachinesDaoImpl extends BaseDaoImpl implements MachinesDaoIx {
 	}
 
 	@Override
-	public List<MachineDO> getAllMachinesWithNameLike(String nameLike) throws Exception {
-		if (nameLike == null || nameLike.isEmpty()) {
+	public List<MachineDO> getAllMachinesWithCodeLike(String codeLike) throws Exception {
+		if (codeLike == null || codeLike.isEmpty()) {
 			return null;
 		}
-		List<MachineDO> l = machinesRepo.findMachinesWithNameLike(nameLike, PageRequest.of(0, 20));
+		List<MachineDO> l = machinesRepo.findMachinesWithCodeLike(codeLike, PageRequest.of(0, 20));
 		return l;
 	}
 

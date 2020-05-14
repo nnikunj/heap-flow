@@ -119,13 +119,13 @@ public class MachineServiceImpl implements MachineServiceIX {
 	}
 
 	@Override
-	public List<MachineDO> getMachineListWithNameLike(String nameLike) throws HeapFlowException {
+	public List<MachineDO> getMachineListWithCodeLike(String nameLike) throws HeapFlowException {
 		List<MachineDO> retList = null;
 		if (nameLike == null || nameLike.isEmpty()) {
 			return null;
 		}
 		try {
-			retList = machinesDao.getAllMachinesWithNameLike(nameLike);
+			retList = machinesDao.getAllMachinesWithCodeLike(nameLike);
 		} catch (Exception e) {
 
 			e.printStackTrace();

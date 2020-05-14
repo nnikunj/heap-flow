@@ -13,8 +13,8 @@ import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
 @Repository
 public interface MachinesRepository extends CrudRepository<MachineDO, Long> {
 
-	@Query("from MachineDO machine where UPPER(machine.name) LIKE UPPER(CONCAT('%',:nameLike,'%')) ORDER BY machine.name")
-	List<MachineDO> findMachinesWithNameLike(@Param("nameLike") String nameLike, Pageable pageable);
+	@Query("from MachineDO machine where UPPER(machine.code) LIKE UPPER(CONCAT('%',:codeLike,'%')) ORDER BY machine.code")
+	List<MachineDO> findMachinesWithCodeLike(@Param("codeLike") String codeLike, Pageable pageable);
 
 	@Query("from MachineDO machine where UPPER(machine.code) = UPPER(:machineCode)")
 	MachineDO findMachineWithCode(String machineCode);

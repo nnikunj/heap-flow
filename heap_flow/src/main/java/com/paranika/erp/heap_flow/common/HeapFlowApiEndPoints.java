@@ -7,7 +7,7 @@ public interface HeapFlowApiEndPoints {
 	// Machines related endpoints
 	public String BASE_END_POINT_MACHINES = BASE_END_POINT + "/machines";
 	public String MACHINES_IMPORT_ENDPOINT = "/import-and-update-machine-inventory";
-	public String GET_MACHINES_LIST_WITH_NAME_LIKE = "/fetch-machines-with-name-like/{nameLike}";
+	public String GET_MACHINES_LIST_WITH_CODE_LIKE = "/fetch-machines-with-code-like/{codeLike}";
 
 	public String BASE_END_POINT_VENDORS = BASE_END_POINT + "/vendors";
 	public String VENDORS_IMPORT_ENDPOINT = "/import-and-update-vendors-list";
