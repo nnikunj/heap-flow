@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -115,6 +116,23 @@ public class MachineServiceImpl implements MachineServiceIX {
 			}
 		}
 
+	}
+
+	@Override
+	public List<MachineDO> getMachineListWithNameLike(String nameLike) throws HeapFlowException {
+		List<MachineDO> retList = null;
+		if (nameLike == null || nameLike.isEmpty()) {
+			return null;
+		}
+		try {
+			retList = machinesDao.getAllMachinesWithNameLike(nameLike);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			throw new HeapFlowException(e);
+		}
+
+		return retList;
 	}
 
 }

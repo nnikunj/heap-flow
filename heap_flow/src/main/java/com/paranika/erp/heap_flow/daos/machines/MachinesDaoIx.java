@@ -18,4 +18,6 @@ public interface MachinesDaoIx {
 	public void saveAll(Collection<MachineDO> machineDOs) throws Exception;
 
 	public void mergeAll(Collection<MachineDO> machineDOs) throws Exception;
+
+	public List<MachineDO> getAllMachinesWithNameLike(String nameLike) throws Exception;
 }

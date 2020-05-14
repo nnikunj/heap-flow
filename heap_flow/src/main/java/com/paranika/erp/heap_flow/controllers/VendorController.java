@@ -60,12 +60,12 @@ public class VendorController {
 		ResponseEntity<List<VendorDO>> response;
 		try {
 			fetchedList = service.getVendorListWithNameLike(nameLike);
+			response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
 		} catch (HeapFlowException e) {
-
 			e.printStackTrace();
 			response = new ResponseEntity<List<VendorDO>>((List<VendorDO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
+
 		return response;
 	}
 
