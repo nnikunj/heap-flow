@@ -17,6 +17,9 @@ export class HttpService {
                     return (
                         data.length != 0 ? data as any[] : [[] as any]
                     );
+                },
+                (error: any) => {
+                    return error;
                 }
         ));
 

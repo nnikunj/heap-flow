@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -9,7 +8,6 @@ import { ApiHandlerService } from 'src/app/services/api-handler.service';
 
 import { Machine } from 'src/app/models/machine'
 import { InventoryItem } from 'src/app/models/inventory-item';
-import { startWith, filter } from 'rxjs/operators';
 
 
 import { IssueMaterial, OutgoingItem } from 'src/app/models/issue-material'
@@ -27,14 +25,14 @@ class SelectInterface {
 })
 export class IssueMaterialComponent implements OnInit {
 
-  machineCodeControl = new FormControl();
-  issueMaterialDateControl = new FormControl((new Date()).toISOString());
-  issueMaterialEMPControl = new FormControl();
+  machineCodeControl = new FormControl('');
+  issueMaterialDateControl = new FormControl(new Date());
+  issueMaterialEMPControl = new FormControl('');
 
-  issueMaterialCodeControl = new FormControl();
-  issueMaterialClassificationControl = new FormControl();
-  issueMaterialInventoryTypeControl = new FormControl();
-  issueMaterialQuantityControl = new FormControl();
+  issueMaterialCodeControl = new FormControl('');
+  issueMaterialClassificationControl = new FormControl('');
+  issueMaterialInventoryTypeControl = new FormControl('');
+  issueMaterialQuantityControl = new FormControl(0);
 
   machines = <any>[];
   inventoryItems = <any>[];
@@ -64,19 +62,23 @@ export class IssueMaterialComponent implements OnInit {
 
   ngOnInit(): void {
     this.machineCodeControl.valueChanges.subscribe((term) => {
-      if (typeof term === 'string') {
+      if (typeof term === 'string' && term !== '') {
         this.httpService.search(this.machine_search_url, term).subscribe((data) => {
           console.log(data);
           this.machines = data as any[];
+        }, (error) => {
+          console.error(error);
         });
       }
     });
 
     this.issueMaterialCodeControl.valueChanges.subscribe((term) => {
-      if (typeof term === 'string') {
+      if (typeof term === 'string' && term !== '') {
         this.httpService.search(this.item_search_url, term).subscribe((data) => {
           console.log(data);
           this.inventoryItems = data as any[];
+        }, (error) => {
+          console.error(error);
         });
       }
     });
@@ -111,17 +113,39 @@ export class IssueMaterialComponent implements OnInit {
   }
 
   addMaterial(event: Event) {
-    // machineCodeControl = new FormControl();
-    // issueMaterialDateControl = new FormControl((new Date()).toISOString());
-
-    if (typeof this.machineCodeControl.value !== 'object') {
-      this.openSnackBar('Machine not selected', 'Please select a valid machine');
-      return;
-    }
 
     if (typeof this.issueMaterialCodeControl.value !== 'object') {
       this.openSnackBar('Material not selected', 'Please select a valid material');
       return;
+    }
+
+    if (!this.issueMaterialClassificationControl.value) {
+      this.openSnackBar('Classification Not seleted', 'Please select classification');
+      return;
+    }
+
+    if (!this.issueMaterialInventoryTypeControl.value) {
+      this.openSnackBar('Inventory Type Not seleted', 'Please select inventory type');
+      return;
+    }
+
+    if (this.issueMaterialQuantityControl.value < 0 || typeof this.issueMaterialQuantityControl.value === 'string'
+      || this.issueMaterialQuantityControl.value === '') {
+      this.openSnackBar('Quantity not entered', 'Please enter quantity');
+      return;
+    }
+
+    if (this.issueMaterialQuantityControl.value > 0) {
+      let quantityValue = this.issueMaterialQuantityControl.value;
+      for (let index = 0; index < this.issueMaterialCodeControl.value.stokcs.length; index++) {
+        let s = this.issueMaterialCodeControl.value.stokcs[index];
+        if (s.inventoryTypeName === this.issueMaterialInventoryTypeControl.value) {
+          if (quantityValue > s.quantity) {
+            this.openSnackBar('Quantity entered is more than stock', 'Please enter quantity within stock limit');
+            return;
+          }
+        }
+      }
     }
 
     let outgoingItem = new OutgoingItem();
@@ -134,11 +158,18 @@ export class IssueMaterialComponent implements OnInit {
     this.outgoingItemList.push(outgoingItem);
 
     this.table.renderRows();
+
+    this.resetSecondSection();
   }
 
   submitIssueMaterial(event: Event) {
     if (typeof this.machineCodeControl.value !== 'object') {
       this.openSnackBar('Machine not selected', 'Please select a valid machine');
+      return;
+    }
+
+    if (!this.issueMaterialEMPControl.value) {
+      this.openSnackBar('EMP code not entered', 'Please enter EMP code');
       return;
     }
 
@@ -160,12 +191,7 @@ export class IssueMaterialComponent implements OnInit {
       this.resetForm(new Event('reset'));
     }, (error) => {
       console.error(error);
-      if (error.status > 299 || error.status < 200) {
-        this.openSnackBar('Save failed', 'Please try again');
-      } else {
-        this.openSnackBar('Save', 'successful');
-        this.resetForm(new Event('reset'));
-      }
+      this.openSnackBar('Save failed', 'Please try again');
     })
 
 
@@ -173,25 +199,29 @@ export class IssueMaterialComponent implements OnInit {
 
   resetForm(event: Event) {
     this.machineCodeControl.setValue('', { emitEvent: false });
-    this.issueMaterialDateControl.setValue((new Date()).toISOString());
+    this.issueMaterialDateControl.setValue(new Date());
     this.issueMaterialEMPControl.setValue('');
 
-    this.issueMaterialCodeControl.setValue('', { emitEvent: false });
-    this.issueMaterialClassificationControl.setValue('');
-    this.issueMaterialInventoryTypeControl.setValue('');
-    this.issueMaterialQuantityControl.setValue('');
+    this.resetSecondSection();
 
     this.inventoryTypes = [];
-
+    this.inventoryItems = [];
     this.outgoingItemList = [];
 
     this.table.renderRows();
 
   }
 
+  resetSecondSection() {
+    this.issueMaterialCodeControl.setValue('', { emitEvent: false });
+    this.issueMaterialClassificationControl.setValue('');
+    this.issueMaterialInventoryTypeControl.setValue('');
+    this.issueMaterialQuantityControl.setValue(0);
+  }
+
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 10000,
+      duration: 5000,
     });
   }
 

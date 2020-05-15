@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-
-import { AcceptMaterial } from 'src/app/models/accept-material';
-import { VendorService } from 'src/app/services/vendor.service';
-import { Vendor } from 'src/app/models/vendor'
-import { Item } from 'src/app/models/item';
 import { ApiHandlerService } from 'src/app/services/api-handler.service';
 import { InventoryService } from 'src/app/services/inventory.service'
+import { HttpService } from 'src/app/services/http.service'
+
+import { AcceptMaterial, Item } from 'src/app/models/accept-material';
+import { Vendor } from 'src/app/models/vendor'
+import { InventoryItem } from 'src/app/models/inventory-item';
 
 interface SelectInterface {
   value: string;
@@ -22,19 +22,19 @@ interface SelectInterface {
   selector: 'app-accept-material',
   templateUrl: './accept-material.component.html',
   styleUrls: ['./accept-material.component.scss'],
-  providers: [VendorService]
+  providers: [HttpService]
 })
 export class AcceptMaterialComponent implements OnInit {
-  vendorNameControl = new FormControl();
-  materialAcceptDateControl = new FormControl((new Date()).toISOString());
-  materialAcceptGRNControl = new FormControl();
-  materialAcceptInvoiceControl = new FormControl();
+  vendorNameControl = new FormControl('');
+  materialAcceptDateControl = new FormControl(new Date());
+  materialAcceptGRNControl = new FormControl('');
+  materialAcceptInvoiceControl = new FormControl('');
 
-  materialAcceptItemCodeControl = new FormControl();
-  materialAcceptClassificationControl = new FormControl();
-  materialAcceptInventoryTypeControl = new FormControl();
-  materialAcceptQuantityControl = new FormControl();
-  materialAcceptPriceyControl = new FormControl();
+  inventoryItemControl = new FormControl('');
+  materialAcceptClassificationControl = new FormControl('');
+  materialAcceptInventoryTypeControl = new FormControl('');
+  materialAcceptQuantityControl = new FormControl(0);
+  materialAcceptPriceyControl = new FormControl(0);
 
   inventory_url: string = "http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/";
 
@@ -45,6 +45,7 @@ export class AcceptMaterialComponent implements OnInit {
   vendors = <any>[];
   acceptMaterialModel: AcceptMaterial;
   items: Item[] = [];
+  inventoryItems = <any>[];
 
   inventoryTypes: SelectInterface[] = [
     { value: 'FOC', viewValue: 'FREE OF COST' },
@@ -62,26 +63,42 @@ export class AcceptMaterialComponent implements OnInit {
 
   displayedColumns: string[] = ['productCode', 'description', 'classification', 'inventoryType', 'quantity', 'pricePerUnit'];
 
-  constructor(private vendorService: VendorService, private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar,
-    private inventoryService: InventoryService) {
+  constructor(private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar,
+    private inventoryService: InventoryService, private httpService: HttpService) {
   }
 
   ngOnInit(): void {
-    this.vendorNameControl.valueChanges
-      .subscribe(
-        term => {
+    this.vendorNameControl.valueChanges.subscribe(term => {
+      if (typeof term === 'string' && term !== '') {
+        this.httpService.search('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/', term).subscribe(data => {
+          console.log(data);
+          this.vendors = data as any[]
+        }, (error) => {
+          console.error(error);
+        })
+      }
+    });
 
-          if (term != '') {
-            this.vendorService.search(term).subscribe(
-              data => {
-                console.log(data);
-                this.vendors = data as any[]
-              }
-            )
-          }
-        }
+    this.inventoryItemControl.valueChanges.subscribe((term) => {
+      if (typeof term === 'string' && term !== '') {
+        this.httpService.search('http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-like-id/', term).subscribe((res) => {
+          console.log(res);
+          this.inventoryItems = res;
+        }, (error) => {
+          console.error(error);
+        })
+      }
+    });
 
-      );
+    this.materialAcceptInventoryTypeControl.valueChanges.subscribe((term) => {
+      console.log('inventory type changed ' + term);
+      if (term === 'FOC') {
+        this.materialAcceptPriceyControl.setValue(0);
+        this.materialAcceptPriceyControl.disable();
+      } else {
+        this.materialAcceptPriceyControl.enable();
+      }
+    });
 
   }
 
@@ -89,35 +106,82 @@ export class AcceptMaterialComponent implements OnInit {
     return vendor && vendor.name ? vendor.name : '';
   }
 
-  addMaterial(event: Event) {
-    this.inventoryService.search(this.materialAcceptItemCodeControl.value).subscribe((data: any) => {
-      console.dir(data);
-      if (data) {
-        let item = new Item();
-        item.productCode = this.materialAcceptItemCodeControl.value;
-        item.classification = this.materialAcceptClassificationControl.value;
-        item.quantity = this.materialAcceptQuantityControl.value;
-        item.pricePerUnit = this.materialAcceptPriceyControl.value;
-        item.inventoryType = this.materialAcceptInventoryTypeControl.value;
-        if (data.descriptions && data.descriptions.description) {
-          item.description = data.descriptions.description;
-        }
-        this.items.push(item);
+  displayInventoryItemCode(inventoryItem: InventoryItem): string {
+    return inventoryItem && inventoryItem.inventoryItemCode ? inventoryItem.inventoryItemCode : '';
+  }
 
-        this.table.renderRows();
-      } else {
-        this.openSnackBar('Item not found', 'Please enter correct item code.');
-      }
-    });
+  addMaterial(event: Event) {
+
+    if (!this.inventoryItemControl.value.inventoryItemCode) {
+      this.openSnackBar('Inventory item not selected', 'Please select inventory item');
+      return;
+    }
+
+    if (!this.materialAcceptClassificationControl.value) {
+      this.openSnackBar('Classification not selected', 'Please select classification');
+      return;
+    }
+
+    if (this.materialAcceptQuantityControl.value < 0 || typeof this.materialAcceptQuantityControl.value === 'string'
+      || this.materialAcceptQuantityControl.value === '') {
+      this.openSnackBar('Quantity not entered', 'Please enter quantity');
+      return;
+    }
+
+    if (this.materialAcceptPriceyControl.value < 0 || typeof this.materialAcceptPriceyControl.value === 'string'
+      || this.materialAcceptPriceyControl.value === '') {
+      this.openSnackBar('Price not entered', 'Please enter price');
+      return;
+    }
+
+    if (!this.materialAcceptInventoryTypeControl.value) {
+      this.openSnackBar('Inventory Type not selected', 'Please select inventory type');
+      return;
+    }
+
+    let item = new Item();
+    item.productCode = this.inventoryItemControl.value.inventoryItemCode;
+    item.classification = this.materialAcceptClassificationControl.value;
+    item.quantity = this.materialAcceptQuantityControl.value;
+    item.pricePerUnit = this.materialAcceptPriceyControl.value;
+    item.inventoryType = this.materialAcceptInventoryTypeControl.value;
+    if (this.inventoryItemControl.value.descriptions && this.inventoryItemControl.value.descriptions.description) {
+      item.description = this.inventoryItemControl.value.descriptions.description;
+    }
+    this.items.push(item);
+
+    this.table.renderRows();
+
+    this.resetSecondSection();
   }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 10000,
+      duration: 5000
     });
   }
 
   submitMaterial(event: Event) {
+    if (!this.vendorNameControl.value.name) {
+      this.openSnackBar('Vendor not selected', 'Please select valid vendor');
+      return;
+    }
+
+    if (!this.materialAcceptGRNControl.value) {
+      this.openSnackBar('GRN number not added', 'Please enter GRN Number');
+      return;
+    }
+
+    if (!this.materialAcceptInvoiceControl.value) {
+      this.openSnackBar('Invoice not added', 'Please enter invoice number');
+      return;
+    }
+
+    if (this.items.length === 0) {
+      this.openSnackBar('No items are added', 'Please add some items');
+      return;
+    }
+
     let am = new AcceptMaterial();
     am.vendorCode = this.vendorNameControl.value.vendorId;
     am.recordDate = this.materialAcceptDateControl.value.toDateString();
@@ -129,26 +193,34 @@ export class AcceptMaterialComponent implements OnInit {
     console.log('am : ' + JSON.stringify(am));
 
     this.apiHandlerService.save('http://localhost:9443/api/v1/inventory/accept-materials', am).subscribe((data) => {
-      console.log('response from save : ' + data);
-      console.dir(data);
+      console.log('response from save : ' + JSON.stringify(data));
+      this.openSnackBar('Save', 'Success');
+      this.resetForm(event);
     }, (error) => {
       console.error(error);
+      this.openSnackBar('Save Failed', 'Please try again');
     });
   }
 
   resetForm(event: Event) {
     this.vendorNameControl.setValue('');
-    this.materialAcceptDateControl.setValue((new Date()).toISOString());
+    this.materialAcceptDateControl.setValue(new Date());
     this.materialAcceptGRNControl.setValue('');
     this.materialAcceptInvoiceControl.setValue('');
 
-    this.materialAcceptItemCodeControl.setValue('');
-    this.materialAcceptClassificationControl.setValue('');
-    this.materialAcceptQuantityControl.setValue('');
-    this.materialAcceptPriceyControl.setValue('');
-    this.materialAcceptInventoryTypeControl.setValue('');
+    this.resetSecondSection();
 
     this.items = [];
+    this.vendors = [];
+    this.inventoryItems = [];
     this.table.renderRows();
+  }
+
+  resetSecondSection() {
+    this.inventoryItemControl.setValue('');
+    this.materialAcceptClassificationControl.setValue('');
+    this.materialAcceptQuantityControl.setValue(0);
+    this.materialAcceptPriceyControl.setValue(0);
+    this.materialAcceptInventoryTypeControl.setValue('');
   }
 }

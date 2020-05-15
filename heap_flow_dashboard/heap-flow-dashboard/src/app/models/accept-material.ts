@@ -1,7 +1,6 @@
 import { Vendor } from './vendor';
 import { InventoryItem } from './inventory-item';
 import { Injectable } from '@angular/core';
-import { Item } from './item';
 
 @Injectable({
     providedIn: 'root'
@@ -20,4 +19,16 @@ export class AcceptMaterial {
       this.recordDate= (new Date()).getDate().toString();
     }
 
+}
+
+export class Item {
+
+  constructor(){}
+
+  productCode: string;
+  classification: string;
+  inventoryType: string;
+  description: string;
+  quantity: Number;
+  pricePerUnit: Number;
 }
