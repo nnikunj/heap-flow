@@ -119,8 +119,6 @@ export class AcceptMaterialComponent implements OnInit {
 
   submitMaterial(event: Event) {
     let am = new AcceptMaterial();
-    //am.vendorName = this.vendorNameControl.value.name;
-    console.log('name ' + this.vendorNameControl.value.vendorId);
     am.vendorCode = this.vendorNameControl.value.vendorId;
     am.recordDate = this.materialAcceptDateControl.value.toDateString();
     am.grn = this.materialAcceptGRNControl.value;
@@ -129,7 +127,6 @@ export class AcceptMaterialComponent implements OnInit {
     am.incomingItemsList = this.items;
 
     console.log('am : ' + JSON.stringify(am));
-    console.dir(am);
 
     this.apiHandlerService.save('http://localhost:9443/api/v1/inventory/accept-materials', am).subscribe((data) => {
       console.log('response from save : ' + data);
