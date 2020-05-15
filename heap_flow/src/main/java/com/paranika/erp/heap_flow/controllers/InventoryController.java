@@ -2,6 +2,7 @@ package com.paranika.erp.heap_flow.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
+import com.paranika.erp.heap_flow.common.ResponseBuilder;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
 import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
@@ -24,41 +26,64 @@ public class InventoryController {
 	@Autowired
 	InventoryServiceIX service;
 
-	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY, produces = "text/plain")
+	@Autowired
+	ResponseBuilder respBuild;
+
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> acceptMaterial(@RequestBody AcceptingMaterialData data) {
 		ResponseEntity<String> response;
 		if (data == null) {
-			response = new ResponseEntity<String>(
-					"Failed, cannot operate with null input of type AcceptingMaterialData", HttpStatus.BAD_REQUEST);
+			respBuild.setErrorMessage("Failed, cannot operate with null input of type AcceptingMaterialData");
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.BAD_REQUEST.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.BAD_REQUEST);
 
 			return response;
 		}
 		try {
 			service.acceptInventory(data);
-			response = new ResponseEntity<String>("Success", HttpStatus.CREATED);
+			respBuild.setErrorMessage(null);
+			respBuild.setMessage("Success");
+			respBuild.setStatusCode(HttpStatus.CREATED.value());
+
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.CREATED);
 		} catch (HeapFlowException e) {
 			e.printStackTrace();
-			response = new ResponseEntity<String>("Failed " + e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+			respBuild.setErrorMessage("Failed " + e.getMessage());
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());
+
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ISSUE_INVENTORY, produces = "text/plain")
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ISSUE_INVENTORY, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> issueMaterial(@RequestBody IssuingMaterialDataDTO data) {
 		ResponseEntity<String> response;
 		if (data == null) {
-			response = new ResponseEntity<String>(
-					"Failed, cannot operate with null input of type AcceptingMaterialData", HttpStatus.BAD_REQUEST);
+			respBuild.setErrorMessage("Failed, cannot operate with null input of type AcceptingMaterialData");
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.BAD_REQUEST.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.BAD_REQUEST);
 
 			return response;
 		}
 		try {
 			service.issueInventory(data);
-			response = new ResponseEntity<String>("Success", HttpStatus.CREATED);
+			respBuild.setErrorMessage(null);
+			respBuild.setMessage("Success");
+			respBuild.setStatusCode(HttpStatus.CREATED.value());
+
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.CREATED);
 		} catch (HeapFlowException e) {
 			e.printStackTrace();
-			response = new ResponseEntity<String>("Failed " + e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
+			respBuild.setErrorMessage("Failed " + e.getMessage());
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());
+
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
 
 		return response;
