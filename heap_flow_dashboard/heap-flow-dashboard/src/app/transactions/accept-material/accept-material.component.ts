@@ -33,8 +33,8 @@ export class AcceptMaterialComponent implements OnInit {
   inventoryItemControl = new FormControl('');
   materialAcceptClassificationControl = new FormControl('');
   materialAcceptInventoryTypeControl = new FormControl('');
-  materialAcceptQuantityControl = new FormControl(0);
-  materialAcceptPriceyControl = new FormControl(0);
+  materialAcceptQuantityControl = new FormControl();
+  materialAcceptPriceyControl = new FormControl();
 
   inventory_url: string = "http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/";
 
@@ -219,8 +219,23 @@ export class AcceptMaterialComponent implements OnInit {
   resetSecondSection() {
     this.inventoryItemControl.setValue('');
     this.materialAcceptClassificationControl.setValue('');
-    this.materialAcceptQuantityControl.setValue(0);
-    this.materialAcceptPriceyControl.setValue(0);
+    this.materialAcceptQuantityControl.setValue('');
+    this.materialAcceptPriceyControl.setValue('');
     this.materialAcceptInventoryTypeControl.setValue('');
+  }
+
+  acceptMaterialFocusOut(event: Event) {
+    console.log("focus out");
+    if (typeof this.inventoryItemControl.value === 'string') {
+      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.inventoryItemControl.value)
+        .subscribe(res => {
+          console.log(res.body);
+          if (res.body) {
+            this.inventoryItemControl.setValue(res.body, { emitEvent: false });
+          }
+        }, error => {
+          console.error(error);
+        })
+    }
   }
 }

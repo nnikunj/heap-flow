@@ -43,7 +43,8 @@
 
           <mat-form-field class="heap-full-width">
             <mat-label>Accepting Material Code</mat-label>
-            <input type="text" matInput [formControl]="inventoryItemControl" [matAutocomplete]="auto_inventory_item">
+            <input type="text" matInput [formControl]="inventoryItemControl" [matAutocomplete]="auto_inventory_item"
+              (focusout)="acceptMaterialFocusOut($event)">
             <mat-autocomplete #auto_inventory_item="matAutocomplete" [displayWith]="displayInventoryItemCode">
               <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
                 {{inventoryItem.inventoryItemCode}}
@@ -84,7 +85,8 @@
 
           <mat-form-field class="heap-full-width">
             <mat-label>Price</mat-label>
-            <input matInput type="number" placeholder="Please enter price." [formControl]="materialAcceptPriceyControl" value="0">
+            <input matInput type="number" placeholder="Please enter price." [formControl]="materialAcceptPriceyControl"
+              value="0">
           </mat-form-field>
 
           <mat-divider></mat-divider>

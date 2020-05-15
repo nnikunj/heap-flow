@@ -32,7 +32,7 @@ export class IssueMaterialComponent implements OnInit {
   issueMaterialCodeControl = new FormControl('');
   issueMaterialClassificationControl = new FormControl('');
   issueMaterialInventoryTypeControl = new FormControl('');
-  issueMaterialQuantityControl = new FormControl(0);
+  issueMaterialQuantityControl = new FormControl('');
 
   machines = <any>[];
   inventoryItems = <any>[];
@@ -102,7 +102,15 @@ export class IssueMaterialComponent implements OnInit {
 
   public itemSelected = (event: any) => {
     if (this.issueMaterialCodeControl.value && this.issueMaterialCodeControl.value.stokcs) {
-      this.issueMaterialCodeControl.value.stokcs.forEach(s => {
+      this.updateInventoryType(this.issueMaterialCodeControl.value.stokcs);
+    }
+  }
+
+  updateInventoryType(stocks) {
+    this.inventoryTypes = [];
+    console.log(stocks);
+    if (stocks) {
+      stocks.forEach(s => {
         let i = new SelectInterface();
         i.value = s.inventoryTypeName;
         i.viewValue = this.inventoryTypeMap.get(s.inventoryTypeName);
@@ -216,7 +224,24 @@ export class IssueMaterialComponent implements OnInit {
     this.issueMaterialCodeControl.setValue('', { emitEvent: false });
     this.issueMaterialClassificationControl.setValue('');
     this.issueMaterialInventoryTypeControl.setValue('');
-    this.issueMaterialQuantityControl.setValue(0);
+    this.issueMaterialQuantityControl.setValue('');
+  }
+
+  issueMaterialFocusOut(event: Event) {
+    console.log("focus out");
+    if (typeof this.issueMaterialCodeControl.value === 'string') {
+      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.issueMaterialCodeControl.value)
+        .subscribe(res => {
+          console.log(res.body);
+          if (res.body) {
+            this.issueMaterialCodeControl.setValue(res.body, { emitEvent: false });
+            this.updateInventoryType(res.body.stokcs);
+          }
+        }, error => {
+          console.error(error);
+        })
+    }
+
   }
 
   openSnackBar(message: string, action: string) {

@@ -44,7 +44,7 @@
                         <mat-form-field class="heap-full-width">
                             <mat-label>Issue Material Code</mat-label>
                             <input type="text" matInput [formControl]="issueMaterialCodeControl"
-                                [matAutocomplete]="auto_issue_material_code">
+                                [matAutocomplete]="auto_issue_material_code" (focusout)="issueMaterialFocusOut($event)">
                             <mat-autocomplete #auto_issue_material_code="matAutocomplete"
                                 (optionSelected)="itemSelected($event)" [displayWith]="displayIssueMaterialCode">
                                 <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
