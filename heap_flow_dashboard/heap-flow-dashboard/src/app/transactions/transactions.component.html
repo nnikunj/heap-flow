@@ -1,0 +1,21 @@
+<div class="content-container"> 
+    <div>
+        <clr-vertical-nav>
+           
+            <a clrVerticalNavLink routerLink="accept-material"  routerLinkActive="active" skipLocationChange>
+                <clr-icon shape="import" class="has-badge"></clr-icon>
+                Accept Materials
+            </a>
+            <div class="nav-divider"></div>
+            <a clrVerticalNavLink routerLink="issue-material" routerLinkActive="active" skipLocationChange>
+                <clr-icon shape="export" class="has-badge"></clr-icon>
+                Issue Materials
+            </a>
+            <div class="nav-divider"></div>
+            
+        </clr-vertical-nav>
+    </div >
+    <div class="bordered">
+        <router-outlet></router-outlet>
+    </div>
+</div>

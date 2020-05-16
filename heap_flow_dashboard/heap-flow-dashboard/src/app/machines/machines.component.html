@@ -1,0 +1,27 @@
+<div class="content-container"> 
+    <div>
+        <clr-vertical-nav>
+
+            <a clrVerticalNavLink routerLink="machines-list"  skipLocationChange>
+                <clr-icon shape="list" class="is-solid"></clr-icon>
+                Machines List
+            </a>
+            <div class="nav-divider"></div>
+            <a clrVerticalNavLink routerLink="add-machine" routerLinkActive="active" skipLocationChange>
+                <clr-icon shape="add-text"></clr-icon>
+                Add Machine
+            </a>
+            <div class="nav-divider"></div>
+            <a clrVerticalNavLink routerLink="import-machines" routerLinkActive="active" skipLocationChange>
+                <clr-icon shape="download" class="has-badge"></clr-icon>
+                Import Machines
+            </a>
+          
+            <div class="nav-divider"></div>
+             
+        </clr-vertical-nav>
+    </div >
+    <div class="bordered">
+        <router-outlet></router-outlet>
+    </div>
+</div>

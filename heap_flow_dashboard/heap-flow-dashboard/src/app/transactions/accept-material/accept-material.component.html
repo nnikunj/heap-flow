@@ -1,0 +1,157 @@
+<div class="clr-row is-solid">
+  <div class="clr-col-12">
+    <div class="card">
+      <div class="card-header">
+        Accept Materials
+      </div>
+      <div class="card-block">
+
+        <form class="heap-form">
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Vendor Name</mat-label>
+            <input type="text" matInput [formControl]="vendorNameControl" [matAutocomplete]="auto_material_vendor">
+            <mat-autocomplete #auto_material_vendor="matAutocomplete" [displayWith]="displayVendorName">
+              <mat-option *ngFor="let vendor of vendors " [value]="vendor">
+                {{vendor.name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="material_accept_date" [formControl]="materialAcceptDateControl">
+            <mat-datepicker-toggle matSuffix [for]="material_accept_date"></mat-datepicker-toggle>
+            <mat-datepicker #material_accept_date></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>GRN</mat-label>
+            <input matInput placeholder="GRN number for invoice." [formControl]="materialAcceptGRNControl">
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Invoice Number</mat-label>
+            <input matInput placeholder="Please enter Invoice Number." [formControl]="materialAcceptInvoiceControl">
+          </mat-form-field>
+
+        </form>
+
+        <div class="card-block"></div>
+
+        <form class="heap-form">
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Accepting Material Code</mat-label>
+            <input type="text" matInput [formControl]="inventoryItemControl" [matAutocomplete]="auto_inventory_item"
+              (focusout)="acceptMaterialFocusOut($event)">
+            <mat-autocomplete #auto_inventory_item="matAutocomplete" [displayWith]="displayInventoryItemCode">
+              <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
+                {{inventoryItem.inventoryItemCode}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!-- <mat-form-field class="heap-full-width">
+            <mat-label>Accepting Material Code</mat-label>
+            <input matInput placeholder="Scan the item code." [formControl]="materialAcceptItemCodeControl">
+          </mat-form-field> -->
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Classification</mat-label>
+            <mat-select [formControl]="materialAcceptClassificationControl">
+
+              <mat-option *ngFor="let classification of classifications" [value]="classification.value">
+                {{classification.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Inventory Type</mat-label>
+            <mat-select [formControl]="materialAcceptInventoryTypeControl">
+
+              <mat-option *ngFor="let inventoryType of inventoryTypes" [value]="inventoryType.value">
+                {{inventoryType.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="number" placeholder="Please enter quantity."
+              [formControl]="materialAcceptQuantityControl">
+          </mat-form-field>
+
+          <mat-form-field class="heap-full-width">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" placeholder="Please enter price." [formControl]="materialAcceptPriceyControl"
+              value="0">
+          </mat-form-field>
+
+          <mat-divider></mat-divider>
+          <div class="card-block"></div>
+
+          <div class="example-button-row">
+            <button mat-stroked-button color="primary" (click)="addMaterial($event)">Add Record</button>
+          </div>
+
+
+        </form>
+
+        <div class="card-block"></div>
+
+        <table mat-table [dataSource]="items" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pricePerUnit">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let element"> {{element.pricePerUnit}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="productCode">
+            <th mat-header-cell *matHeaderCellDef> Accepting Material Code </th>
+            <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="classification">
+            <th mat-header-cell *matHeaderCellDef> Classification </th>
+            <td mat-cell *matCellDef="let element"> {{element.classification}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="inventoryType">
+            <th mat-header-cell *matHeaderCellDef> Inventory Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.inventoryType}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+        <!-- <div class="card-block"></div> -->
+
+        <mat-divider></mat-divider>
+
+        <section>
+          <div class="heap-button-row">
+            <button mat-stroked-button color="primary" (click)="submitMaterial($event)">Submit</button>
+            <button mat-stroked-button color="primary" (click)="resetForm($event)">Reset</button>
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
