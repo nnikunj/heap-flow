@@ -21,7 +21,7 @@ export class InventoryItemsGridComponent implements OnInit {
      
   }
   showItemDetails(obj) {
-    alert(JSON.stringify(obj));
+    //alert(JSON.stringify(obj));
   }
   trackByFn(index, item) {
     return item.id;
@@ -35,7 +35,7 @@ loading: boolean = false;
         for (let filter of state.filters) {
             let {property, value} = <{property: string, value: string}>filter;
             filters[property] = [value];
-            alert(JSON.stringify(filters));
+            //alert(JSON.stringify(filters));
         }
     }
     this.currentPaginationState = state;
