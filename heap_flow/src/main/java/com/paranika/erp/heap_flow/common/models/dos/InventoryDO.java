@@ -25,6 +25,9 @@ public class InventoryDO extends BaseDO {
 	@Column(name = "quantity", nullable = false)
 	private double quantity;
 
+	@Column(name = "notes", nullable = true)
+	private String notes;
+
 	public InventoryItemDO getItem() {
 		return item;
 	}
@@ -55,6 +58,14 @@ public class InventoryDO extends BaseDO {
 
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 }
