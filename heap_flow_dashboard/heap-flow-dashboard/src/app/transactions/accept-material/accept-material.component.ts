@@ -167,11 +167,6 @@ export class AcceptMaterialComponent implements OnInit {
       return;
     }
 
-    if (!this.materialAcceptGRNControl.value) {
-      this.openSnackBar('GRN number not added', 'Please enter GRN Number');
-      return;
-    }
-
     if (!this.materialAcceptInvoiceControl.value) {
       this.openSnackBar('Invoice not added', 'Please enter invoice number');
       return;

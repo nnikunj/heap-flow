@@ -149,7 +149,7 @@ export class IssueMaterialComponent implements OnInit {
         let s = this.issueMaterialCodeControl.value.stokcs[index];
         if (s.inventoryTypeName === this.issueMaterialInventoryTypeControl.value) {
           if (quantityValue > s.quantity) {
-            this.openSnackBar('Quantity entered is more than stock', 'Please enter quantity within stock limit');
+            this.openSnackBar('Quantity entered is more than stock', 'Stock value ' + s.quantity );
             return;
           }
         }
