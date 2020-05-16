@@ -2,6 +2,8 @@ package com.paranika.erp.heap_flow.controllers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,7 @@ import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 public class VendorController {
 	@Autowired
 	VendorServiceIX service;
+	private final Logger logger = LoggerFactory.getLogger(VendorController.class);
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.VENDORS_IMPORT_ENDPOINT)
 	public ResponseEntity<String> importAndUpdateVendorList(@RequestBody InputExcelBook book) {
@@ -35,18 +38,21 @@ public class VendorController {
 		if (book == null) {
 			response = new ResponseEntity<String>("Input must be provided for base64 encoded excel sheet.",
 					HttpStatus.BAD_REQUEST);
+			logger.error("Input must be provided for base64 encoded excel sheet.", HttpStatus.BAD_REQUEST);
 			return response;
 		} else if (StringUtils.isEmpty(book.getBase64EncodedWorkbook())) {
 			response = new ResponseEntity<String>("Input must be provided for base64 encoded excel sheet.",
 					HttpStatus.BAD_REQUEST);
+			logger.error("Input must be provided for base64 encoded excel sheet.", HttpStatus.BAD_REQUEST);
 			return response;
 
 		}
 		try {
 			service.importAndUpdateVendorsList(book);
 			response = new ResponseEntity<String>("Operation Successfull", HttpStatus.CREATED);
+			logger.debug(HeapFlowApiEndPoints.VENDORS_IMPORT_ENDPOINT + " Success");
 		} catch (HeapFlowException hfe) {
-
+			logger.error(hfe.getMessage(), hfe);
 			response = new ResponseEntity<String>("Could not import vendors list.\n" + hfe.getMessage(),
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
@@ -61,8 +67,9 @@ public class VendorController {
 		try {
 			fetchedList = service.getVendorListWithNameLike(nameLike);
 			response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_VENDORS_LIST_WITH_NAME_LIKE + " Success");
 		} catch (HeapFlowException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			response = new ResponseEntity<List<VendorDO>>((List<VendorDO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 

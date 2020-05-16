@@ -1,5 +1,7 @@
 package com.paranika.erp.heap_flow.controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,8 +31,12 @@ public class InventoryController {
 	@Autowired
 	ResponseBuilder respBuild;
 
+	private final Logger logger = LoggerFactory.getLogger(InventoryController.class);
+
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> acceptMaterial(@RequestBody AcceptingMaterialData data) {
+		logger.debug(HeapFlowApiEndPoints.ACCEPT_INVENTORY + " invoked");
+		logger.debug("Incoming AcceptingMaterialData: " + data);
 		ResponseEntity<String> response;
 		if (data == null) {
 			respBuild.setErrorMessage("Failed, cannot operate with null input of type AcceptingMaterialData");
@@ -42,13 +48,15 @@ public class InventoryController {
 		}
 		try {
 			service.acceptInventory(data);
+			logger.debug("Inventory Accepted.");
 			respBuild.setErrorMessage(null);
 			respBuild.setMessage("Success");
 			respBuild.setStatusCode(HttpStatus.CREATED.value());
 
 			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.CREATED);
 		} catch (HeapFlowException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+
 			respBuild.setErrorMessage("Failed " + e.getMessage());
 			respBuild.setMessage(null);
 			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());
@@ -61,6 +69,8 @@ public class InventoryController {
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ISSUE_INVENTORY, produces = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> issueMaterial(@RequestBody IssuingMaterialDataDTO data) {
+		logger.debug(HeapFlowApiEndPoints.ISSUE_INVENTORY + " invoked");
+		logger.debug("Incoming IssuingMaterialDataDTO: " + data);
 		ResponseEntity<String> response;
 		if (data == null) {
 			respBuild.setErrorMessage("Failed, cannot operate with null input of type AcceptingMaterialData");
@@ -72,13 +82,14 @@ public class InventoryController {
 		}
 		try {
 			service.issueInventory(data);
+			logger.debug("Material issued.");
 			respBuild.setErrorMessage(null);
 			respBuild.setMessage("Success");
 			respBuild.setStatusCode(HttpStatus.CREATED.value());
 
 			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.CREATED);
 		} catch (HeapFlowException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			respBuild.setErrorMessage("Failed " + e.getMessage());
 			respBuild.setMessage(null);
 			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());

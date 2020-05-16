@@ -48,6 +48,21 @@ public class IssuingMaterialDataDTO {
 		this.outgoingItemsList = outgoingItemsList;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("IssuingMaterialDataDTO [recordDate=");
+		builder.append(recordDate);
+		builder.append(", machineCode=");
+		builder.append(machineCode);
+		builder.append(", issuedViaEmp=");
+		builder.append(issuedViaEmp);
+		builder.append(", outgoingItemsList=");
+		builder.append(outgoingItemsList);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	public static void main(String[] args) {
 		OutgoingMaterialDataDTO md1 = new OutgoingMaterialDataDTO();
 		md1.setClassification("PROJECT");

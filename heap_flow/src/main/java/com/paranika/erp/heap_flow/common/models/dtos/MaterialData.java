@@ -52,4 +52,21 @@ public class MaterialData {
 		this.classification = classification;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("MaterialData [pricePerUnit=");
+		builder.append(pricePerUnit);
+		builder.append(", quantity=");
+		builder.append(quantity);
+		builder.append(", inventoryType=");
+		builder.append(inventoryType);
+		builder.append(", classification=");
+		builder.append(classification);
+		builder.append(", productCode=");
+		builder.append(productCode);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

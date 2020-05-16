@@ -57,6 +57,23 @@ public class AcceptingMaterialData {
 		this.incomingItemsList = incomingItemsList;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("AcceptingMaterialData [recordDate=");
+		builder.append(recordDate);
+		builder.append(", vendorCode=");
+		builder.append(vendorCode);
+		builder.append(", grn=");
+		builder.append(grn);
+		builder.append(", invoice=");
+		builder.append(invoice);
+		builder.append(", incomingItemsList=");
+		builder.append(incomingItemsList);
+		builder.append("]");
+		return builder.toString();
+	}
+
 	public static void main(String[] args) {
 		MaterialData md1 = new MaterialData();
 		md1.setClassification("PROJECT");

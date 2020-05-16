@@ -43,4 +43,19 @@ public class OutgoingMaterialDataDTO {
 		this.productCode = productCode;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("OutgoingMaterialDataDTO [quantity=");
+		builder.append(quantity);
+		builder.append(", inventoryType=");
+		builder.append(inventoryType);
+		builder.append(", classification=");
+		builder.append(classification);
+		builder.append(", productCode=");
+		builder.append(productCode);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }
