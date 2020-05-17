@@ -1,2 +1,2 @@
 
-java -jar /opt/paranika/app/heap-flow/heap_flow-1.0.0.jar 
+java -jar /opt/paranika/app/heap-flow/heap_flow-1.0.0.jar --spring.config.location=/opt/paranika/config/application.properties
