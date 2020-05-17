@@ -2,3 +2,4 @@ db-container/target/*
 **/*.orig
 dist/heap-flow/*.tar.gz
 dist/heap-flow/*.zip
+heap-flow.zip
