@@ -13,6 +13,7 @@ export class ApiHandlerService {
   constructor(private httpClient: HttpClient) { }
 
   getText(url: string): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.get(url, { observe: 'response', responseType: 'text'}).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
@@ -23,12 +24,14 @@ export class ApiHandlerService {
    * @param url Executes GET api
    */
   get(url: string): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.get(url, { observe: 'response' }).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
   };
 
   getWithParams(url: string, requestParams : HttpParams): Observable<any> {
+    url = encodeURIComponent(url);
     requestParams = requestParams.append('observe','response');
     return this.httpClient.get(url, {params : requestParams}).
       pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
@@ -41,6 +44,7 @@ export class ApiHandlerService {
    * @param data 
    */
   save(url: string, data: any): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.post(url, data, { observe: 'response' }).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
@@ -68,6 +72,7 @@ export class ApiHandlerService {
    * @param data 
    */
   update(url: string, data: any): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.put(url, data, { observe: 'response' }).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
@@ -78,6 +83,7 @@ export class ApiHandlerService {
    * @param url Executes DELETE api
    */
   delete(url: string): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.delete(url, { observe: 'response' }).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
@@ -88,6 +94,7 @@ export class ApiHandlerService {
    * @param url Executes HEAD api
    */
   head(url: string): Observable<any> {
+    url = encodeURIComponent(url);
     return this.httpClient.head(url, { observe: 'response' }).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),
       catchError((error: HttpErrorResponse) => this.handleError(error)));
@@ -99,6 +106,7 @@ export class ApiHandlerService {
    * @param url Executes DELETE api with request body
    */
   deleteWithRequestBody(url: string, data: any): Observable<any> {
+    url = encodeURIComponent(url);
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -122,6 +130,7 @@ export class ApiHandlerService {
    * @param url Executes DELETE api with request body
    */
   deleteWithParams(url: string, requestParams : HttpParams): Observable<any> {
+    url = encodeURIComponent(url);
     requestParams = requestParams.append('observe','response');
     return this.httpClient.delete(url, {params : requestParams}).
     pipe(map((res: HttpResponse<any>) => this.handleResponse(res)),

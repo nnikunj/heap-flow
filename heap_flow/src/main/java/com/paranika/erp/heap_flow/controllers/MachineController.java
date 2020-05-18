@@ -62,6 +62,8 @@ public class MachineController {
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE)
 	ResponseEntity<List<MachineDO>> getNameLikeMachinesList(@PathVariable("codeLike") String codeLike) {
+		logger.debug("Invoked: " + HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE);
+		logger.debug("codeLike: " + codeLike);
 		List<MachineDO> fetchedList = null;
 		ResponseEntity<List<MachineDO>> response;
 		try {
@@ -72,7 +74,7 @@ public class MachineController {
 			logger.error(e.getMessage(), e);
 			response = new ResponseEntity<List<MachineDO>>((List<MachineDO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
-
+		logger.debug("response: \n", response + " \n");
 		return response;
 	}
 }
