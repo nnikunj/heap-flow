@@ -2,6 +2,8 @@ package com.paranika.erp.heap_flow.services.inventory;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
@@ -13,11 +15,12 @@ public interface InventoryItemsServiceIX {
 
 	public void importAndUpdateInventoryItemsList(InputExcelBook ieb) throws HeapFlowException;
 
-	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize)
-			throws HeapFlowException;
+	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize) throws HeapFlowException;
 
 	public List<InventoryItemDTO> getItemListWithIdLike(String idLike) throws HeapFlowException;
 
 	public InventoryItemDTO getItemWithProdCode(String prodCode) throws HeapFlowException;
+
+	public Page<InventoryItemDTO> getPagedItemsWithIdLike(String idLike, Pageable paging) throws HeapFlowException;
 
 }

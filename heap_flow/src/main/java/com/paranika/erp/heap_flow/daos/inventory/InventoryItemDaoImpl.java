@@ -9,8 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +30,7 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 	@Autowired
 	@PersistenceContext
 	private EntityManager em;
+	private final Logger logger = LoggerFactory.getLogger(InventoryItemDaoImpl.class);
 
 	@Override
 	public List<InventoryItemDO> getAllInventoryItems() throws Exception {
@@ -52,6 +57,20 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 		}
 		List<InventoryItemDO> l = inventoryItemsRepo.findItemsWithIdLike(idLike.toUpperCase(), PageRequest.of(0, 20));
 		return l;
+	}
+
+	@Override
+	public Page<InventoryItemDO> getAllPagedInventoryItemsLikeItemCode(String optionalIdLike, Pageable pageable)
+			throws Exception {
+		logger.debug("getAllPagedInventoryItemsLikeItemCode invoked optionalIdLike: " + optionalIdLike);
+		Page<InventoryItemDO> retColl = null;
+		if (optionalIdLike == null || optionalIdLike.isEmpty()) {
+			retColl = inventoryItemsRepo.findPagedAllItems(pageable);
+		} else {
+			retColl = inventoryItemsRepo.findPagedItemsWithIdLike(optionalIdLike, pageable);
+		}
+		logger.debug("Exiting getAllPagedInventoryItemsLikeItemCode");
+		return retColl;
 	}
 
 	@Override
@@ -115,6 +134,17 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 				em.persist(inventoryItemDO);
 			}
 		}
+	}
+
+	@Override
+	public Page<InventoryItemDO> getPagedItemsWithIdLike(String idLike, Pageable paging) throws Exception {
+
+		if (StringUtils.isEmpty(idLike)) {
+			return inventoryItemsRepo.findPagedAllItems(paging);
+		} else {
+			return inventoryItemsRepo.findPagedItemsWithIdLike(idLike, paging);
+		}
+
 	}
 
 }

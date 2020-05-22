@@ -12,7 +12,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -31,6 +35,7 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	InventoryItemDaoIx inventoryItemDao;
 	@Autowired
 	CommonUtil util;
+	private final Logger logger = LoggerFactory.getLogger(InventoryItemsServiceImpl.class);
 
 	@Override
 	public void importAndUpdateInventoryItemsList(InputExcelBook ieb) throws HeapFlowException {
@@ -141,8 +146,7 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 	}
 
 	@Override
-	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize)
-			throws HeapFlowException {
+	public List<InventoryItemDTO> getPagedInventoryItemList(int startRecord, int pageSize) throws HeapFlowException {
 		List<InventoryItemDO> retList = null;
 		ArrayList<InventoryItemDTO> convertedDataList = new ArrayList<InventoryItemDTO>();
 		try {
@@ -192,6 +196,24 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 		}
 
 		return convertedObj;
+	}
+
+	@Override
+	public Page<InventoryItemDTO> getPagedItemsWithIdLike(String idLike, Pageable paging) throws HeapFlowException {
+		logger.debug("Service call getPagedItemsWithIdLike");
+		Page<InventoryItemDO> collectedData = null;
+		Page<InventoryItemDTO> dtoPage = null;
+
+		try {
+			collectedData = inventoryItemDao.getPagedItemsWithIdLike(idLike, paging);
+
+			dtoPage = collectedData.map(obj -> new InventoryItemDTO(obj));
+
+		} catch (Exception e) {
+			logger.error("getPagedItemsWithIdLike failed", e);
+		}
+		logger.debug("Service call exit getPagedItemsWithIdLike");
+		return dtoPage;
 	}
 
 }
