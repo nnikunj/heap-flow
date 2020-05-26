@@ -1,23 +1,42 @@
 import { Injectable } from '@angular/core';
+import { Pageable, Sort } from './pageable';
 
 @Injectable({
   providedIn: 'root'
 })
+
+export class InventoryItemResponse {
+  content: InventoryItem[];
+  pageable: Pageable;
+
+  totalElements: Number;
+  totalPages: Number;
+  last: boolean;
+  number: Number;
+  size: Number;
+  sort: Sort;
+  numberOfElements: Number;
+  first: boolean;
+  empty: boolean;
+}
+
 export class InventoryItem {
   constructor() { }
-
-  dbId: Number;
-  inventoryItemCode: string;
   stokcs: Stock[];
+
+  inventoryItemCode: string;
+  dbId: Number;
   descriptions: Descriptions[];
-  modified: Date;
   creation: Date;
+  modified: Date;
   baseUnitMeasure: string;
   productGrpCode: string;
   genProductPostingGrp: string;
   itemCategoryCode: string;
   gstGrpCode: string;
   hsnSacCode: string;
+
+
 }
 
 export class Stock {

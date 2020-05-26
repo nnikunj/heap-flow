@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse,HttpParams } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Observable } from "rxjs";
+import { InventoryItemResponse, InventoryItem } from 'src/app/models/inventory-item';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +13,31 @@ export class InventoryService {
 
   search(term: string) {
     let inventory = this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + term)
-    .pipe(
+      .pipe(
         map(
-            (data: any) => {
-                return (
-                    data ? data as any : null
-                );
-            }
-    ));
+          (data: any) => {
+            return (
+              data ? data as any : null
+            );
+          }
+        ));
 
-    return inventory;  
-}  
+    return inventory;
+  }
+
+  findInventory(filter = '', sortOrder = 'asc',
+    pageNumber = 0, pageSize = 3): Observable<InventoryItemResponse> {
+
+    return this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-paged-inventory-items', {
+      params: new HttpParams()
+        .set('idLike', filter)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+    }).pipe(
+      map(res => res as InventoryItemResponse)
+    );
+
+  }
+
+
 }

@@ -1,78 +1,66 @@
-import { Component, OnInit } from '@angular/core';
-import {ClrDatagridStateInterface} from "@clr/angular";
-import { HttpParams } from "@angular/common/http";
-import { ApiHandlerService } from '../../services/api-handler.service';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+
+import { MatPaginator } from "@angular/material/paginator";
+
+import { merge, fromEvent } from "rxjs";
+import { debounceTime, distinctUntilChanged, startWith, tap, delay } from 'rxjs/operators';
+
+import { InventoryItemDatasource } from './inventory-items.datasource'
+import { InventoryService } from 'src/app/services/inventory.service'
 
 @Component({
   selector: 'app-inventory-items-grid',
   templateUrl: './inventory-items-grid.component.html',
   styleUrls: ['./inventory-items-grid.component.scss']
 })
-export class InventoryItemsGridComponent implements OnInit {
-  currentPaginationState:any;
-  items: Array<any>;
-   
-  apiEndPoint: string = 'http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-page-wise';
+export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
 
-  defaultPageInfo={"page":{"from":0,"to":9,"size":10,"current":1},"sort":{"by":"createdTimestamp","reverse":true}};
-  constructor(private apiHandlerService: ApiHandlerService) { this.items = [];}
+  dataSource: InventoryItemDatasource;
+
+  displayedColumns = ['description', 'description2', 'description3', 'description4', 'description5', 'description6', 'baseUnitMeasure',
+    'productGrpCode', 'genProductPostingGrp', 'itemCategoryCode', 'gstGrpCode', 'hsnSacCode', 'creation', 'modified'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('input') input: ElementRef;
+
+  constructor(private inventoryService: InventoryService) { }
+
 
   ngOnInit(): void {
-     
-  }
-  showItemDetails(obj) {
-    //alert(JSON.stringify(obj));
-  }
-  trackByFn(index, item) {
-    return item.id;
+    this.dataSource = new InventoryItemDatasource(this.inventoryService);
+
   }
 
-loading: boolean = false;
- refresh(state: ClrDatagridStateInterface) {
-     
-    let filters:{[prop:string]: any[]} = {};
-    if (state.filters) {
-        for (let filter of state.filters) {
-            let {property, value} = <{property: string, value: string}>filter;
-            filters[property] = [value];
-            //alert(JSON.stringify(filters));
-        }
-    }
-    this.currentPaginationState = state;
-    this.getItemsList({
-      size : state.page.size, 
-      page : state.page.current
-     // sort : this.findDbHistoryGridSort(state)
-    });
+  ngAfterViewInit(): void {
+    this.dataSource.loadInventoryItems('', 'asc', 0, 10, this.paginator);
+
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadInventoryItems();
+        })
+      )
+      .subscribe();
+
+    merge(this.paginator.page)
+      .pipe(
+        tap(() => this.loadInventoryItems())
+      )
+      .subscribe();
   }
 
-  
-  getItemsList(pageInfo) {
-    let params = new HttpParams();
-    params = params.append('startRecord', pageInfo.page);
-    params = params.append('size', pageInfo.size);
-    let data= {
-      "startRecord":pageInfo.page,"pageSize":pageInfo.size
-    }
-    const url = this.apiEndPoint ;
-     
-     this.apiHandlerService.save(url,data).subscribe((data: any) => {
-      
-      if (data && data !== null) {
-        this.items = data;
-        
-      }else{
-        this.items = [];
-      }
-      this.loading = false;
-      //this.validateAndDetectChanges();
-    }, (error: any) => {
-      this.loading = false;
-     // this.validateAndDetectChanges();
-      //this.appLoaderIndicatorService.hideAppLoader();
-     // this.alertService.error(this.databaseAlerts.DATABASE_LIST_FETCH_FAILED);
-    });
+  loadInventoryItems() {
+    this.dataSource.loadInventoryItems(
+      this.input.nativeElement.value,
+      'asc',
+      this.paginator.pageIndex,
+      this.paginator.pageSize,
+      this.paginator);
   }
+
 
 
 }
