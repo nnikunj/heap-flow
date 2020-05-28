@@ -1,0 +1,46 @@
+2020-05-28 09:27:21.510  INFO 25096 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-28 09:27:21.577  INFO 25096 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-28 09:27:21.626  INFO 25096 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-05-28 09:27:21.677  INFO 25096 --- [SpringContextShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2020-05-28 23:49:25.959  INFO 26332 --- [main] c.p.erp.heap_flow.HeapFlowApplication    : Starting HeapFlowApplication on RAIPUR with PID 26332 (D:\personal-learning\code2\heap-flow\heap_flow\target\classes started by dilawar in D:\personal-learning\code2\heap-flow\heap_flow)
+2020-05-28 23:49:25.969 DEBUG 26332 --- [main] c.p.erp.heap_flow.HeapFlowApplication    : Running with Spring Boot v2.2.6.RELEASE, Spring v5.2.5.RELEASE
+2020-05-28 23:49:25.970  INFO 26332 --- [main] c.p.erp.heap_flow.HeapFlowApplication    : No active profile set, falling back to default profiles: default
+2020-05-28 23:49:28.210  INFO 26332 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-05-28 23:49:28.480  INFO 26332 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 251ms. Found 7 JPA repository interfaces.
+2020-05-28 23:49:29.908  INFO 26332 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 9443 (http)
+2020-05-28 23:49:29.931  INFO 26332 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-05-28 23:49:29.932  INFO 26332 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.33]
+2020-05-28 23:49:30.331  INFO 26332 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-05-28 23:49:30.333  INFO 26332 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4219 ms
+2020-05-28 23:49:30.593  INFO 26332 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-05-28 23:49:31.600  INFO 26332 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-05-28 23:49:31.694  INFO 26332 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-05-28 23:49:32.003  INFO 26332 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-05-28 23:49:32.490  INFO 26332 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-05-28 23:49:32.914  INFO 26332 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2020-05-28 23:49:34.888  INFO 26332 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-05-28 23:49:35.040  INFO 26332 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-28 23:49:36.275  WARN 26332 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-05-28 23:49:36.573  INFO 26332 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-05-28 23:49:37.051  INFO 26332 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2020-05-28 23:49:37.061  INFO 26332 --- [main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2020-05-28 23:49:37.065 ERROR 26332 --- [main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 9443 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 9443 or configure this application to listen on another port.
+
+2020-05-28 23:49:37.069  INFO 26332 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2020-05-28 23:49:37.073  INFO 26332 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-28 23:49:37.076  INFO 26332 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2020-05-28 23:49:37.126  INFO 26332 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
