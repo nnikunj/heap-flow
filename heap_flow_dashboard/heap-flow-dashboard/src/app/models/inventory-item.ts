@@ -26,7 +26,7 @@ export class InventoryItem {
 
   inventoryItemCode: string;
   dbId: Number;
-  descriptions: Descriptions[];
+  descriptions: Descriptions;
   creation: Date;
   modified: Date;
   baseUnitMeasure: string;

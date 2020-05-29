@@ -4,7 +4,7 @@ import { map, catchError } from 'rxjs/operators';
 import { debounceTime } from 'rxjs/internal/operators/debounceTime';
 import { Observable, throwError } from 'rxjs';
 
-@Injectable()  
+@Injectable()
 export class HttpService {  
 
     constructor (private httpClient: HttpClient) { }  
