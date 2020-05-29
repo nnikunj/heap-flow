@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
@@ -170,6 +171,7 @@ public class InventoryItemDTO {
 		this.stokcs = stokcs;
 	}
 
+	@JsonIgnore
 	public InventoryItemDO getDoObj() {
 		InventoryItemDO inventoryItemDO = new InventoryItemDO();
 
