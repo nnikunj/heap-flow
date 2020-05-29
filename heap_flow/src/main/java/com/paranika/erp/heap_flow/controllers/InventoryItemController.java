@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InputPagedFetchCallData;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
@@ -89,6 +90,25 @@ public class InventoryItemController {
 		}
 
 		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ADD_UPDATE_ITEM)
+	ResponseEntity<InventoryItemDTO> addUpdateItem(@RequestBody InventoryItemDTO data) {
+		ResponseEntity<InventoryItemDTO> response = null;
+		InventoryItemDO persistItem = null;
+		logger.debug(HeapFlowApiEndPoints.ADD_UPDATE_ITEM + " invoked.");
+		try {
+			persistItem = service.persistItem(data);
+			InventoryItemDTO item = new InventoryItemDTO(persistItem);
+			response = new ResponseEntity<InventoryItemDTO>(item, HttpStatus.OK);
+			logger.debug("Exiting addUpdateItem with repsonse code" + response.getStatusCodeValue());
+		} catch (HeapFlowException e) {
+
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<InventoryItemDTO>((InventoryItemDTO) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return response;
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_PAGE_WISE)

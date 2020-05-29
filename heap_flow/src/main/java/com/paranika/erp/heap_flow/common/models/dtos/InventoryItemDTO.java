@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.gson.Gson;
 import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
@@ -169,4 +171,45 @@ public class InventoryItemDTO {
 		this.stokcs = stokcs;
 	}
 
+	@JsonIgnore
+	public InventoryItemDO getDoObj() {
+		InventoryItemDO inventoryItemDO = new InventoryItemDO();
+
+		inventoryItemDO.setInventoryItemCode(this.inventoryItemCode.trim().toUpperCase());
+
+		inventoryItemDO.setBaseUnitMeasure((this.baseUnitMeasure == null) ? null : this.baseUnitMeasure.trim());
+		inventoryItemDO.setDescriptions(this.descriptions.toJson());
+		inventoryItemDO
+				.setGenProductPostingGrp((this.genProductPostingGrp == null) ? null : this.genProductPostingGrp.trim());
+		inventoryItemDO.setGstGrpCode((this.gstGrpCode == null) ? null : this.gstGrpCode.trim());
+		inventoryItemDO.setHsnSacCode((this.hsnSacCode == null) ? null : this.hsnSacCode.trim());
+
+		inventoryItemDO.setItemCategoryCode((this.itemCategoryCode == null) ? null : this.itemCategoryCode.trim());
+		inventoryItemDO.setProductGrpCode((this.productGrpCode == null) ? null : this.productGrpCode.trim());
+
+		return inventoryItemDO;
+	}
+
+	public static void main(String[] args) {
+		InventoryItemDTO dto = new InventoryItemDTO();
+		dto.setInventoryItemCode("ASBEL0030");
+		dto.setGenProductPostingGrp("SP");
+		dto.setGstGrpCode("");
+		dto.setHsnSacCode("998519");
+		dto.setItemCategoryCode("ASB M/C");
+		dto.setProductGrpCode("ELECTRICAL");
+
+		InventoryItemDescriptions desc = new InventoryItemDescriptions();
+		desc.setDescription("CONNECTOR");
+		desc.setDescription2("MOTOR CONNECTOR");
+		desc.setDescription3("6 WAY");
+		desc.setDescription4("desc4");
+		desc.setDescription5("desc5");
+		desc.setDescription6("desc6");
+		dto.setDescriptions(desc);
+		dto.setBaseUnitMeasure("NO.");
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(dto));
+
+	}
 }

@@ -17,6 +17,8 @@ public interface InventoryItemDaoIx {
 
 	public InventoryItemDO add(InventoryItemDO inventoryItemDO) throws Exception;
 
+	public InventoryItemDO addOrUpdate(InventoryItemDO inventoryItemDO) throws Exception;
+
 	public void saveAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception;
 
 	public void mergeAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception;
