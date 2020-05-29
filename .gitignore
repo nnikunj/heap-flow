@@ -3,4 +3,6 @@ db-container/target/*
 dist/heap-flow/*.tar.gz
 dist/heap-flow/*.zip
 heap-flow.zip
+logs/
+logs/*
 /.DS_Store
