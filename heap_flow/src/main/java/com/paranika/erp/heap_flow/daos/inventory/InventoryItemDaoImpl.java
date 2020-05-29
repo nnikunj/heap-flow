@@ -95,6 +95,27 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 	}
 
 	@Override
+	@Transactional
+	public InventoryItemDO addOrUpdate(InventoryItemDO inventoryItemDO) throws Exception {
+		InventoryItemDO itemFetched = getInventoryItemswithCode(inventoryItemDO.getInventoryItemCode());
+		InventoryItemDO dataPersisted = null;
+		if (itemFetched == null) {
+			dataPersisted = add(inventoryItemDO);
+		} else {
+			itemFetched.setBaseUnitMeasure(inventoryItemDO.getBaseUnitMeasure());
+			itemFetched.setDescriptions(inventoryItemDO.getDescriptions());
+			itemFetched.setGenProductPostingGrp(inventoryItemDO.getGenProductPostingGrp());
+			itemFetched.setGstGrpCode(inventoryItemDO.getGstGrpCode());
+			itemFetched.setHsnSacCode(inventoryItemDO.getHsnSacCode());
+			itemFetched.setItemCategoryCode(inventoryItemDO.getItemCategoryCode());
+			itemFetched.setProductGrpCode(inventoryItemDO.getProductGrpCode());
+
+			dataPersisted = em.merge(itemFetched);
+		}
+		return dataPersisted;
+	}
+
+	@Override
 	public void saveAll(Collection<InventoryItemDO> inventoryItemDOs) throws Exception {
 		inventoryItemsRepo.saveAll(inventoryItemDOs);
 	}

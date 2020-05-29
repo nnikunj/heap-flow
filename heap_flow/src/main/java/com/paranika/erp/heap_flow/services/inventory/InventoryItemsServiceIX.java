@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
 
@@ -22,5 +23,7 @@ public interface InventoryItemsServiceIX {
 	public InventoryItemDTO getItemWithProdCode(String prodCode) throws HeapFlowException;
 
 	public Page<InventoryItemDTO> getPagedItemsWithIdLike(String idLike, Pageable paging) throws HeapFlowException;
+
+	public InventoryItemDO persistItem(InventoryItemDTO data) throws HeapFlowException;
 
 }

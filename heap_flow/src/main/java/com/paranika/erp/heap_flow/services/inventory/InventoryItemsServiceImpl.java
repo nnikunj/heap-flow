@@ -216,4 +216,24 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 		return dtoPage;
 	}
 
+	@Override
+	public InventoryItemDO persistItem(InventoryItemDTO data) throws HeapFlowException {
+		if (data == null) {
+			logger.error("Cannot operate with null InventoryItemDTO.");
+			throw new HeapFlowException("Cannot operate with null InventoryItemDTO.");
+
+		} else if (data.getInventoryItemCode() == null || data.getInventoryItemCode().isEmpty()) {
+			logger.error("Cannot operate with null product code");
+			throw new HeapFlowException("Cannot operate with null product code");
+		}
+		InventoryItemDO persistedObj = null;
+		try {
+			persistedObj = inventoryItemDao.addOrUpdate(data.getDoObj());
+		} catch (Exception e) {
+			logger.error("Could not save obj to Db.", e);
+			throw new HeapFlowException(e);
+		}
+		return persistedObj;
+	}
+
 }
