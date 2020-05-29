@@ -3,7 +3,8 @@
     text-align: center;
     max-width: 1310px;
     margin: 0 auto;
-    overflow-x: scroll;
+   // overflow-x: scroll;
+   overflow: auto;
 }
 
 .heap-grid-thumbnail {

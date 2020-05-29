@@ -17,7 +17,7 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
 
   dataSource: InventoryItemDatasource;
 
-  displayedColumns = ['description', 'description2', 'description3', 'description4', 'description5', 'description6', 'baseUnitMeasure',
+  displayedColumns = ['inventoryItemCode','description', 'description2', 'description3', 'description4', 'description5', 'description6', 'baseUnitMeasure',
     'productGrpCode', 'genProductPostingGrp', 'itemCategoryCode', 'gstGrpCode', 'hsnSacCode', 'creation', 'modified'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -59,6 +59,10 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
       this.paginator.pageIndex,
       this.paginator.pageSize,
       this.paginator);
+  }
+
+  logData(row: any){
+    console.dir(row);
   }
 
 
