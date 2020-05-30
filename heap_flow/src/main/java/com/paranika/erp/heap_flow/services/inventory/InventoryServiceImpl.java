@@ -83,7 +83,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		String empID = outgoingMaterials.getIssuedViaEmp();
 		String machineCode = outgoingMaterials.getMachineCode();
 		String approvedBy = outgoingMaterials.getApprovedBy();
-		String issuedBy = outgoingMaterials.getIssuedBy();
+		String issuedBy = outgoingMaterials.getLoggedInUser();
 		String issuedForDept = outgoingMaterials.getIssuedForDept();
 		MachineDO machineDO = null;
 

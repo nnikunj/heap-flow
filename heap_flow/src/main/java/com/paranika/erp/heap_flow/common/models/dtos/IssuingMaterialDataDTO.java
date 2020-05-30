@@ -20,7 +20,7 @@ public class IssuingMaterialDataDTO {
 
 	private String approvedBy;
 
-	private String issuedBy;
+	private String loggedInUser;
 
 	private List<OutgoingMaterialDataDTO> outgoingItemsList = new ArrayList<OutgoingMaterialDataDTO>();
 
@@ -72,12 +72,12 @@ public class IssuingMaterialDataDTO {
 		this.approvedBy = approvedBy;
 	}
 
-	public String getIssuedBy() {
-		return issuedBy;
+	public String getLoggedInUser() {
+		return loggedInUser;
 	}
 
-	public void setIssuedBy(String issuedBy) {
-		this.issuedBy = issuedBy;
+	public void setLoggedInUser(String loggedInUser) {
+		this.loggedInUser = loggedInUser;
 	}
 
 	@Override
@@ -93,8 +93,8 @@ public class IssuingMaterialDataDTO {
 		builder.append(issuedForDept);
 		builder.append(", approvedBy=");
 		builder.append(approvedBy);
-		builder.append(", issuedBy=");
-		builder.append(issuedBy);
+		builder.append(", loggedInUser=");
+		builder.append(loggedInUser);
 		builder.append(", outgoingItemsList=");
 		builder.append(outgoingItemsList);
 		builder.append("]");
@@ -122,7 +122,7 @@ public class IssuingMaterialDataDTO {
 		IssuingMaterialDataDTO data = new IssuingMaterialDataDTO();
 		data.setIssuedViaEmp("Emp001");
 		data.setMachineCode("ASB - 43");
-		data.setIssuedBy("JaganNath");
+		data.setLoggedInUser("JaganNath");
 		data.setApprovedBy("Paneer Selvam");
 		data.setIssuedForDept("Engineering");
 		// Thu May 14 2020
