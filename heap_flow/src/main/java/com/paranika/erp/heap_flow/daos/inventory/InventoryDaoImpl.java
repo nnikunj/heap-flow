@@ -7,7 +7,10 @@ import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.IngressLedgerDO;
@@ -113,6 +116,15 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 			}
 		}
 
+	}
+
+	@Override
+	public Page<InventoryDO> getPagedInvSummaryWithIdLike(String idLike, Pageable paging) throws Exception {
+		if (StringUtils.isEmpty(idLike)) {
+			return invRepo.findPagedAllInv(paging);
+		} else {
+			return invRepo.findByItem_InventoryItemCodeIgnoreCaseContaining(idLike, paging);
+		}
 	}
 
 }

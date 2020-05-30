@@ -10,7 +10,9 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -161,5 +163,16 @@ public class MachinesDaoImpl extends BaseDaoImpl implements MachinesDaoIx {
 		}
 		MachineDO fetchedObj = machinesRepo.findMachineWithCode(machineCode);
 		return fetchedObj;
+	}
+
+	@Override
+	public Page<MachineDO> getPagedMachinesWithIdLike(String codeLike, Pageable paging) throws Exception {
+
+		if (StringUtils.isEmpty(codeLike)) {
+			return machinesRepo.findPagedAllMachines(paging);
+		} else {
+			return machinesRepo.findPagedMachinesWithCodeLike(codeLike, paging);
+		}
+
 	}
 }
