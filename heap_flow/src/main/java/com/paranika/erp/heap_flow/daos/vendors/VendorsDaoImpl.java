@@ -9,8 +9,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -26,6 +30,8 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 	@Autowired
 	@PersistenceContext
 	EntityManager em;
+
+	private final Logger logger = LoggerFactory.getLogger(VendorsDaoImpl.class);
 
 	@Override
 	public List<VendorDO> getAllVendors() throws Exception {
@@ -114,5 +120,16 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 		}
 		VendorDO fetchedObj = vendorsRepo.findVendorWithId(vendorCode);
 		return fetchedObj;
+	}
+
+	@Override
+	public Page<VendorDO> getPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging) throws Exception {
+		logger.debug("Entered getPagedVendorsWithSearchNameLike searchNameLike: " + searchNameLike);
+		if (StringUtils.isEmpty(searchNameLike)) {
+			return vendorsRepo.findPagedAllVendors(paging);
+		} else {
+			return vendorsRepo.findPagedVendorsWithSearchNameLike(searchNameLike, paging);
+		}
+
 	}
 }

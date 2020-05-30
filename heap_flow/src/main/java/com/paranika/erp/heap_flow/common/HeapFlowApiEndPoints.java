@@ -8,14 +8,18 @@ public interface HeapFlowApiEndPoints {
 	public String BASE_END_POINT_MACHINES = BASE_END_POINT + "/machines";
 	public String MACHINES_IMPORT_ENDPOINT = "/import-and-update-machine-inventory";
 	public String GET_MACHINES_LIST_WITH_CODE_LIKE = "/fetch-machines-with-code-like/{codeLike}";
+	public String GET_MACHINES_PAGE_WISE = "/fetch-machines-page-wise";
+	public String ADD_UPDATE_MACHINE = "add-update";
 
 	public String BASE_END_POINT_VENDORS = BASE_END_POINT + "/vendors";
 	public String VENDORS_IMPORT_ENDPOINT = "/import-and-update-vendors-list";
 	public String GET_VENDORS_LIST_WITH_NAME_LIKE = "/fetch-vendors-with-name-like/{nameLike}";
+	public String GET_VENDORS_PAGE_WISE = "/fetch-vendors-page-wise";
 
 	public String BASE_END_POINT_INVENTORY = BASE_END_POINT + "/inventory";
 	public String ACCEPT_INVENTORY = "/accept-materials";
 	public String ISSUE_INVENTORY = "/issue-materials";
+	public String GET_INVENTORYSUMMARY_PAGE_WISE = "/fetch-inventory-summary-page-wise";
 
 	public String BASE_END_POINT_INVENTORYITEM = BASE_END_POINT + "/inventory-items";
 	public String ADD_UPDATE_ITEM = "modify-item";

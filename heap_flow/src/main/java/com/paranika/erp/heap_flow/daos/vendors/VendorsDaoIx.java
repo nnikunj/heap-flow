@@ -3,6 +3,8 @@ package com.paranika.erp.heap_flow.daos.vendors;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
@@ -22,4 +24,6 @@ public interface VendorsDaoIx {
 	public List<VendorDO> getAllVendorsWithNameLike(String nameLike) throws Exception;
 
 	public VendorDO getVendorwithCode(String vendorCode) throws Exception;
+
+	public Page<VendorDO> getPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging) throws Exception;
 }

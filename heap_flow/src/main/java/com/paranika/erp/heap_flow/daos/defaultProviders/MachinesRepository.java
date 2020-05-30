@@ -2,6 +2,7 @@ package com.paranika.erp.heap_flow.daos.defaultProviders;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -18,5 +19,11 @@ public interface MachinesRepository extends CrudRepository<MachineDO, Long> {
 
 	@Query("from MachineDO machine where UPPER(machine.code) = UPPER(:machineCode)")
 	MachineDO findMachineWithCode(String machineCode);
+
+	@Query("from MachineDO machine ORDER BY machine.name")
+	Page<MachineDO> findPagedAllMachines(Pageable paging);
+
+	@Query("from MachineDO machine where UPPER(machine.code) LIKE UPPER(CONCAT('%',:codeLike,'%')) ORDER BY machine.code")
+	Page<MachineDO> findPagedMachinesWithCodeLike(String codeLike, Pageable paging);
 
 }

@@ -12,7 +12,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +33,8 @@ public class MachineServiceImpl implements MachineServiceIX {
 	MachinesDaoIx machinesDao;
 	@Autowired
 	CommonUtil util;
+
+	private final Logger logger = LoggerFactory.getLogger(MachineServiceImpl.class);
 
 	private MachineDO extractDataFromRowIntoDo(Row nextRow) {
 		String code = (util.getStringDataFromCell(nextRow.getCell(1)));
@@ -133,6 +139,43 @@ public class MachineServiceImpl implements MachineServiceIX {
 		}
 
 		return retList;
+	}
+
+	@Override
+	public Page<MachineDO> getPagedMachinesWithCodeLike(String codeLike, Pageable paging) throws HeapFlowException {
+
+		logger.debug("Service call getPagedMachinesWithCodeLike");
+		Page<MachineDO> collectedData = null;
+
+		try {
+			collectedData = machinesDao.getPagedMachinesWithIdLike(codeLike, paging);
+
+		} catch (Exception e) {
+			logger.error("getPagedMachinesWithCodeLike failed", e);
+		}
+		logger.debug("Service call exit getPagedMachinesWithCodeLike");
+		return collectedData;
+	}
+
+	@Override
+	public MachineDO persistMachine(MachineDO data) throws HeapFlowException {
+
+		if (data == null) {
+			logger.error("Cannot operate with null MachineDO.");
+			throw new HeapFlowException("Cannot operate with null MachineDO.");
+
+		} else if (data.getCode() == null || data.getCode().isEmpty()) {
+			logger.error("Cannot operate with null machine code");
+			throw new HeapFlowException("Cannot operate with null machine code");
+		}
+		MachineDO persistedObj = null;
+		try {
+			persistedObj = machinesDao.addOrUpdate(data);
+		} catch (Exception e) {
+			logger.error("Could not save obj to Db.", e);
+			throw new HeapFlowException(e);
+		}
+		return persistedObj;
 	}
 
 }

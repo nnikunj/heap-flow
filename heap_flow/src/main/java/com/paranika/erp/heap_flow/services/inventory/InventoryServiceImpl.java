@@ -18,6 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.paranika.erp.heap_flow.common.AppConstants;
@@ -33,6 +35,7 @@ import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDescriptions;
+import com.paranika.erp.heap_flow.common.models.dtos.InventorySummaryDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.MaterialData;
 import com.paranika.erp.heap_flow.common.models.dtos.OutgoingMaterialDataDTO;
@@ -425,6 +428,30 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		invItem.setType(inventoryTypeDO);
 		logger.debug("Created and sent InventoryDO for itemCode: " + itemCode);
 		return invItem;
+	}
+
+	@Override
+	public Page<InventorySummaryDTO> getPagedInvSummaryWithIdLike(String idLike, Pageable paging)
+			throws HeapFlowException {
+
+		logger.debug("Service call getPagedInvSummaryWithIdLike");
+		Page<InventoryDO> collectedData = null;
+		Page<InventorySummaryDTO> dtoPage = null;
+
+		try {
+			collectedData = inventoryDao.getPagedInvSummaryWithIdLike(idLike, paging);
+
+			dtoPage = collectedData.map(obj ->
+
+			new InventorySummaryDTO(obj)
+
+			);
+
+		} catch (Exception e) {
+			logger.error("getPagedInvSummaryWithIdLike failed", e);
+		}
+		logger.debug("Service call exit getPagedInvSummaryWithIdLike");
+		return dtoPage;
 	}
 
 }
