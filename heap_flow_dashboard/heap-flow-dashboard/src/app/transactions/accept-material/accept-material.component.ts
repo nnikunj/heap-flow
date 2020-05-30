@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatTable } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,16 +25,26 @@ interface SelectInterface {
   providers: [HttpService]
 })
 export class AcceptMaterialComponent implements OnInit {
-  vendorNameControl = new FormControl('');
-  materialAcceptDateControl = new FormControl(new Date());
-  materialAcceptGRNControl = new FormControl('');
-  materialAcceptInvoiceControl = new FormControl('');
 
-  inventoryItemControl = new FormControl('');
-  materialAcceptClassificationControl = new FormControl('');
-  materialAcceptInventoryTypeControl = new FormControl('');
-  materialAcceptQuantityControl = new FormControl();
-  materialAcceptPriceyControl = new FormControl();
+  acceptMaterialForm = this.fb.group({
+    recordDate: [new Date(), Validators.required],
+    vendorCode: ['', Validators.required],
+    intentNumber: [''],
+    grn: [''],
+    invoice: ['', Validators.required],
+    invoiceDate: [new Date()],
+    poNumber: [''],
+    poDate: [new Date()],
+    loggedInUser: ['']
+  });
+
+  acceptMaterialItemForm = this.fb.group({
+    pricePerUnit: ['', Validators.required],
+    quantity: ['', Validators.required],
+    inventoryType: ['', Validators.required],
+    classification: ['', Validators.required],
+    productCode: ['', Validators.required]
+  });
 
   inventory_url: string = "http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/";
 
@@ -64,11 +74,11 @@ export class AcceptMaterialComponent implements OnInit {
   displayedColumns: string[] = ['productCode', 'description', 'classification', 'inventoryType', 'quantity', 'pricePerUnit'];
 
   constructor(private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar,
-    private inventoryService: InventoryService, private httpService: HttpService) {
+    private inventoryService: InventoryService, private httpService: HttpService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
-    this.vendorNameControl.valueChanges.subscribe(term => {
+    this.acceptMaterialForm.get('vendorCode').valueChanges.subscribe(term => {
       if (typeof term === 'string' && term !== '') {
         this.httpService.search('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/', term).subscribe(data => {
           console.log(data);
@@ -79,7 +89,7 @@ export class AcceptMaterialComponent implements OnInit {
       }
     });
 
-    this.inventoryItemControl.valueChanges.subscribe((term) => {
+    this.acceptMaterialItemForm.get('productCode').valueChanges.subscribe((term) => {
       if (typeof term === 'string' && term !== '') {
         this.httpService.search('http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-like-id/', term).subscribe((res) => {
           console.log(res);
@@ -90,13 +100,13 @@ export class AcceptMaterialComponent implements OnInit {
       }
     });
 
-    this.materialAcceptInventoryTypeControl.valueChanges.subscribe((term) => {
+    this.acceptMaterialItemForm.get('inventoryType').valueChanges.subscribe((term) => {
       console.log('inventory type changed ' + term);
       if (term === 'FOC') {
-        this.materialAcceptPriceyControl.setValue(0);
-        this.materialAcceptPriceyControl.disable();
+        this.acceptMaterialItemForm.get('pricePerUnit').setValue(0);
+        this.acceptMaterialItemForm.get('pricePerUnit').disable();
       } else {
-        this.materialAcceptPriceyControl.enable();
+        this.acceptMaterialItemForm.get('pricePerUnit').enable();
       }
     });
 
@@ -110,49 +120,22 @@ export class AcceptMaterialComponent implements OnInit {
     return inventoryItem && inventoryItem.inventoryItemCode ? inventoryItem.inventoryItemCode : '';
   }
 
-  addMaterial(event: Event) {
-
-    if (!this.inventoryItemControl.value.inventoryItemCode) {
-      this.openSnackBar('Inventory item not selected', 'Please select inventory item');
-      return;
-    }
-
-    if (!this.materialAcceptClassificationControl.value) {
-      this.openSnackBar('Classification not selected', 'Please select classification');
-      return;
-    }
-
-    if (this.materialAcceptQuantityControl.value < 0 || typeof this.materialAcceptQuantityControl.value === 'string'
-      || this.materialAcceptQuantityControl.value === '') {
-      this.openSnackBar('Quantity not entered', 'Please enter quantity');
-      return;
-    }
-
-    if (this.materialAcceptPriceyControl.value < 0 || typeof this.materialAcceptPriceyControl.value === 'string'
-      || this.materialAcceptPriceyControl.value === '') {
-      this.openSnackBar('Price not entered', 'Please enter price');
-      return;
-    }
-
-    if (!this.materialAcceptInventoryTypeControl.value) {
-      this.openSnackBar('Inventory Type not selected', 'Please select inventory type');
-      return;
-    }
-
+  addMaterial() {
     let item = new Item();
-    item.productCode = this.inventoryItemControl.value.inventoryItemCode;
-    item.classification = this.materialAcceptClassificationControl.value;
-    item.quantity = this.materialAcceptQuantityControl.value;
-    item.pricePerUnit = this.materialAcceptPriceyControl.value;
-    item.inventoryType = this.materialAcceptInventoryTypeControl.value;
-    if (this.inventoryItemControl.value.descriptions && this.inventoryItemControl.value.descriptions.description) {
-      item.description = this.inventoryItemControl.value.descriptions.description;
+    
+    item.productCode = this.acceptMaterialItemForm.get('productCode').value.inventoryItemCode;
+    item.classification = this.acceptMaterialItemForm.get('classification').value;
+    item.quantity = this.acceptMaterialItemForm.get('quantity').value;
+    item.pricePerUnit = this.acceptMaterialItemForm.get('pricePerUnit').value;
+    item.inventoryType = this.acceptMaterialItemForm.get('inventoryType').value;
+    if (this.acceptMaterialItemForm.get('productCode').value.descriptions && this.acceptMaterialItemForm.get('productCode').value.descriptions.description) {
+      item.description = this.acceptMaterialItemForm.get('productCode').value.descriptions.description;
     }
     this.items.push(item);
 
     this.table.renderRows();
 
-    this.resetSecondSection();
+    this.acceptMaterialItemForm.reset();
   }
 
   openSnackBar(message: string, action: string) {
@@ -162,13 +145,8 @@ export class AcceptMaterialComponent implements OnInit {
   }
 
   submitMaterial(event: Event) {
-    if (!this.vendorNameControl.value.name) {
-      this.openSnackBar('Vendor not selected', 'Please select valid vendor');
-      return;
-    }
-
-    if (!this.materialAcceptInvoiceControl.value) {
-      this.openSnackBar('Invoice not added', 'Please enter invoice number');
+    if (!this.acceptMaterialForm.valid) {
+      this.openSnackBar('Mandatory details not filled', 'Please enter Vendor and Invoice details.');
       return;
     }
 
@@ -178,10 +156,16 @@ export class AcceptMaterialComponent implements OnInit {
     }
 
     let am = new AcceptMaterial();
-    am.vendorCode = this.vendorNameControl.value.vendorId;
-    am.recordDate = this.materialAcceptDateControl.value.toDateString();
-    am.grn = this.materialAcceptGRNControl.value;
-    am.invoice = this.materialAcceptInvoiceControl.value;
+
+    am.recordDate = this.acceptMaterialForm.get('recordDate').value.toDateString();
+    am.vendorCode = this.acceptMaterialForm.get('vendorCode').value.vendorId;
+    am.intentNumber = this.acceptMaterialForm.get('intentNumber').value;
+    am.grn = this.acceptMaterialForm.get('grn').value;
+    am.invoice = this.acceptMaterialForm.get('invoice').value;
+    am.invoiceDate = this.acceptMaterialForm.get('invoiceDate').value.toDateString();
+    am.poNumber = this.acceptMaterialForm.get('poNumber').value;
+    am.poDate = this.acceptMaterialForm.get('poDate').value.toDateString();
+    am.loggedInUser = this.acceptMaterialForm.get('loggedInUser').value;
 
     am.incomingItemsList = this.items;
 
@@ -198,12 +182,12 @@ export class AcceptMaterialComponent implements OnInit {
   }
 
   resetForm(event: Event) {
-    this.vendorNameControl.setValue('');
-    this.materialAcceptDateControl.setValue(new Date());
-    this.materialAcceptGRNControl.setValue('');
-    this.materialAcceptInvoiceControl.setValue('');
+    this.acceptMaterialForm.reset();
+    this.acceptMaterialItemForm.reset();
 
-    this.resetSecondSection();
+    this.acceptMaterialForm.get('recordDate').setValue(new Date());
+    this.acceptMaterialForm.get('invoiceDate').setValue(new Date());
+    this.acceptMaterialForm.get('poDate').setValue(new Date());
 
     this.items = [];
     this.vendors = [];
@@ -211,22 +195,15 @@ export class AcceptMaterialComponent implements OnInit {
     this.table.renderRows();
   }
 
-  resetSecondSection() {
-    this.inventoryItemControl.setValue('');
-    this.materialAcceptClassificationControl.setValue('');
-    this.materialAcceptQuantityControl.setValue('');
-    this.materialAcceptPriceyControl.setValue('');
-    this.materialAcceptInventoryTypeControl.setValue('');
-  }
-
   acceptMaterialFocusOut(event: Event) {
     console.log("focus out");
-    if (typeof this.inventoryItemControl.value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.inventoryItemControl.value)
+    if (typeof this.acceptMaterialItemForm.get('productCode').value === 'string') {
+      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.acceptMaterialItemForm.get('productCode').value)
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
-            this.inventoryItemControl.setValue(res.body, { emitEvent: false });
+            this.acceptMaterialItemForm.get('productCode').setValue(res.body, { emitEvent: false });
+            console.log(this.acceptMaterialItemForm.get('productCode').value);
           }
         }, error => {
           console.error(error);

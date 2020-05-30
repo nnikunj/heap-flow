@@ -3,27 +3,31 @@ import { InventoryItem } from './inventory-item';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 export class AcceptMaterial {
-    vendorName: string;
-    vendorCode: string;
-    invoice: string;
-    grn: string;
-    recordDate: string;
+  recordDate: string;
+  vendorCode: string;
+  vendorName: string;
+  intentNumber: string;
+  grn: string;
+  invoice: string;
+  invoiceDate: string;
+  poNumber: string;
+  poDate: string;
+  loggedInUser: string;
 
-    incomingItemsList : Item[];
+  incomingItemsList: Item[];
 
-    constructor() {
-//      this.vendor = new Vendor();
-      this.recordDate= (new Date()).getDate().toString();
-    }
-
+  constructor() {
+    //      this.vendor = new Vendor();
+    this.recordDate = (new Date()).getDate().toString();
+  }
 }
 
 export class Item {
 
-  constructor(){}
+  constructor() { }
 
   productCode: string;
   classification: string;
