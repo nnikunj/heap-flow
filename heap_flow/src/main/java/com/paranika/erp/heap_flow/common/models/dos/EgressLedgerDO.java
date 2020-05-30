@@ -48,6 +48,15 @@ public class EgressLedgerDO extends BaseDO {
 	@Column(name = "issued_to", nullable = true)
 	private String issuedTo;
 
+	@Column(name = "issued_for_dept", nullable = true)
+	private String issuedForDept;
+
+	@Column(name = "approved_by", nullable = true)
+	private String approvedBy;
+
+	@Column(name = "issued_by", nullable = true)
+	private String issuedBy;
+
 	public Date getRecordDate() {
 		return recordDate;
 	}
@@ -102,6 +111,30 @@ public class EgressLedgerDO extends BaseDO {
 
 	public void setIssuedTo(String issuedTo) {
 		this.issuedTo = issuedTo;
+	}
+
+	public String getIssuedForDept() {
+		return issuedForDept;
+	}
+
+	public void setIssuedForDept(String issuedForDept) {
+		this.issuedForDept = issuedForDept;
+	}
+
+	public String getApprovedBy() {
+		return approvedBy;
+	}
+
+	public void setApprovedBy(String approvedBy) {
+		this.approvedBy = approvedBy;
+	}
+
+	public String getIssuedBy() {
+		return issuedBy;
+	}
+
+	public void setIssuedBy(String issuedBy) {
+		this.issuedBy = issuedBy;
 	}
 
 }

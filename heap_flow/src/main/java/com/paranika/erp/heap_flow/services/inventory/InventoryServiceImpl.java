@@ -82,7 +82,9 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		String empID = outgoingMaterials.getIssuedViaEmp();
 		String machineCode = outgoingMaterials.getMachineCode();
-
+		String approvedBy = outgoingMaterials.getApprovedBy();
+		String issuedBy = outgoingMaterials.getIssuedBy();
+		String issuedForDept = outgoingMaterials.getIssuedForDept();
 		MachineDO machineDO = null;
 
 		try {
@@ -134,7 +136,9 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 				ledgerDO.setOutgoingMaterial(inventoryItemDO);
 				ledgerDO.setOutgoingQuantity(outgoingMaterialDataDTO.getQuantity());
 				ledgerDO.setRecordDate(recordDate);
-
+				ledgerDO.setIssuedForDept(issuedForDept);
+				ledgerDO.setIssuedBy(issuedBy);
+				ledgerDO.setApprovedBy(approvedBy);
 				ledgerList.add(ledgerDO);
 			}
 		}
