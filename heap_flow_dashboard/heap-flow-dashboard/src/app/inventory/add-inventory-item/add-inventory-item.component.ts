@@ -32,17 +32,17 @@ export class AddInventoryItemComponent implements OnInit {
   inventoryItemForm = this.fb.group({
     inventoryItemCode: ['', Validators.required],
     description: ['', Validators.required],
-    description2: ['', Validators.required],
-    description3: ['', Validators.required],
-    description4: ['', Validators.required],
-    description5: ['', Validators.required],
-    description6: ['', Validators.required],
+    description2: [''],
+    description3: [''],
+    description4: [''],
+    description5: [''],
+    description6: [''],
     baseUnitMeasure: ['', Validators.required],
-    productGrpCode: ['', Validators.required],
-    genProductPostingGrp: ['', Validators.required],
-    itemCategoryCode: ['', Validators.required],
-    gstGrpCode: ['', Validators.required],
-    hsnSacCode: ['', Validators.required]
+    productGrpCode: [''],
+    genProductPostingGrp: [''],
+    itemCategoryCode: [''],
+    gstGrpCode: [''],
+    hsnSacCode: ['']
   });
 
 
@@ -51,25 +51,6 @@ export class AddInventoryItemComponent implements OnInit {
   constructor(private fb: FormBuilder, private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar, ) {
 
   }
-
-  // setInventoryItem(inventoryItem : InventoryItem){
-  //   this.inventoryItemCode = new FormControl(inventoryItem.inventoryItemCode);
-
-  //   let descriptions = inventoryItem.descriptions;
-  //   this.description = new FormControl(descriptions.description);
-  //   this.description2 = new FormControl(descriptions.description2);
-  //   this.description3 = new FormControl(descriptions.description3);
-  //   this.description4 = new FormControl(descriptions.description4);
-  //   this.description5 = new FormControl(descriptions.description5);
-  //   this.description6 = new FormControl(descriptions.description6);
-
-  //   this.baseUnitMeasure = new FormControl(inventoryItem.baseUnitMeasure);
-  //   this.productGrpCode = new FormControl(inventoryItem.productGrpCode);
-  //   this.genProductPostingGrp = new FormControl(inventoryItem.genProductPostingGrp);
-  //   this.itemCategoryCode = new FormControl(inventoryItem.itemCategoryCode);
-  //   this.gstGrpCode = new FormControl(inventoryItem.gstGrpCode);
-  //   this.hsnSacCode = new FormControl(inventoryItem.hsnSacCode);
-  // }
 
   ngOnInit(): void {
   }
