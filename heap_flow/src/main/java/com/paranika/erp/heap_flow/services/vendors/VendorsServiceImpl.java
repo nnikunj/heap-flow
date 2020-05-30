@@ -12,7 +12,11 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -30,6 +34,7 @@ public class VendorsServiceImpl implements VendorServiceIX {
 	VendorsDaoIx vendorsDao;
 	@Autowired
 	CommonUtil util;
+	private final Logger logger = LoggerFactory.getLogger(VendorsServiceImpl.class);
 
 	@Override
 	public List<VendorDO> getVendorListWithNameLike(String nameLike) throws HeapFlowException {
@@ -154,6 +159,22 @@ public class VendorsServiceImpl implements VendorServiceIX {
 		// System.out.println("\n----------------------\n" + vendorDO +
 		// "\n----------------------\n");
 		return vendorDO;
+	}
+
+	@Override
+	public Page<VendorDO> getPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging)
+			throws HeapFlowException {
+		logger.debug("Service call getPagedVendorsWithSearchNameLike");
+		Page<VendorDO> collectedData = null;
+
+		try {
+			collectedData = vendorsDao.getPagedVendorsWithSearchNameLike(searchNameLike, paging);
+
+		} catch (Exception e) {
+			logger.error("getPagedVendorsWithSearchNameLike failed", e);
+		}
+		logger.debug("Service call exit getPagedVendorsWithSearchNameLike");
+		return collectedData;
 	}
 
 }
