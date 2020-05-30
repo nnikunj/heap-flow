@@ -64,7 +64,7 @@ public class InventoryItemController {
 		try {
 			fetchedList = service.getPagedItemsWithIdLike(idLike, paging);
 			response = new ResponseEntity<Page<InventoryItemDTO>>(fetchedList, HttpStatus.OK);
-			logger.debug(HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE + "Success");
+			logger.debug(HeapFlowApiEndPoints.GET_PAGED_INVENTORYITEM_LIST_WITH_ID_LIKE + " Success");
 		} catch (HeapFlowException e) {
 
 			logger.error(e.getMessage(), e);
