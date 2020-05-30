@@ -20,4 +20,6 @@ public interface VendorServiceIX {
 	public Page<VendorDO> getPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging)
 			throws HeapFlowException;
 
+	public VendorDO persistVendor(VendorDO data) throws HeapFlowException;
+
 }
