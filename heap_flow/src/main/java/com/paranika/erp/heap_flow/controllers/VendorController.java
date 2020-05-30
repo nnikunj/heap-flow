@@ -100,4 +100,24 @@ public class VendorController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ADD_UPDATE_VENDOR)
+	ResponseEntity<VendorDO> addUpdateVendor(@RequestBody VendorDO data) {
+		ResponseEntity<VendorDO> response = null;
+		VendorDO persistItem = null;
+		logger.debug(HeapFlowApiEndPoints.ADD_UPDATE_VENDOR + " invoked.");
+		try {
+			persistItem = service.persistVendor(data);
+
+			response = new ResponseEntity<VendorDO>(persistItem, HttpStatus.OK);
+			logger.debug("Exiting addUpdateVendor with repsonse code" + response.getStatusCodeValue());
+		} catch (HeapFlowException e) {
+
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<VendorDO>((VendorDO) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+
+	}
+
 }

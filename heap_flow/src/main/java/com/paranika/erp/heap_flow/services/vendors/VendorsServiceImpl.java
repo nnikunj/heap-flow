@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
@@ -177,4 +179,67 @@ public class VendorsServiceImpl implements VendorServiceIX {
 		return collectedData;
 	}
 
+	@Override
+	public VendorDO persistVendor(VendorDO data) throws HeapFlowException {
+
+		if (data == null) {
+			logger.error("Cannot operate with null VendorDO.");
+			throw new HeapFlowException("Cannot operate with null MachineDO.");
+
+		} else if (data.getVendorId() == null || data.getVendorId().isEmpty()) {
+			logger.error("Cannot operate with null vendorId");
+			throw new HeapFlowException("Cannot operate with null vendorId");
+		} else if (data.getSearchName() == null || data.getSearchName().isEmpty()) {
+			logger.error("Cannot operate with null vendor search name");
+			throw new HeapFlowException("Cannot operate with null vendor search name");
+		}
+		VendorDO persistedObj = null;
+		try {
+			persistedObj = vendorsDao.addOrUpdate(data);
+		} catch (Exception e) {
+			logger.error("Could not save obj to Db.", e);
+			throw new HeapFlowException(e);
+		}
+		return persistedObj;
+	}
+
+	public static void main(String[] args) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+		String vendorId = "vend0045678";
+
+		String name = "Parmanu bum";
+
+		String searchName = "Parmanu bum";
+
+		String gstRegNo = "";
+
+		String panNumber = "";
+
+		String address = "BhutBangla Hanuman Gali jai hind mohalla";
+
+		String address2 = "";
+
+		String city = "Bhitrampur";
+
+		String stateCode = "KA";
+
+		String contactPerson = "BhutNath";
+
+		String phone = "420";
+
+		String email = "jaiHo@JaiHind.com";
+		VendorDO v = new VendorDO();
+		v.setAddress(address);
+		v.setAddress2(address2);
+		v.setCity(city);
+		v.setContactPerson(contactPerson);
+		v.setEmail(email);
+		v.setGstRegNo(gstRegNo);
+		v.setName(name);
+		v.setVendorId(vendorId);
+		v.setSearchName(searchName);
+
+		System.out.println(gson.toJson(v));
+	}
 }

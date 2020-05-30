@@ -132,4 +132,30 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 		}
 
 	}
+
+	@Override
+	@Transactional
+	public VendorDO addOrUpdate(VendorDO vendorDO) throws Exception {
+
+		VendorDO dbFetchedDO = getVendorwithCode(vendorDO.getVendorId());
+		VendorDO dataPersisted = null;
+		if (dbFetchedDO == null) {
+			logger.debug("Fresh save.");
+			dataPersisted = vendorsRepo.save(vendorDO);
+		} else {
+			logger.debug("Entity exists, Updating it.");
+			dbFetchedDO.setAddress(vendorDO.getAddress());
+			dbFetchedDO.setAddress2(vendorDO.getAddress2());
+			dbFetchedDO.setCity(vendorDO.getCity());
+			dbFetchedDO.setContactPerson(vendorDO.getContactPerson());
+			dbFetchedDO.setEmail(vendorDO.getEmail());
+			dbFetchedDO.setGstRegNo(vendorDO.getGstRegNo());
+			dbFetchedDO.setName(vendorDO.getName());
+			dbFetchedDO.setPanNumber(vendorDO.getPanNumber());
+			dbFetchedDO.setPhone(vendorDO.getPhone());
+			dbFetchedDO.setStateCode(vendorDO.getStateCode());
+			dataPersisted = em.merge(dbFetchedDO);
+		}
+		return dataPersisted;
+	}
 }
