@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
@@ -102,4 +104,38 @@ public class MachineController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ADD_UPDATE_MACHINE)
+	ResponseEntity<MachineDO> addUpdateItem(@RequestBody MachineDO data) {
+		ResponseEntity<MachineDO> response = null;
+		MachineDO persistItem = null;
+		logger.debug(HeapFlowApiEndPoints.ADD_UPDATE_MACHINE + " invoked.");
+		try {
+			persistItem = machinesService.persistMachine(data);
+
+			response = new ResponseEntity<MachineDO>(persistItem, HttpStatus.OK);
+			logger.debug("Exiting addUpdateItem with repsonse code" + response.getStatusCodeValue());
+		} catch (HeapFlowException e) {
+
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<MachineDO>((MachineDO) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+
+	}
+
+	public static void main(String[] args) {
+		MachineDO dbFetchedDO = new MachineDO();
+		dbFetchedDO.setCategory("Categiry");
+		dbFetchedDO.setName("big machine");
+		dbFetchedDO.setkWKva("110");
+		dbFetchedDO.setCode("localMachine");
+		// dbFetchedDO.setMake(data.getMake());
+		dbFetchedDO.setModel("S4+");
+		dbFetchedDO.setSerialNo("sr1");
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		System.out.println(gson.toJson(dbFetchedDO));
+
+	}
 }

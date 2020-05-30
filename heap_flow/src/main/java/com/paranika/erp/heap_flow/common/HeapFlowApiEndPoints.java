@@ -9,6 +9,7 @@ public interface HeapFlowApiEndPoints {
 	public String MACHINES_IMPORT_ENDPOINT = "/import-and-update-machine-inventory";
 	public String GET_MACHINES_LIST_WITH_CODE_LIKE = "/fetch-machines-with-code-like/{codeLike}";
 	public String GET_MACHINES_PAGE_WISE = "/fetch-machines-page-wise";
+	public String ADD_UPDATE_MACHINE = "add-update";
 
 	public String BASE_END_POINT_VENDORS = BASE_END_POINT + "/vendors";
 	public String VENDORS_IMPORT_ENDPOINT = "/import-and-update-vendors-list";

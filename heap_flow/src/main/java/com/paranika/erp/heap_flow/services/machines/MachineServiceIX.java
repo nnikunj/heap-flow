@@ -19,4 +19,6 @@ public interface MachineServiceIX {
 
 	public Page<MachineDO> getPagedMachinesWithCodeLike(String codeLike, Pageable paging) throws HeapFlowException;
 
+	public MachineDO persistMachine(MachineDO data) throws HeapFlowException;
+
 }

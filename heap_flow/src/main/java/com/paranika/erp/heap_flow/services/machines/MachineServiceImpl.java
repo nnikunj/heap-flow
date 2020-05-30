@@ -157,4 +157,25 @@ public class MachineServiceImpl implements MachineServiceIX {
 		return collectedData;
 	}
 
+	@Override
+	public MachineDO persistMachine(MachineDO data) throws HeapFlowException {
+
+		if (data == null) {
+			logger.error("Cannot operate with null MachineDO.");
+			throw new HeapFlowException("Cannot operate with null MachineDO.");
+
+		} else if (data.getCode() == null || data.getCode().isEmpty()) {
+			logger.error("Cannot operate with null machine code");
+			throw new HeapFlowException("Cannot operate with null machine code");
+		}
+		MachineDO persistedObj = null;
+		try {
+			persistedObj = machinesDao.addOrUpdate(data);
+		} catch (Exception e) {
+			logger.error("Could not save obj to Db.", e);
+			throw new HeapFlowException(e);
+		}
+		return persistedObj;
+	}
+
 }

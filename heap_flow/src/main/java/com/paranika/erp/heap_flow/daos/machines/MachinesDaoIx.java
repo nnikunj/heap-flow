@@ -26,4 +26,6 @@ public interface MachinesDaoIx {
 	public MachineDO getMachinewithCode(String machineCode) throws Exception;
 
 	public Page<MachineDO> getPagedMachinesWithIdLike(String codeLike, Pageable paging) throws Exception;
+
+	public MachineDO addOrUpdate(MachineDO data) throws Exception;
 }

@@ -9,6 +9,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +30,7 @@ public class MachinesDaoImpl extends BaseDaoImpl implements MachinesDaoIx {
 	@Autowired
 	@PersistenceContext
 	EntityManager em;
+	private final Logger logger = LoggerFactory.getLogger(MachinesDaoImpl.class);
 
 	@Override
 	public List<MachineDO> getAllMachines() throws Exception {
@@ -174,5 +177,26 @@ public class MachinesDaoImpl extends BaseDaoImpl implements MachinesDaoIx {
 			return machinesRepo.findPagedMachinesWithCodeLike(codeLike, paging);
 		}
 
+	}
+
+	@Override
+	@Transactional
+	public MachineDO addOrUpdate(MachineDO data) throws Exception {
+		MachineDO dbFetchedDO = getMachinewithCode(data.getCode());
+		MachineDO dataPersisted = null;
+		if (dbFetchedDO == null) {
+			logger.debug("Fresh save.");
+			dataPersisted = machinesRepo.save(data);
+		} else {
+			logger.debug("Entity exists, Updating it.");
+			dbFetchedDO.setCategory(data.getCategory());
+			dbFetchedDO.setName(data.getName());
+			dbFetchedDO.setkWKva(data.getkWKva());
+			dbFetchedDO.setMake(data.getMake());
+			dbFetchedDO.setModel(data.getModel());
+			dbFetchedDO.setSerialNo(data.getSerialNo());
+			dataPersisted = em.merge(dbFetchedDO);
+		}
+		return dataPersisted;
 	}
 }
