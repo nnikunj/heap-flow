@@ -4,9 +4,12 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class IssueMaterial {
-    machineCode: string;
     recordDate: string;
+    machineCode: string;
     issuedViaEmp: string;
+    issuedForDept: string;
+    approvedBy: string;
+    loggedInUser : string;
 
     outgoingItemsList: OutgoingItem[];
 }

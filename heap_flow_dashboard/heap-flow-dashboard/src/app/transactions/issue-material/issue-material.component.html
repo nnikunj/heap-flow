@@ -5,130 +5,151 @@
                 Issue Materials
             </div>
             <div class="card-block">
+                    <form class="heap-form" [formGroup]="issueMaterialForm">
 
-                <form class="heap-form">
+                        <div class="heap-row">
+                            <mat-form-field>
+                                <mat-label>Machine Code</mat-label>
+                                <input type="text" matInput formControlName="machineCode"
+                                    [matAutocomplete]="auto_machine_code">
+                                <mat-autocomplete #auto_machine_code="matAutocomplete"
+                                    [displayWith]="displayMachineCode">
+                                    <mat-option *ngFor="let machine of machines " [value]="machine">
+                                        {{machine.code}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
 
-                    <section>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Machine Code</mat-label>
-                            <input type="text" matInput [formControl]="machineCodeControl"
-                                [matAutocomplete]="auto_machine_code">
-                            <mat-autocomplete #auto_machine_code="matAutocomplete" [displayWith]="displayMachineCode">
-                                <mat-option *ngFor="let machine of machines " [value]="machine">
-                                    {{machine.code}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
-
-                        <mat-form-field>
-                            <mat-label>Date</mat-label>
-                            <input matInput [matDatepicker]="issue_material_date"
-                                [formControl]="issueMaterialDateControl">
-                            <mat-datepicker-toggle matSuffix [for]="issue_material_date"></mat-datepicker-toggle>
-                            <mat-datepicker #issue_material_date></mat-datepicker>
-                        </mat-form-field>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Issued Via EMP</mat-label>
-                            <input matInput type="string" placeholder="Please enter emp."
-                                [formControl]="issueMaterialEMPControl">
-                        </mat-form-field>
-
-                    </section>
-
-                    <mat-divider></mat-divider>
-
-                    <section>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Issue Material Code</mat-label>
-                            <input type="text" matInput [formControl]="issueMaterialCodeControl"
-                                [matAutocomplete]="auto_issue_material_code" (focusout)="issueMaterialFocusOut($event)">
-                            <mat-autocomplete #auto_issue_material_code="matAutocomplete"
-                                (optionSelected)="itemSelected($event)" [displayWith]="displayIssueMaterialCode">
-                                <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
-                                    {{inventoryItem.inventoryItemCode}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Classification</mat-label>
-                            <mat-select [formControl]="issueMaterialClassificationControl">
-                                <mat-option *ngFor="let classification of classifications"
-                                    [value]="classification.value">
-                                    {{classification.viewValue}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Inventory Type</mat-label>
-                            <mat-select [formControl]="issueMaterialInventoryTypeControl">
-                                <mat-option *ngFor="let inventoryType of inventoryTypes" [value]="inventoryType.value">
-                                    {{inventoryType.viewValue}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-
-                        <mat-form-field class="heap-full-width">
-                            <mat-label>Quantity</mat-label>
-                            <input matInput type="number" placeholder="Please enter quantity."
-                                [formControl]="issueMaterialQuantityControl">
-                        </mat-form-field>
-
-                    </section>
-
-                    <section>
-                        <div class="heap-button-row">
-                            <button mat-stroked-button color="primary" (click)="addMaterial($event)">Add Record</button>
+                            <mat-form-field>
+                                <mat-label>Date</mat-label>
+                                <input matInput [matDatepicker]="issue_material_date" formControlName="recordDate">
+                                <mat-datepicker-toggle matSuffix [for]="issue_material_date"></mat-datepicker-toggle>
+                                <mat-datepicker #issue_material_date></mat-datepicker>
+                            </mat-form-field>
                         </div>
-                    </section>
 
-                    <mat-divider></mat-divider>
+                        <div class="heap-row">
+                            <mat-form-field>
+                                <mat-label>Issued Via EMP</mat-label>
+                                <input matInput type="string" placeholder="Please enter emp."
+                                    formControlName="issuedViaEmp">
+                            </mat-form-field>
 
-                    <section>
-
-                        <table mat-table [dataSource]="outgoingItemList" class="mat-elevation-z8">
-
-                            <ng-container matColumnDef="productCode">
-                                <th mat-header-cell *matHeaderCellDef> Issue Material Code </th>
-                                <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="classification">
-                                <th mat-header-cell *matHeaderCellDef> Classification </th>
-                                <td mat-cell *matCellDef="let element"> {{element.classification}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="inventoryType">
-                                <th mat-header-cell *matHeaderCellDef> Inventory Type </th>
-                                <td mat-cell *matCellDef="let element"> {{element.inventoryType}} </td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="quantity">
-                                <th mat-header-cell *matHeaderCellDef> Quantity </th>
-                                <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="issueMaterialColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: issueMaterialColumns;"></tr>
-
-                        </table>
-
-                    </section>
-
-                    <mat-divider></mat-divider>
-
-                    <section>
-                        <div class="heap-button-row">
-                          <button mat-stroked-button color="primary" (click)="submitIssueMaterial($event)">Submit</button>
-                          <button mat-stroked-button color="primary" (click)="resetForm($event)">Reset</button>
+                            <mat-form-field>
+                                <mat-label>Issued for DEPT</mat-label>
+                                <input matInput type="string" placeholder="Please enter DEPT."
+                                    formControlName="issuedForDept">
+                            </mat-form-field>
                         </div>
-                      </section>
 
-                </form>
+                        <div class="heap-row">
+                            <mat-form-field>
+                                <mat-label>Approved By</mat-label>
+                                <input matInput type="string" placeholder="Please enter Approver name."
+                                    formControlName="approvedBy">
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Loggen In User</mat-label>
+                                <input matInput type="string" placeholder="Please enter logged in user."
+                                    formControlName="loggedInUser">
+                            </mat-form-field>
+                        </div>
+                    </form>
+
+
+                <mat-divider></mat-divider>
+
+                    <form class="heap-form" [formGroup]="issueMaterialItemForm" (submit)="addMaterial($event)">
+
+                        <div class="heap-row">
+                            <mat-form-field>
+                                <mat-label>Issue Material Code</mat-label>
+                                <input type="text" matInput formControlName="productCode"
+                                    [matAutocomplete]="auto_issue_material_code"
+                                    (focusout)="issueMaterialFocusOut($event)">
+                                <mat-autocomplete #auto_issue_material_code="matAutocomplete"
+                                    (optionSelected)="itemSelected($event)" [displayWith]="displayIssueMaterialCode">
+                                    <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
+                                        {{inventoryItem.inventoryItemCode}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Classification</mat-label>
+                                <mat-select formControlName="classification">
+                                    <mat-option *ngFor="let classification of classifications"
+                                        [value]="classification.value">
+                                        {{classification.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="heap-row">
+                            <mat-form-field>
+                                <mat-label>Inventory Type</mat-label>
+                                <mat-select formControlName="inventoryType">
+                                    <mat-option *ngFor="let inventoryType of inventoryTypes"
+                                        [value]="inventoryType.value">
+                                        {{inventoryType.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field>
+                                <mat-label>Quantity</mat-label>
+                                <input matInput type="number" placeholder="Please enter quantity."
+                                    formControlName="quantity">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="heap-button-row">
+                            <button mat-stroked-button color="primary" type="submit" [disabled]="!issueMaterialItemForm.valid">Add Record</button>
+                            <button mat-stroked-button color="primary" type="reset">Reset</button>
+                        </div>
+                    </form>
+
+
+                <mat-divider></mat-divider>
+
+
+                    <table mat-table [dataSource]="outgoingItemList" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="productCode">
+                            <th mat-header-cell *matHeaderCellDef> Issue Material Code </th>
+                            <td mat-cell *matCellDef="let element"> {{element.productCode}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="classification">
+                            <th mat-header-cell *matHeaderCellDef> Classification </th>
+                            <td mat-cell *matCellDef="let element"> {{element.classification}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="inventoryType">
+                            <th mat-header-cell *matHeaderCellDef> Inventory Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.inventoryType}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="quantity">
+                            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="issueMaterialColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: issueMaterialColumns;"></tr>
+
+                    </table>
+
+
+                <mat-divider></mat-divider>
+
+                    <div class="heap-button-row">
+                        <button mat-stroked-button color="primary" (click)="submitIssueMaterial($event)">Submit</button>
+                        <button mat-stroked-button color="primary" (click)="resetForm($event)">Reset</button>
+                    </div>
+
 
             </div>
         </div>

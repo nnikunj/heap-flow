@@ -71,6 +71,9 @@ export class AcceptMaterialComponent implements OnInit {
     { value: 'R&D', viewValue: 'R&D' }
   ]
 
+  classificationDefault = 'PROJECT';
+  inventoryTypeDefault = 'PURCHASED';
+
   displayedColumns: string[] = ['productCode', 'description', 'classification', 'inventoryType', 'quantity', 'pricePerUnit'];
 
   constructor(private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar,
@@ -110,6 +113,9 @@ export class AcceptMaterialComponent implements OnInit {
       }
     });
 
+    this.acceptMaterialItemForm.get('classification').setValue(this.classificationDefault);
+    this.acceptMaterialItemForm.get('inventoryType').setValue(this.inventoryTypeDefault);
+
   }
 
   displayVendorName(vendor: Vendor): string {
@@ -134,8 +140,14 @@ export class AcceptMaterialComponent implements OnInit {
     this.items.push(item);
 
     this.table.renderRows();
+    
+    this.resetAcceptMaterialItemForm();
+  }
 
+  resetAcceptMaterialItemForm(){
     this.acceptMaterialItemForm.reset();
+    this.acceptMaterialItemForm.get('classification').setValue(this.classificationDefault);
+    this.acceptMaterialItemForm.get('inventoryType').setValue(this.inventoryTypeDefault);
   }
 
   openSnackBar(message: string, action: string) {
@@ -183,7 +195,7 @@ export class AcceptMaterialComponent implements OnInit {
 
   resetForm(event: Event) {
     this.acceptMaterialForm.reset();
-    this.acceptMaterialItemForm.reset();
+    this.resetAcceptMaterialItemForm();
 
     this.acceptMaterialForm.get('recordDate').setValue(new Date());
     this.acceptMaterialForm.get('invoiceDate').setValue(new Date());
