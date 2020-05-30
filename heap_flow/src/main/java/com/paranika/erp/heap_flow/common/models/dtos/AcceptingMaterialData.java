@@ -6,14 +6,22 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.paranika.erp.heap_flow.common.AppConstants;
 
 public class AcceptingMaterialData {
 
 	private String recordDate;
 	private String vendorCode;
+	private String intentNumber;
 	private String grn;
+
 	private String invoice;
+	private String invoiceDate;
+
+	private String poNumber;
+	private String poDate;
+	private String loggedInUser;
 
 	private List<MaterialData> incomingItemsList = new ArrayList<MaterialData>();
 
@@ -31,6 +39,14 @@ public class AcceptingMaterialData {
 
 	public void setVendorCode(String vendorCode) {
 		this.vendorCode = vendorCode;
+	}
+
+	public String getIntentNumber() {
+		return intentNumber;
+	}
+
+	public void setIntentNumber(String intentNumber) {
+		this.intentNumber = intentNumber;
 	}
 
 	public String getGrn() {
@@ -57,6 +73,38 @@ public class AcceptingMaterialData {
 		this.incomingItemsList = incomingItemsList;
 	}
 
+	public String getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(String invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	public String getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(String poNumber) {
+		this.poNumber = poNumber;
+	}
+
+	public String getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(String poDate) {
+		this.poDate = poDate;
+	}
+
+	public String getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(String loggedInUser) {
+		this.loggedInUser = loggedInUser;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -64,10 +112,20 @@ public class AcceptingMaterialData {
 		builder.append(recordDate);
 		builder.append(", vendorCode=");
 		builder.append(vendorCode);
+		builder.append(", intentNumber=");
+		builder.append(intentNumber);
 		builder.append(", grn=");
 		builder.append(grn);
 		builder.append(", invoice=");
 		builder.append(invoice);
+		builder.append(", invoiceDate=");
+		builder.append(invoiceDate);
+		builder.append(", poNumber=");
+		builder.append(poNumber);
+		builder.append(", poDate=");
+		builder.append(poDate);
+		builder.append(", loggedInUser=");
+		builder.append(loggedInUser);
 		builder.append(", incomingItemsList=");
 		builder.append(incomingItemsList);
 		builder.append("]");
@@ -95,12 +153,17 @@ public class AcceptingMaterialData {
 		AcceptingMaterialData data = new AcceptingMaterialData();
 		data.setGrn("GenratedGRN");
 		data.setInvoice("invoice001");
-
+		data.setInvoiceDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
 		data.setVendorCode("VEND5857");
 		// Thu May 14 2020
 		data.setRecordDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
 		data.setIncomingItemsList(l);
-		Gson gson = new Gson();
+		data.setPoNumber("PoNumber");
+		data.setPoDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
+		data.setLoggedInUser("JaganNath");
+		data.setIntentNumber("intynt001");
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 		System.out.println(gson.toJson(data));
 
 	}

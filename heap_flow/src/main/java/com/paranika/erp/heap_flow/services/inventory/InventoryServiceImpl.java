@@ -151,6 +151,8 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	public void acceptInventory(AcceptingMaterialData incomingMaterials) throws HeapFlowException {
 
 		Date recordDate = null;
+		Date poDate = null;
+		Date invoiceDate = null;
 		String strDate = (incomingMaterials.getRecordDate() == null) ? null : incomingMaterials.getRecordDate().trim();
 		try {
 			recordDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strDate);
@@ -160,10 +162,27 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			// Ignore and take current date
 			recordDate = new Date();
 		}
+		String strInvoiceDate = incomingMaterials.getInvoiceDate();
+		try {
+			invoiceDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strInvoiceDate);
+		} catch (ParseException e) {
+			logger.warn("Could not parse invoiceDate", strInvoiceDate);
 
+		}
+		String strPoDate = incomingMaterials.getPoDate();
+		try {
+			poDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strPoDate);
+		} catch (ParseException e) {
+			logger.warn("Could not parse poDate", strPoDate);
+
+		}
 		String grn = incomingMaterials.getGrn();
 		String invoice = incomingMaterials.getInvoice();
+
 		String vendorCode = incomingMaterials.getVendorCode();
+		String loggedInUser = incomingMaterials.getLoggedInUser();
+		String intentNumber = incomingMaterials.getIntentNumber();
+		String poNumber = incomingMaterials.getPoNumber();
 
 		VendorDO vendor = null;
 		try {
@@ -210,6 +229,11 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			ledgerDO.setRecordDate(recordDate);
 			ledgerDO.setInventoryType(inventoryTypeDO);
 			ledgerDO.setVendor(vendor);
+			ledgerDO.setIntentNumber(intentNumber);
+			ledgerDO.setPoNumber(poNumber);
+			ledgerDO.setPoDate(poDate);
+			ledgerDO.setInvoiceDate(invoiceDate);
+			ledgerDO.setMaterialAcceptedBy(loggedInUser);
 			ledgerList.add(ledgerDO);
 		}
 		try {

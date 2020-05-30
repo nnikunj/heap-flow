@@ -46,6 +46,23 @@ public class IngressLedgerDO extends BaseDO {
 	@Column(name = "invoice_number", nullable = true)
 	private String invoiceNumber;
 
+	@Column(name = "invoice_date", nullable = true)
+	@Temporal(TemporalType.DATE)
+	private Date invoiceDate;
+
+	@Column(name = "po_number", nullable = true)
+	private String poNumber;
+
+	@Column(name = "po_date", nullable = true)
+	@Temporal(TemporalType.DATE)
+	private Date poDate;
+
+	@Column(name = "intent_number", nullable = true)
+	private String intentNumber;
+
+	@Column(name = "accepted_by", nullable = true)
+	private String materialAcceptedBy;
+
 	@Column(name = "grn_number", nullable = true)
 	private String grnNumber;
 
@@ -124,6 +141,46 @@ public class IngressLedgerDO extends BaseDO {
 
 	public void setVendor(VendorDO vendor) {
 		this.vendor = vendor;
+	}
+
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
+	}
+
+	public String getPoNumber() {
+		return poNumber;
+	}
+
+	public void setPoNumber(String poNumber) {
+		this.poNumber = poNumber;
+	}
+
+	public Date getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(Date poDate) {
+		this.poDate = poDate;
+	}
+
+	public String getIntentNumber() {
+		return intentNumber;
+	}
+
+	public void setIntentNumber(String intentNumber) {
+		this.intentNumber = intentNumber;
+	}
+
+	public String getMaterialAcceptedBy() {
+		return materialAcceptedBy;
+	}
+
+	public void setMaterialAcceptedBy(String materialAcceptedBy) {
+		this.materialAcceptedBy = materialAcceptedBy;
 	}
 
 }
