@@ -440,13 +440,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		try {
 			collectedData = inventoryDao.getPagedInvSummaryWithIdLike(idLike, paging);
-
-			dtoPage = collectedData.map(obj ->
-
-			new InventorySummaryDTO(obj)
-
-			);
-
+			dtoPage = collectedData.map(obj -> new InventorySummaryDTO(obj));
 		} catch (Exception e) {
 			logger.error("getPagedInvSummaryWithIdLike failed", e);
 		}

@@ -1,71 +1,176 @@
 package com.paranika.erp.heap_flow.common.models.dtos;
 
-import java.util.List;
+import java.util.Date;
 
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
+import com.paranika.erp.heap_flow.common.models.dos.InventoryTypeDO;
 
 public class InventorySummaryDTO {
 
-	public InventorySummaryDTO() {
+	public InventorySummaryDTO(InventoryDO doOb) {
 
+		this.inventoryItemCode = doOb.getItem().getInventoryItemCode();
+
+		this.descriptions = InventoryItemDescriptions.fromJson(doOb.getItem().getDescriptions());
+
+		this.baseUnitMeasure = doOb.getItem().getBaseUnitMeasure();
+
+		this.productGrpCode = doOb.getItem().getProductGrpCode();
+
+		this.genProductPostingGrp = doOb.getItem().getGenProductPostingGrp();
+
+		this.itemCategoryCode = doOb.getItem().getItemCategoryCode();
+
+		this.gstGrpCode = doOb.getItem().getGstGrpCode();
+
+		this.hsnSacCode = doOb.getItem().getHsnSacCode();
+
+		this.creation = doOb.getCreation();
+		this.modified = doOb.getModified();
+		this.type = doOb.getType();
+		this.averageUnitPrice = doOb.getAverageUnitPrice();
+		this.quantity = doOb.getQuantity();
+		this.value = doOb.getValue();
 	}
 
-	public InventorySummaryDTO(InventoryDO invDbObj) {
+	private String inventoryItemCode;
 
+	private InventoryItemDescriptions descriptions;
+
+	private Date creation;
+
+	private Date modified;
+
+	private String baseUnitMeasure;
+
+	private String productGrpCode;
+
+	private String genProductPostingGrp;
+
+	private String itemCategoryCode;
+
+	private String gstGrpCode;
+
+	private String hsnSacCode;
+
+	private InventoryTypeDO type;
+
+	private double averageUnitPrice;
+
+	private double quantity;
+
+	private double value;
+
+	public String getInventoryItemCode() {
+		return inventoryItemCode;
 	}
 
-	private InventoryItemDTO item;
-	private List<InventoryDTO> contents;
-
-	private Double totalMonitoryValue;
-
-	private Double totalQuantity;
-
-	public InventoryItemDTO getItem() {
-		return item;
+	public void setInventoryItemCode(String inventoryItemCode) {
+		this.inventoryItemCode = inventoryItemCode;
 	}
 
-	public void setItem(InventoryItemDTO item) {
-		this.item = item;
+	public InventoryItemDescriptions getDescriptions() {
+		return descriptions;
 	}
 
-	public Double getTotalMonitoryValue() {
-		return totalMonitoryValue;
+	public void setDescriptions(InventoryItemDescriptions descriptions) {
+		this.descriptions = descriptions;
 	}
 
-	public void setTotalMonitoryValue(Double totalMonitoryValue) {
-		this.totalMonitoryValue = totalMonitoryValue;
+	public Date getCreation() {
+		return creation;
 	}
 
-	public Double getTotalQuantity() {
-		return totalQuantity;
+	public void setCreation(Date creation) {
+		this.creation = creation;
 	}
 
-	public void setTotalQuantity(Double totalQuantity) {
-		this.totalQuantity = totalQuantity;
+	public Date getModified() {
+		return modified;
 	}
 
-	public List<InventoryDTO> getContents() {
-		return contents;
+	public void setModified(Date modified) {
+		this.modified = modified;
 	}
 
-	public void setContents(List<InventoryDTO> contents) {
-		this.contents = contents;
+	public String getBaseUnitMeasure() {
+		return baseUnitMeasure;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("InventorySummaryDTO [item=");
-		builder.append(item);
-		builder.append(", contents=");
-		builder.append(contents);
-		builder.append(", totalMonitoryValue=");
-		builder.append(totalMonitoryValue);
-		builder.append(", totalQuantity=");
-		builder.append(totalQuantity);
-		builder.append("]");
-		return builder.toString();
+	public void setBaseUnitMeasure(String baseUnitMeasure) {
+		this.baseUnitMeasure = baseUnitMeasure;
+	}
+
+	public String getProductGrpCode() {
+		return productGrpCode;
+	}
+
+	public void setProductGrpCode(String productGrpCode) {
+		this.productGrpCode = productGrpCode;
+	}
+
+	public String getGenProductPostingGrp() {
+		return genProductPostingGrp;
+	}
+
+	public void setGenProductPostingGrp(String genProductPostingGrp) {
+		this.genProductPostingGrp = genProductPostingGrp;
+	}
+
+	public String getItemCategoryCode() {
+		return itemCategoryCode;
+	}
+
+	public void setItemCategoryCode(String itemCategoryCode) {
+		this.itemCategoryCode = itemCategoryCode;
+	}
+
+	public String getGstGrpCode() {
+		return gstGrpCode;
+	}
+
+	public void setGstGrpCode(String gstGrpCode) {
+		this.gstGrpCode = gstGrpCode;
+	}
+
+	public String getHsnSacCode() {
+		return hsnSacCode;
+	}
+
+	public void setHsnSacCode(String hsnSacCode) {
+		this.hsnSacCode = hsnSacCode;
+	}
+
+	public InventoryTypeDO getType() {
+		return type;
+	}
+
+	public void setType(InventoryTypeDO type) {
+		this.type = type;
+	}
+
+	public double getAverageUnitPrice() {
+		return averageUnitPrice;
+	}
+
+	public void setAverageUnitPrice(double averageUnitPrice) {
+		this.averageUnitPrice = averageUnitPrice;
+	}
+
+	public double getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(double quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
 	}
 
 }

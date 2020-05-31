@@ -6,6 +6,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 @Entity
 @Table(name = "inventories")
 public class InventoryDO extends BaseDO {
@@ -27,6 +29,9 @@ public class InventoryDO extends BaseDO {
 
 	@Column(name = "notes", nullable = true)
 	private String notes;
+
+	@Formula("average_unit_price * quantity")
+	private double value;
 
 	public InventoryItemDO getItem() {
 		return item;
@@ -66,6 +71,10 @@ public class InventoryDO extends BaseDO {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public double getValue() {
+		return value;
 	}
 
 }
