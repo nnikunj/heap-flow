@@ -3,6 +3,7 @@ import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse, HttpParams } 
 import { map } from 'rxjs/operators';
 import { Observable } from "rxjs";
 import { InventoryItemResponse, InventoryItem } from 'src/app/models/inventory-item';
+import { InventorySummaryResponse } from 'src/app/models/inventory-summary'
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,20 @@ export class InventoryService {
         .set('size', pageSize.toString())
     }).pipe(
       map(res => res as InventoryItemResponse)
+    );
+
+  }
+
+  findInventorySummary(filter = '', sortOrder = 'asc',
+    pageNumber = 0, pageSize = 3): Observable<InventorySummaryResponse> {
+
+    return this.httpService.get('http://localhost:9443/api/v1/inventory/fetch-inventory-summary-page-wise', {
+      params: new HttpParams()
+        .set('idLike', filter)
+        .set('page', pageNumber.toString())
+        .set('size', pageSize.toString())
+    }).pipe(
+      map(res => res as InventorySummaryResponse)
     );
 
   }

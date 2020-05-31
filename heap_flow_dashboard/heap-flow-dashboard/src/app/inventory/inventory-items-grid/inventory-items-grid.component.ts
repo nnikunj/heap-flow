@@ -28,7 +28,6 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource = new InventoryItemDatasource(this.inventoryService);
-
   }
 
   ngAfterViewInit(): void {
