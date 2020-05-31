@@ -1,7 +1,9 @@
 package com.paranika.erp.heap_flow.common.models.dtos;
 
-import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
+import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryTypeDO;
 
@@ -24,9 +26,10 @@ public class InventorySummaryDTO {
 		this.gstGrpCode = doOb.getItem().getGstGrpCode();
 
 		this.hsnSacCode = doOb.getItem().getHsnSacCode();
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+		this.creation = dateFormat.format(doOb.getCreation());
+		this.modified = dateFormat.format(doOb.getModified());
 
-		this.creation = doOb.getCreation();
-		this.modified = doOb.getModified();
 		this.type = doOb.getType();
 		this.averageUnitPrice = doOb.getAverageUnitPrice();
 		this.quantity = doOb.getQuantity();
@@ -37,9 +40,9 @@ public class InventorySummaryDTO {
 
 	private InventoryItemDescriptions descriptions;
 
-	private Date creation;
+	private String creation;
 
-	private Date modified;
+	private String modified;
 
 	private String baseUnitMeasure;
 
@@ -77,19 +80,19 @@ public class InventorySummaryDTO {
 		this.descriptions = descriptions;
 	}
 
-	public Date getCreation() {
+	public String getCreation() {
 		return creation;
 	}
 
-	public void setCreation(Date creation) {
+	public void setCreation(String creation) {
 		this.creation = creation;
 	}
 
-	public Date getModified() {
+	public String getModified() {
 		return modified;
 	}
 
-	public void setModified(Date modified) {
+	public void setModified(String modified) {
 		this.modified = modified;
 	}
 

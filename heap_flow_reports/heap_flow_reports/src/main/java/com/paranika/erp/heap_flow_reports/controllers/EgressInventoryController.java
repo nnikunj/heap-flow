@@ -22,10 +22,10 @@ import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportExcept
 import com.paranika.erp.heap_flow_reports.services.inventory.InventoryServiceIX;
 
 @RestController
-@RequestMapping(HeapFlowReportsApiEndPoints.BASE_END_POINT_ACCEPTED_MAT)
+@RequestMapping(HeapFlowReportsApiEndPoints.BASE_END_POINT_ISSUE_MAT)
 @CrossOrigin(origins = "*", maxAge = 3600, allowedHeaders = { "Origin", "Content-Type", "Accept",
 		"Authorization" }, exposedHeaders = { "Origin", "Content-Type", "Accept", "Authorization" })
-public class IngressInventoryController {
+public class EgressInventoryController {
 
 	@Autowired
 	InventoryServiceIX service;
@@ -33,7 +33,7 @@ public class IngressInventoryController {
 	CommonUtil util;
 	private final Logger logger = LoggerFactory.getLogger(IngressInventoryController.class);
 
-	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_INGRESS_RPT, produces = "application/vnd.ms-excel;charset=UTF-8")
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_EGRESS_RPT, produces = "application/vnd.ms-excel;charset=UTF-8")
 	public ResponseEntity<InputStreamResource> getIngressRpt(
 			@RequestParam(required = false, name = "startDate") String startDate,
 			@RequestParam(required = false, name = "endDate") String endDate) {
@@ -49,17 +49,18 @@ public class IngressInventoryController {
 		logger.debug("endDate after check " + enDate);
 		ByteArrayInputStream output = null;
 		try {
-			output = service.getIngressReport(stDate, enDate);
+			output = service.getEgressReport(stDate, enDate);
 		} catch (HeapFlowReportException e) {
-			logger.error(HeapFlowReportsApiEndPoints.GET_INGRESS_RPT + " Failed ", e);
+			logger.error(HeapFlowReportsApiEndPoints.GET_EGRESS_RPT + " Failed ", e);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "inline; filename=incomingMaterialRpt.xlsx");
+		headers.add("Content-Disposition", "inline; filename=outgoingMaterialRpt.xlsx");
 
 		return ResponseEntity.ok().headers(headers)
 				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))
 				.body(new InputStreamResource(output));
 
 	}
+
 }

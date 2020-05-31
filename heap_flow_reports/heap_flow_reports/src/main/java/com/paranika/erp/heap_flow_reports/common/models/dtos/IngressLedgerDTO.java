@@ -21,6 +21,7 @@ public class IngressLedgerDTO {
 	private String remark;
 	private String checkedBy;
 	private String indentNumber;
+	private String itemCode;
 
 	public IngressLedgerDTO(IngressLedgerDO dbObj) {
 		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
@@ -30,6 +31,7 @@ public class IngressLedgerDTO {
 		this.invNumber = String.valueOf(dbObj.getInvoiceNumber());
 		this.poNumber = String.valueOf(dbObj.getPoNumber());
 		this.supplierName = String.valueOf(dbObj.getVendor().getSearchName());
+		this.itemCode = dbObj.getIncomingMaterial().getInventoryItemCode();
 		this.itemDescription = InventoryItemDescriptions.fromJson(dbObj.getIncomingMaterial().getDescriptions())
 				.getDescription();
 
@@ -40,6 +42,14 @@ public class IngressLedgerDTO {
 		this.remark = "";
 		this.checkedBy = String.valueOf(dbObj.getMaterialAcceptedBy());
 		this.indentNumber = String.valueOf(dbObj.getIntentNumber());
+	}
+
+	public String getItemCode() {
+		return itemCode;
+	}
+
+	public void setItemCode(String itemCode) {
+		this.itemCode = itemCode;
 	}
 
 	public String getSrNo() {
@@ -175,6 +185,8 @@ public class IngressLedgerDTO {
 		builder.append(checkedBy);
 		builder.append(", indentNumber=");
 		builder.append(indentNumber);
+		builder.append(", itemCode=");
+		builder.append(itemCode);
 		builder.append("]");
 		return builder.toString();
 	}
