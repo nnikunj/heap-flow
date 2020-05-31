@@ -10,4 +10,6 @@ import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportExcept
 @Service
 public interface InventoryServiceIX {
 	public ByteArrayInputStream getIngressReport(Date startDate, Date endDate) throws HeapFlowReportException;
+
+	public ByteArrayInputStream getEgressReport(Date startDate, Date endDate) throws HeapFlowReportException;
 }

@@ -3,6 +3,11 @@ package com.paranika.erp.heap_flow_reports.common;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,6 +22,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class CommonUtil {
@@ -89,5 +95,27 @@ public class CommonUtil {
 			logger.debug("workbook created and returing from genrateExcel.");
 			return new ByteArrayInputStream(out.toByteArray());
 		}
+	}
+
+	public Date extractDateFromInput(String inputDate, short offsetDays) {
+		logger.debug("inputDate " + inputDate);
+		Date retDate = null;
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+		if (!StringUtils.isEmpty(inputDate)) {
+			try {
+				retDate = dateFormat.parse(inputDate);
+			} catch (ParseException e) {
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, offsetDays);
+				retDate = cal.getTime();
+			}
+		} else {
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, offsetDays);
+			retDate = cal.getTime();
+		}
+		logger.debug("Retrun Date " + retDate);
+		return retDate;
+
 	}
 }
