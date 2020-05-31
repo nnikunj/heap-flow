@@ -19,4 +19,5 @@ export class OutgoingItem {
     classification: string;
     inventoryType: string;
     quantity: Number;
+    baseUnitMeasure: string; //This is just for display purpose. This field should not be sent in post request.
 }

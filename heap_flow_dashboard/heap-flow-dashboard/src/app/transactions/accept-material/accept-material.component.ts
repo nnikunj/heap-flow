@@ -43,7 +43,8 @@ export class AcceptMaterialComponent implements OnInit {
     quantity: ['', Validators.required],
     inventoryType: ['', Validators.required],
     classification: ['', Validators.required],
-    productCode: ['', Validators.required]
+    productCode: ['', Validators.required],
+    baseUnitMeasure: [{ value: '', disabled: true }]
   });
 
   inventory_url: string = "http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/";
@@ -74,7 +75,7 @@ export class AcceptMaterialComponent implements OnInit {
   classificationDefault = 'PROJECT';
   inventoryTypeDefault = 'PURCHASED';
 
-  displayedColumns: string[] = ['productCode', 'description', 'classification', 'inventoryType', 'quantity', 'pricePerUnit'];
+  displayedColumns: string[] = ['productCode', 'description', 'classification', 'inventoryType', 'quantity', 'baseUnitMeasure', 'pricePerUnit'];
 
   constructor(private apiHandlerService: ApiHandlerService, private _snackBar: MatSnackBar,
     private inventoryService: InventoryService, private httpService: HttpService, private fb: FormBuilder) {
@@ -126,9 +127,15 @@ export class AcceptMaterialComponent implements OnInit {
     return inventoryItem && inventoryItem.inventoryItemCode ? inventoryItem.inventoryItemCode : '';
   }
 
+  public itemSelected = (event: any) => {
+    if (this.acceptMaterialItemForm.get('productCode').value) {
+      this.acceptMaterialItemForm.get('baseUnitMeasure').setValue(this.acceptMaterialItemForm.get('productCode').value.baseUnitMeasure);
+    }
+  }
+
   addMaterial() {
     let item = new Item();
-    
+
     item.productCode = this.acceptMaterialItemForm.get('productCode').value.inventoryItemCode;
     item.classification = this.acceptMaterialItemForm.get('classification').value;
     item.quantity = this.acceptMaterialItemForm.get('quantity').value;
@@ -137,14 +144,16 @@ export class AcceptMaterialComponent implements OnInit {
     if (this.acceptMaterialItemForm.get('productCode').value.descriptions && this.acceptMaterialItemForm.get('productCode').value.descriptions.description) {
       item.description = this.acceptMaterialItemForm.get('productCode').value.descriptions.description;
     }
+    item.baseUnitMeasure = this.acceptMaterialItemForm.get('baseUnitMeasure').value;
+
     this.items.push(item);
 
     this.table.renderRows();
-    
+
     this.resetAcceptMaterialItemForm();
   }
 
-  resetAcceptMaterialItemForm(){
+  resetAcceptMaterialItemForm() {
     this.acceptMaterialItemForm.reset();
     this.acceptMaterialItemForm.get('classification').setValue(this.classificationDefault);
     this.acceptMaterialItemForm.get('inventoryType').setValue(this.inventoryTypeDefault);
@@ -179,6 +188,7 @@ export class AcceptMaterialComponent implements OnInit {
     am.poDate = this.acceptMaterialForm.get('poDate').value.toDateString();
     am.loggedInUser = this.acceptMaterialForm.get('loggedInUser').value;
 
+    this.items.forEach(i => i.baseUnitMeasure = null);//base unit measure is just for display purpose.
     am.incomingItemsList = this.items;
 
     console.log('am : ' + JSON.stringify(am));
@@ -215,6 +225,7 @@ export class AcceptMaterialComponent implements OnInit {
           console.log(res.body);
           if (res.body) {
             this.acceptMaterialItemForm.get('productCode').setValue(res.body, { emitEvent: false });
+            this.acceptMaterialItemForm.get('baseUnitMeasure').setValue(res.body.baseUnitMeasure);
             console.log(this.acceptMaterialItemForm.get('productCode').value);
           }
         }, error => {

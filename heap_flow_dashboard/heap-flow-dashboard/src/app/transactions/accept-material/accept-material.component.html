@@ -84,11 +84,17 @@
               <mat-label>Accepting Material Code</mat-label>
               <input type="text" matInput formControlName="productCode" [matAutocomplete]="auto_inventory_item"
                 (focusout)="acceptMaterialFocusOut($event)">
-              <mat-autocomplete #auto_inventory_item="matAutocomplete" [displayWith]="displayInventoryItemCode">
+              <mat-autocomplete #auto_inventory_item="matAutocomplete" [displayWith]="displayInventoryItemCode"
+                (optionSelected)="itemSelected($event)">
                 <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">
                   {{inventoryItem.inventoryItemCode}}
                 </mat-option>
               </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label>Base Unit Measure (Disabled)</mat-label>
+              <input matInput type="string" placeholder="Base unit will appear here." formControlName="baseUnitMeasure">
             </mat-form-field>
           </div>
 
@@ -120,6 +126,11 @@
               <input matInput type="number" placeholder="Please enter quantity." formControlName="quantity">
             </mat-form-field>
 
+            <ng-container matColumnDef="baseUnitMeasure">
+              <th mat-header-cell *matHeaderCellDef> Base Unit Measure </th>
+              <td mat-cell *matCellDef="let element"> {{element.baseUnitMeasure}} </td>
+            </ng-container>
+
             <mat-form-field>
               <mat-label>Price</mat-label>
               <input matInput type="number" placeholder="Please enter price per unit." formControlName="pricePerUnit"
@@ -127,10 +138,7 @@
             </mat-form-field>
           </div>
 
-          <mat-divider></mat-divider>
-          <div class="card-block"></div>
-
-          <div class="example-button-row">
+          <div class="heap-row">
             <button mat-stroked-button color="primary" type="submit" [disabled]="!acceptMaterialItemForm.valid">Add
               Record</button>
             <button mat-stroked-button color="primary" type="reset">Reset</button>
@@ -145,6 +153,11 @@
           <ng-container matColumnDef="quantity">
             <th mat-header-cell *matHeaderCellDef> Quantity </th>
             <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="baseUnitMeasure">
+            <th mat-header-cell *matHeaderCellDef> Base Unit Measure </th>
+            <td mat-cell *matCellDef="let element"> {{element.baseUnitMeasure}} </td>
           </ng-container>
 
           <ng-container matColumnDef="pricePerUnit">
@@ -182,7 +195,7 @@
         <mat-divider></mat-divider>
 
         <section>
-          <div class="heap-button-row">
+          <div class="heap-row">
             <button mat-stroked-button color="primary" (click)="submitMaterial($event)">Submit</button>
             <button mat-stroked-button color="primary" (click)="resetForm($event)">Reset</button>
           </div>

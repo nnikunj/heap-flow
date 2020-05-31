@@ -35,4 +35,5 @@ export class Item {
   description: string;
   quantity: Number;
   pricePerUnit: Number;
+  baseUnitMeasure: string;//This is just for display purpose. It should not be sent in post request.
 }

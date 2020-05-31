@@ -24,36 +24,27 @@ class SelectInterface {
   providers: [HttpService]
 })
 export class IssueMaterialComponent implements OnInit {
-  
+
   issueMaterialForm = this.fb.group({
     recordDate: [new Date(), Validators.required],
     machineCode: ['', Validators.required],
     issuedViaEmp: ['', Validators.required],
     issuedForDept: [''],
     approvedBy: [''],
-    loggedInUser:['']
+    loggedInUser: ['']
   });
 
   issueMaterialItemForm = this.fb.group({
     quantity: ['', Validators.required],
-    inventoryType:['', Validators.required],
-    classification:['', Validators.required],
-    productCode:['', Validators.required]
+    inventoryType: ['', Validators.required],
+    classification: ['', Validators.required],
+    productCode: ['', Validators.required],
+    baseUnitMeasure : [{value:'',disabled:true}]
   });
-
-  // machineCodeControl = new FormControl('');
-  // issueMaterialDateControl = new FormControl(new Date());
-  // issueMaterialEMPControl = new FormControl('');
-
-  // issueMaterialCodeControl = new FormControl('');
-  // issueMaterialClassificationControl = new FormControl('');
-  // issueMaterialInventoryTypeControl = new FormControl('');
-  // issueMaterialQuantityControl = new FormControl('');
 
   machines = <any>[];
   inventoryItems = <any>[];
 
-  //classifications : SelectInterface[] = [];
   inventoryTypes: SelectInterface[] = [];
 
   outgoingItemList: OutgoingItem[] = [];
@@ -71,13 +62,13 @@ export class IssueMaterialComponent implements OnInit {
 
   classificationDefault = 'PROJECT';
 
-  issueMaterialColumns = ['productCode', 'classification', 'inventoryType', 'quantity'];
+  issueMaterialColumns = ['productCode', 'classification', 'inventoryType', 'quantity', 'baseUnitMeasure'];
 
   @ViewChild(MatTable) table: MatTable<any>;
 
 
   constructor(private httpService: HttpService, private _snackBar: MatSnackBar, private apiHandlerService: ApiHandlerService,
-    private fb : FormBuilder) { }
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.issueMaterialForm.get('machineCode').valueChanges.subscribe((term) => {
@@ -122,8 +113,17 @@ export class IssueMaterialComponent implements OnInit {
   }
 
   public itemSelected = (event: any) => {
-    if (this.issueMaterialItemForm.get('productCode').value && this.issueMaterialItemForm.get('productCode').value.stokcs) {
-      this.updateInventoryType(this.issueMaterialItemForm.get('productCode').value.stokcs);
+    if (this.issueMaterialItemForm.get('productCode').value) {
+      this.updateFieldOnItemSelect(this.issueMaterialItemForm.get('productCode').value);
+    }
+  }
+
+  updateFieldOnItemSelect(item: InventoryItem) {
+    if (item.stokcs) {
+      this.updateInventoryType(item.stokcs);
+    }
+    if (item.baseUnitMeasure) {
+      this.issueMaterialItemForm.get('baseUnitMeasure').setValue(item.baseUnitMeasure);
     }
   }
 
@@ -143,34 +143,13 @@ export class IssueMaterialComponent implements OnInit {
 
   addMaterial(event: Event) {
 
-    // if (typeof this.issueMaterialCodeControl.value !== 'object') {
-    //   this.openSnackBar('Material not selected', 'Please select a valid material');
-    //   return;
-    // }
-
-    // if (!this.issueMaterialClassificationControl.value) {
-    //   this.openSnackBar('Classification Not seleted', 'Please select classification');
-    //   return;
-    // }
-
-    // if (!this.issueMaterialInventoryTypeControl.value) {
-    //   this.openSnackBar('Inventory Type Not seleted', 'Please select inventory type');
-    //   return;
-    // }
-
-    // if (this.issueMaterialQuantityControl.value < 0 || typeof this.issueMaterialQuantityControl.value === 'string'
-    //   || this.issueMaterialQuantityControl.value === '') {
-    //   this.openSnackBar('Quantity not entered', 'Please enter quantity');
-    //   return;
-    // }
-
     if (this.issueMaterialItemForm.get('quantity').value > 0) {
       let quantityValue = this.issueMaterialItemForm.get('quantity').value;
       for (let index = 0; index < this.issueMaterialItemForm.get('productCode').value.stokcs.length; index++) {
         let s = this.issueMaterialItemForm.get('productCode').value.stokcs[index];
         if (s.inventoryTypeName === this.issueMaterialItemForm.get('inventoryType').value) {
           if (quantityValue > s.quantity) {
-            this.openSnackBar('Quantity entered is more than stock', 'Stock value ' + s.quantity );
+            this.openSnackBar('Quantity entered is more than stock', 'Stock value ' + s.quantity);
             return;
           }
         }
@@ -179,15 +158,11 @@ export class IssueMaterialComponent implements OnInit {
 
     let outgoingItem = new OutgoingItem();
 
-    // outgoingItem.productCode = this.issueMaterialCodeControl.value.inventoryItemCode;
-    // outgoingItem.classification = this.issueMaterialClassificationControl.value;
-    // outgoingItem.inventoryType = this.issueMaterialInventoryTypeControl.value;
-    // outgoingItem.quantity = this.issueMaterialQuantityControl.value;
-
     outgoingItem.productCode = this.issueMaterialItemForm.get('productCode').value.inventoryItemCode;
     outgoingItem.classification = this.issueMaterialItemForm.get('classification').value;
     outgoingItem.inventoryType = this.issueMaterialItemForm.get('inventoryType').value;
     outgoingItem.quantity = this.issueMaterialItemForm.get('quantity').value;
+    outgoingItem.baseUnitMeasure = this.issueMaterialItemForm.get('baseUnitMeasure').value;
 
     this.outgoingItemList.push(outgoingItem);
 
@@ -196,23 +171,14 @@ export class IssueMaterialComponent implements OnInit {
     this.resetIssueMaterialItemForm();
   }
 
-  resetIssueMaterialItemForm(){
+  resetIssueMaterialItemForm() {
     this.issueMaterialItemForm.reset();
     this.issueMaterialItemForm.get('classification').setValue(this.classificationDefault);
   }
 
   submitIssueMaterial(event: Event) {
-    // if (typeof this.machineCodeControl.value !== 'object') {
-    //   this.openSnackBar('Machine not selected', 'Please select a valid machine');
-    //   return;
-    // }
 
-    // if (!this.issueMaterialEMPControl.value) {
-    //   this.openSnackBar('EMP code not entered', 'Please enter EMP code');
-    //   return;
-    // }
-
-    if(!this.issueMaterialForm.valid){
+    if (!this.issueMaterialForm.valid) {
       this.openSnackBar('Please enter mandatory field.', 'Please enter Machine code and Employee.');
       return;
     }
@@ -224,15 +190,17 @@ export class IssueMaterialComponent implements OnInit {
 
     let issueMaterial = new IssueMaterial();
 
-    // issueMaterial.machineCode = this.machineCodeControl.value.code;
-    // issueMaterial.recordDate = this.issueMaterialDateControl.value.toDateString();
-    // issueMaterial.issuedViaEmp = this.issueMaterialEMPControl.value;
     issueMaterial.machineCode = this.issueMaterialForm.get('machineCode').value.code;
     issueMaterial.recordDate = this.issueMaterialForm.get('recordDate').value.toDateString();
     issueMaterial.issuedViaEmp = this.issueMaterialForm.get('issuedViaEmp').value;
     issueMaterial.issuedForDept = this.issueMaterialForm.get('issuedForDept').value;
     issueMaterial.approvedBy = this.issueMaterialForm.get('approvedBy').value;
     issueMaterial.loggedInUser = this.issueMaterialForm.get('loggedInUser').value;
+
+    //base unit measure is just for display purpose, it should not be sent in post
+    this.outgoingItemList.forEach(i => {
+      i.baseUnitMeasure = null;
+    })
 
     issueMaterial.outgoingItemsList = this.outgoingItemList;
 
@@ -269,13 +237,13 @@ export class IssueMaterialComponent implements OnInit {
           console.log(res.body);
           if (res.body) {
             this.issueMaterialItemForm.get('productCode').setValue(res.body, { emitEvent: false });
-            this.updateInventoryType(res.body.stokcs);
+            this.updateFieldOnItemSelect(res.body);
+            // this.updateInventoryType(res.body.stokcs);
           }
         }, error => {
           console.error(error);
         })
     }
-
   }
 
   openSnackBar(message: string, action: string) {

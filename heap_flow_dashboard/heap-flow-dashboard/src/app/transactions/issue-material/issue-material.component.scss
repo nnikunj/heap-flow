@@ -2,31 +2,17 @@ table {
   width: 100%;
 }
 
-section {
-  display: table;
-  margin: 8px;
-}
-
-.heap-button-row button {
-  display: table-cell;
-  margin: 8px;
-}
-
 .heap-container{
   margin: 10px;
   width: 800px;
 }
 
 .heap-form {
-  min-width: 600px;
-  max-width: 800px;
+  min-width: 800px;
+  max-width: 1200px;
   width: 100%;
   margin: 10px;
 }
-  
-  .heap-full-width {
-    width: 100%;
-  }
 
   mat-form-field {
     margin-right: 50px;
@@ -38,12 +24,8 @@ section {
   .heap-row {
     width: 100%;
   }
-  
-  .heap-button-row {
-    display: table-cell;
-  }
 
-  .heap-button-row button {
+  .heap-row button{
     display: table-cell;
     margin: 8px;
   }
