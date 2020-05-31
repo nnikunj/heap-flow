@@ -43,7 +43,7 @@ public class EgressInventoryController {
 		logger.debug("startDate " + startDate);
 		logger.debug("endDate " + endDate);
 		stDate = util.extractDateFromInput(startDate, (short) -30);
-		enDate = util.extractDateFromInput(startDate, (short) +30);
+		enDate = util.extractDateFromInput(endDate, (short) 0);
 
 		logger.debug("startDate after check " + stDate);
 		logger.debug("endDate after check " + enDate);

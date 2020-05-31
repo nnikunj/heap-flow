@@ -52,8 +52,9 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 	private ByteArrayInputStream generateExcel(List<IngressLedgerDTO> translatedData) throws HeapFlowReportException {
 
-		String[] cols = { "srNo", "recordDate", "invNumber", "poNumber", "supplierName", "Item Code", "itemDescription",
-				"quantity", "baseUnitMeasure", "rate", "amount", "remark", "checkedBy", "indentNumber" };
+		String[] cols = { "SR NO.", "RECORD DATE", "INVOICE NUMBER", "PO NUMBER", "SUPPLIER NAME", "ITEM CODE",
+				"ITEM DESCRIPTION", "QUANTITY", "BASE UNIT MEASURE", "RATE", "AMOUNT", "REMARK", "CHECKED BY",
+				"INDENT NUMBER" };
 		List<List<String>> fillInData = new LinkedList<List<String>>();
 
 		for (IngressLedgerDTO data : translatedData) {
@@ -91,8 +92,8 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	private ByteArrayInputStream generateEgresExcel(List<EgressLedgerDTO> translatedData)
 			throws HeapFlowReportException {
 
-		String[] cols = { "srNo", "recordDate", "department", "itemGroup", "ved", "machineNummber", "engineer",
-				"approvedBy", "category", "itemCode", "description", "quantity", "baseUnitMeasure", "issuedBy" };
+		String[] cols = { "SR NO.", "RECORD DATE", "DEPARTMENT", "ITEM GROUP", "VED", "MACHINE NUMBER", "ENGINEER",
+				"APPROVED BY", "CATEGORY", "ITEM CODE", "DESCRIPTION", "QUANTITY", "BASE UNIT MEASURE", "ISSUED BY" };
 		List<List<String>> fillInData = new LinkedList<List<String>>();
 
 		for (EgressLedgerDTO data : translatedData) {

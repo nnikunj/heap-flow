@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -64,13 +65,19 @@ public class CommonUtil {
 
 			Sheet sheet = workbook.createSheet(sheetName);
 
+			for (int index = 0; index < cols.length; index++) {
+				sheet.autoSizeColumn(index);
+
+			}
 			Font headerFont = workbook.createFont();
 			headerFont.setBold(true);
-			headerFont.setColor(IndexedColors.BLUE.getIndex());
+			headerFont.setFontHeightInPoints((short) 16);
+			headerFont.setColor(IndexedColors.WHITE.getIndex());
 
 			CellStyle headerCellStyle = workbook.createCellStyle();
 			headerCellStyle.setFont(headerFont);
-
+			headerCellStyle.setFillBackgroundColor(IndexedColors.ROYAL_BLUE.getIndex());
+			headerCellStyle.setFillPattern(FillPatternType.BIG_SPOTS);
 			// Row for Header
 			Row headerRow = sheet.createRow(0);
 
@@ -104,12 +111,15 @@ public class CommonUtil {
 		if (!StringUtils.isEmpty(inputDate)) {
 			try {
 				retDate = dateFormat.parse(inputDate);
+				logger.debug(" date paased parsed.");
 			} catch (ParseException e) {
+				logger.warn("Could not parse date.", e);
 				Calendar cal = Calendar.getInstance();
 				cal.add(Calendar.DATE, offsetDays);
 				retDate = cal.getTime();
 			}
 		} else {
+			logger.debug("Empty date paased.");
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, offsetDays);
 			retDate = cal.getTime();
