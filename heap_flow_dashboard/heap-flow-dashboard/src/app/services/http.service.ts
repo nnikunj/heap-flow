@@ -49,6 +49,13 @@ export class HttpService {
           'Something bad happened; please try again later.');
       };
 
+      getBody(url : string, httpParams : HttpParams){
+        return this.httpClient.get(url, {
+          params:httpParams,
+          responseType: 'blob'
+        });
+      }
+
     // get(url: string){
     //     let result = this.httpClient.get(url).subscribe(res => {
     //         return res;

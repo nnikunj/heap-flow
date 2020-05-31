@@ -1,6 +1,36 @@
-<div class="alert-item static">
-    <div class="alert-icon-wrapper">
-        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-    </div>
-    <span class="alert-text">Reports will be coming soon.</span>
+<div class="heap-container">
+    <form class="heap-form" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+        <div class="heap-row">
+            <mat-form-field>
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="start_date" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="start_date"></mat-datepicker-toggle>
+                <mat-datepicker #start_date></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="end_date" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="end_date"></mat-datepicker-toggle>
+                <mat-datepicker #end_date></mat-datepicker>
+            </mat-form-field>
+        </div>
+
+        <div class="heap-row">
+            <mat-form-field>
+                <mat-label>Report Type</mat-label>
+                <mat-select formControlName="reportType">
+                    <mat-option *ngFor="let type of reportType" [value]="type">
+                        {{type}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="heap-row">
+            <button mat-stroked-button color="primary" type="submit" [disabled]="!reportForm.valid">Submit</button>
+            <button mat-stroked-button color="primary" type="reset">Reset</button>
+        </div>
+
+    </form>
 </div>
