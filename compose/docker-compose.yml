@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  heap-db:
+    container_name: heap-db
+    image: "heap-flow-db:1.0.0"
+    restart: always
+    volumes:
+      - "./${DB-DIR}/:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: "!HK06IS033"
+    ports:
+      - "3306:3306"
+  heap-flow-app:
+    container_name: heap-flow-app
+    image: "heap-flow-app:1.0.0"
+    restart: always
+    depends_on:
+      - heap-db
+    volumes:
+      - "./${APP-LOG-DIR}/:/opt/paranika/logs/"
+    ports:
+      - "9443:9443"
+  heap-flow-rpt:
+    container_name: heap-flow-rpt
+    image: "heap-flow-rpt:1.0.0"
+    restart: always
+    depends_on:
+      - heap-db
+    volumes:
+      - "./${RPT-LOG-DIR}/:/opt/paranika/logs/"
+    ports:
+      - "8443:8443"
+  heap-flow-dashboard:
+    container_name: heap-flow-dashboard
+    image: "heap-flow-dashboard:1.0.0"
+    restart: always
+    ports:
+      - "80:8080"
