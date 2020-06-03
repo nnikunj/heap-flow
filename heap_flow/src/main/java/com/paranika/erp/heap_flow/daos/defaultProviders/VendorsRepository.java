@@ -23,4 +23,7 @@ public interface VendorsRepository extends CrudRepository<VendorDO, Long> {
 
 	@Query("from VendorDO vendor where UPPER(vendor.searchName) LIKE UPPER(CONCAT('%',:searchNameLike,'%')) ORDER BY vendor.searchName")
 	Page<VendorDO> findPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging);
+
+	@Query("from VendorDO vendor where UPPER(vendor.searchName) = UPPER(:searchName)")
+	VendorDO findVendorWithName(@Param("searchName") String searchName);
 }

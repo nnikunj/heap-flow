@@ -158,4 +158,10 @@ public class VendorsDaoImpl extends BaseDaoImpl implements VendorsDaoIx {
 		}
 		return dataPersisted;
 	}
+
+	@Override
+	public VendorDO getNamedVendor(String searchName) throws Exception {
+		logger.debug("Searching exact vendor with searchName: " + searchName);
+		return vendorsRepo.findVendorWithName(searchName);
+	}
 }

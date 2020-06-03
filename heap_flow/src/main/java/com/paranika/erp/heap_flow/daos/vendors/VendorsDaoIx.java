@@ -28,4 +28,6 @@ public interface VendorsDaoIx {
 	public Page<VendorDO> getPagedVendorsWithSearchNameLike(String searchNameLike, Pageable paging) throws Exception;
 
 	public VendorDO addOrUpdate(VendorDO data) throws Exception;
+
+	public VendorDO getNamedVendor(String searchName) throws Exception;
 }

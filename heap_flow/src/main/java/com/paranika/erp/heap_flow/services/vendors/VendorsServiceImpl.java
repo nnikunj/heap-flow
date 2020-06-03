@@ -203,6 +203,23 @@ public class VendorsServiceImpl implements VendorServiceIX {
 		return persistedObj;
 	}
 
+	@Override
+	public VendorDO getNamedVendor(String searchName) throws HeapFlowException {
+
+		VendorDO retItem = null;
+
+		try {
+			retItem = vendorsDao.getNamedVendor(searchName);
+
+		} catch (Exception e) {
+			logger.error("Failed to get vendor with name " + searchName, e);
+
+			throw new HeapFlowException(e);
+		}
+
+		return retItem;
+	}
+
 	public static void main(String[] args) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -242,4 +259,5 @@ public class VendorsServiceImpl implements VendorServiceIX {
 
 		System.out.println(gson.toJson(v));
 	}
+
 }

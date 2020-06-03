@@ -80,6 +80,22 @@ public class VendorController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_VENDOR_WITH_SEARCH_NAME)
+	ResponseEntity<VendorDO> getNamedVendor(@PathVariable("searchName") String searchName) {
+		VendorDO fetchedList = null;
+		ResponseEntity<VendorDO> response;
+		try {
+			fetchedList = service.getNamedVendor(searchName);
+			response = new ResponseEntity<VendorDO>(fetchedList, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_VENDOR_WITH_SEARCH_NAME + " Success");
+		} catch (HeapFlowException e) {
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<VendorDO>((VendorDO) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_VENDORS_PAGE_WISE)
 	ResponseEntity<Page<VendorDO>> getPagedOptionalSearchNameLikeVendorsList(
 			@RequestParam(required = false, name = "searchNameLike") String searchNameLike,

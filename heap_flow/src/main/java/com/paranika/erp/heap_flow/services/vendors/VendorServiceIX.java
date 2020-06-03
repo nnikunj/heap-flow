@@ -22,4 +22,6 @@ public interface VendorServiceIX {
 
 	public VendorDO persistVendor(VendorDO data) throws HeapFlowException;
 
+	public VendorDO getNamedVendor(String searchName) throws HeapFlowException;
+
 }

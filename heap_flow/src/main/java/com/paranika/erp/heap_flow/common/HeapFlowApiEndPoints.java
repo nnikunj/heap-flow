@@ -16,6 +16,7 @@ public interface HeapFlowApiEndPoints {
 	public String GET_VENDORS_LIST_WITH_NAME_LIKE = "/fetch-vendors-with-name-like/{nameLike}";
 	public String GET_VENDORS_PAGE_WISE = "/fetch-vendors-page-wise";
 	public String ADD_UPDATE_VENDOR = "add-update";
+	public String GET_VENDOR_WITH_SEARCH_NAME = "/fetch-vendor-item-with-search-name/{searchName}";
 
 	public String BASE_END_POINT_INVENTORY = BASE_END_POINT + "/inventory";
 	public String ACCEPT_INVENTORY = "/accept-materials";
@@ -27,10 +28,8 @@ public interface HeapFlowApiEndPoints {
 	public String ADD_UPDATE_ITEM = "modify-item";
 	public String INVENTORYITEM_IMPORT_ENDPOINT = "/import-and-update-inventory-items-list";
 	public String GET_INVENTORYITEM_PAGE_WISE = "/fetch-inventory-items-list-page-wise";
-
 	public String GET_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-inventory-items-list-like-id/{idLike}";
 	public String GET_PAGED_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-paged-inventory-items";
-
 	public String GET_INVENTORYITEM_WITH_PRODUCT_CODE = "/fetch-inventory-item-with-product-code/{prodCode}";
 
 }
