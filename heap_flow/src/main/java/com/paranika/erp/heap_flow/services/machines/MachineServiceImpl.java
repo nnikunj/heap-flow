@@ -178,4 +178,21 @@ public class MachineServiceImpl implements MachineServiceIX {
 		return persistedObj;
 	}
 
+	@Override
+	public MachineDO getMachineWithCode(String code) throws HeapFlowException {
+
+		MachineDO retItem = null;
+
+		try {
+			retItem = machinesDao.getMachinewithCode(code);
+
+		} catch (Exception e) {
+			logger.error("Failed to get machine with code " + code, e);
+
+			throw new HeapFlowException(e);
+		}
+
+		return retItem;
+	}
+
 }

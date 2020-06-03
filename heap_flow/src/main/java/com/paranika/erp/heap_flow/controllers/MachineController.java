@@ -124,6 +124,22 @@ public class MachineController {
 
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINE_WITH_CODE)
+	ResponseEntity<MachineDO> getMachineWithCode(@PathVariable("code") String code) {
+		MachineDO fetchedobj = null;
+		ResponseEntity<MachineDO> response;
+		try {
+			fetchedobj = machinesService.getMachineWithCode(code);
+			response = new ResponseEntity<MachineDO>(fetchedobj, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_MACHINE_WITH_CODE + " Success");
+		} catch (HeapFlowException e) {
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<MachineDO>((MachineDO) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+	}
+
 	public static void main(String[] args) {
 		MachineDO dbFetchedDO = new MachineDO();
 		dbFetchedDO.setCategory("Categiry");

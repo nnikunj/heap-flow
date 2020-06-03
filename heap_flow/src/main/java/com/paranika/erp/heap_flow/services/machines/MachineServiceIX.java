@@ -21,4 +21,6 @@ public interface MachineServiceIX {
 
 	public MachineDO persistMachine(MachineDO data) throws HeapFlowException;
 
+	public MachineDO getMachineWithCode(String code) throws HeapFlowException;
+
 }
