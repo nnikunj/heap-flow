@@ -72,6 +72,10 @@ public class MachineController {
 		logger.debug("codeLike: " + codeLike);
 		List<MachineDO> fetchedList = null;
 		ResponseEntity<List<MachineDO>> response;
+		if (!StringUtils.isEmpty(codeLike)) {
+			// Get Rid of all extra characters like \n etc
+			codeLike = codeLike.trim();
+		}
 		try {
 			fetchedList = machinesService.getMachineListWithCodeLike(codeLike);
 			response = new ResponseEntity<List<MachineDO>>(fetchedList, HttpStatus.OK);
@@ -91,6 +95,10 @@ public class MachineController {
 		Pageable paging = PageRequest.of(page, size);
 		Page<MachineDO> fetchedList = null;
 		ResponseEntity<Page<MachineDO>> response;
+		if (!StringUtils.isEmpty(codeLike)) {
+			// Get Rid of all extra characters like \n etc
+			codeLike = codeLike.trim();
+		}
 		try {
 			fetchedList = machinesService.getPagedMachinesWithCodeLike(codeLike, paging);
 			response = new ResponseEntity<Page<MachineDO>>(fetchedList, HttpStatus.OK);
@@ -128,6 +136,10 @@ public class MachineController {
 	ResponseEntity<MachineDO> getMachineWithCode(@PathVariable("code") String code) {
 		MachineDO fetchedobj = null;
 		ResponseEntity<MachineDO> response;
+		if (!StringUtils.isEmpty(code)) {
+			// Get Rid of all extra characters like \n etc
+			code = code.trim();
+		}
 		try {
 			fetchedobj = machinesService.getMachineWithCode(code);
 			response = new ResponseEntity<MachineDO>(fetchedobj, HttpStatus.OK);

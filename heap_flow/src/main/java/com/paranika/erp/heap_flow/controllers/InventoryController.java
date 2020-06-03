@@ -47,6 +47,10 @@ public class InventoryController {
 		Pageable paging = PageRequest.of(page, size);
 		Page<InventorySummaryDTO> fetchedList = null;
 		ResponseEntity<Page<InventorySummaryDTO>> response;
+		if (!StringUtils.isEmpty(idLike)) {
+			// Get Rid of all extra characters like \n etc
+			idLike = idLike.trim();
+		}
 		try {
 			fetchedList = service.getPagedInvSummaryWithIdLike(idLike, paging);
 			response = new ResponseEntity<Page<InventorySummaryDTO>>(fetchedList, HttpStatus.OK);

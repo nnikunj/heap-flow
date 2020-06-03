@@ -41,6 +41,10 @@ public class InventoryItemController {
 	ResponseEntity<InventoryItemDTO> getItemWithProd(@PathVariable("prodCode") String prodCode) {
 		InventoryItemDTO fethcedObj = null;
 		ResponseEntity<InventoryItemDTO> response;
+		if (!StringUtils.isEmpty(prodCode)) {
+			// Get Rid of all extra characters like \n etc
+			prodCode = prodCode.trim();
+		}
 		try {
 			fethcedObj = service.getItemWithProdCode(prodCode);
 			response = new ResponseEntity<InventoryItemDTO>(fethcedObj, HttpStatus.OK);
@@ -60,7 +64,12 @@ public class InventoryItemController {
 			@RequestParam(defaultValue = "25") int size) {
 		Pageable paging = PageRequest.of(page, size);
 		Page<InventoryItemDTO> fetchedList = null;
+
 		ResponseEntity<Page<InventoryItemDTO>> response;
+		if (!StringUtils.isEmpty(idLike)) {
+			// Get Rid of all extra characters like \n etc
+			idLike = idLike.trim();
+		}
 		try {
 			fetchedList = service.getPagedItemsWithIdLike(idLike, paging);
 			response = new ResponseEntity<Page<InventoryItemDTO>>(fetchedList, HttpStatus.OK);
@@ -78,6 +87,10 @@ public class InventoryItemController {
 	ResponseEntity<List<InventoryItemDTO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
 		List<InventoryItemDTO> fetchedList = null;
 		ResponseEntity<List<InventoryItemDTO>> response;
+		if (!StringUtils.isEmpty(idLike)) {
+			// Get Rid of all extra characters like \n etc
+			idLike = idLike.trim();
+		}
 		try {
 			fetchedList = service.getItemListWithIdLike(idLike);
 			response = new ResponseEntity<List<InventoryItemDTO>>(fetchedList, HttpStatus.OK);

@@ -68,6 +68,10 @@ public class VendorController {
 	ResponseEntity<List<VendorDO>> getNameLikeVendorsList(@PathVariable("nameLike") String nameLike) {
 		List<VendorDO> fetchedList = null;
 		ResponseEntity<List<VendorDO>> response;
+		if (!StringUtils.isEmpty(nameLike)) {
+			// Get Rid of all extra characters like \n etc
+			nameLike = nameLike.trim();
+		}
 		try {
 			fetchedList = service.getVendorListWithNameLike(nameLike);
 			response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
@@ -84,6 +88,10 @@ public class VendorController {
 	ResponseEntity<VendorDO> getNamedVendor(@PathVariable("searchName") String searchName) {
 		VendorDO fetchedList = null;
 		ResponseEntity<VendorDO> response;
+		if (!StringUtils.isEmpty(searchName)) {
+			// Get Rid of all extra characters like \n etc
+			searchName = searchName.trim();
+		}
 		try {
 			fetchedList = service.getNamedVendor(searchName);
 			response = new ResponseEntity<VendorDO>(fetchedList, HttpStatus.OK);
@@ -103,6 +111,10 @@ public class VendorController {
 		Pageable paging = PageRequest.of(page, size);
 		Page<VendorDO> fetchedList = null;
 		ResponseEntity<Page<VendorDO>> response;
+		if (!StringUtils.isEmpty(searchNameLike)) {
+			// Get Rid of all extra characters like \n etc
+			searchNameLike = searchNameLike.trim();
+		}
 		try {
 			fetchedList = service.getPagedVendorsWithSearchNameLike(searchNameLike, paging);
 			response = new ResponseEntity<Page<VendorDO>>(fetchedList, HttpStatus.OK);
