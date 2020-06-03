@@ -351,6 +351,9 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		inventoryItemDO.setItemCategoryCode(itemcategoryCode);
 		inventoryItemDO.setProductGrpCode(productCodeGroup);
+		inventoryItemDO.setReOrderQuant(0.00);
+		inventoryItemDO.setReserveQuantAlert(0.00);
+		inventoryItemDO.setMaxOrderQuant(0.00);
 
 		try {
 			inventoryItemDO = inventoryItemDao.add(inventoryItemDO);

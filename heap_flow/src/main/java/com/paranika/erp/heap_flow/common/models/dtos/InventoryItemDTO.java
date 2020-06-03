@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.paranika.erp.heap_flow.common.AppConstants;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
@@ -38,6 +39,10 @@ public class InventoryItemDTO {
 		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
 		this.creation = dateFormat.format(doOb.getCreation());
 		this.modified = dateFormat.format(doOb.getModified());
+
+		this.reserveQuantAlert = doOb.getReserveQuantAlert();
+		this.reOrderQuant = doOb.getReOrderQuant();
+		this.maxOrderQuant = doOb.getMaxOrderQuant();
 
 		Collection<InventoryDO> stoks = doOb.getStocks();
 		for (InventoryDO inventoryDO : stoks) {
@@ -74,6 +79,12 @@ public class InventoryItemDTO {
 	private String gstGrpCode;
 
 	private String hsnSacCode;
+
+	private Double reserveQuantAlert;
+
+	private Double maxOrderQuant;
+
+	private Double reOrderQuant;
 
 	public String getInventoryItemCode() {
 		return inventoryItemCode;
@@ -171,6 +182,30 @@ public class InventoryItemDTO {
 		this.stokcs = stokcs;
 	}
 
+	public Double getReserveQuantAlert() {
+		return reserveQuantAlert;
+	}
+
+	public void setReserveQuantAlert(Double reserveQuantAlert) {
+		this.reserveQuantAlert = reserveQuantAlert;
+	}
+
+	public Double getMaxOrderQuant() {
+		return maxOrderQuant;
+	}
+
+	public void setMaxOrderQuant(Double maxOrderQuant) {
+		this.maxOrderQuant = maxOrderQuant;
+	}
+
+	public Double getReOrderQuant() {
+		return reOrderQuant;
+	}
+
+	public void setReOrderQuant(Double reOrderQuant) {
+		this.reOrderQuant = reOrderQuant;
+	}
+
 	@JsonIgnore
 	public InventoryItemDO getDoObj() {
 		InventoryItemDO inventoryItemDO = new InventoryItemDO();
@@ -186,6 +221,10 @@ public class InventoryItemDTO {
 
 		inventoryItemDO.setItemCategoryCode((this.itemCategoryCode == null) ? null : this.itemCategoryCode.trim());
 		inventoryItemDO.setProductGrpCode((this.productGrpCode == null) ? null : this.productGrpCode.trim());
+
+		inventoryItemDO.setReserveQuantAlert((this.reserveQuantAlert == null) ? 0.00 : this.reserveQuantAlert);
+		inventoryItemDO.setReOrderQuant((this.reOrderQuant == null) ? 0.00 : this.reOrderQuant);
+		inventoryItemDO.setMaxOrderQuant((this.maxOrderQuant == null) ? 0.00 : this.maxOrderQuant);
 
 		return inventoryItemDO;
 	}
@@ -208,7 +247,8 @@ public class InventoryItemDTO {
 		desc.setDescription6("desc6");
 		dto.setDescriptions(desc);
 		dto.setBaseUnitMeasure("NO.");
-		Gson gson = new Gson();
+		dto.setReserveQuantAlert(100.00);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		System.out.println(gson.toJson(dto));
 
 	}

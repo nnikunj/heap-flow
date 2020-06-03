@@ -21,12 +21,12 @@ public interface HeapFlowApiEndPoints {
 	public String ACCEPT_INVENTORY = "/accept-materials";
 	public String ISSUE_INVENTORY = "/issue-materials";
 	public String GET_INVENTORYSUMMARY_PAGE_WISE = "/fetch-inventory-summary-page-wise";
+	public String UPDATE_PRE_EXISTING_STOCKS = "/update-inventory-stocks";
 
 	public String BASE_END_POINT_INVENTORYITEM = BASE_END_POINT + "/inventory-items";
 	public String ADD_UPDATE_ITEM = "modify-item";
 	public String INVENTORYITEM_IMPORT_ENDPOINT = "/import-and-update-inventory-items-list";
 	public String GET_INVENTORYITEM_PAGE_WISE = "/fetch-inventory-items-list-page-wise";
-	public String UPDATE_PRE_EXISTING_STOCKS = "/update-inventory-stocks";
 
 	public String GET_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-inventory-items-list-like-id/{idLike}";
 	public String GET_PAGED_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-paged-inventory-items";
