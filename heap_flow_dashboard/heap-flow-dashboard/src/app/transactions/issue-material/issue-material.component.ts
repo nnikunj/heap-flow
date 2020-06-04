@@ -39,7 +39,8 @@ export class IssueMaterialComponent implements OnInit {
     inventoryType: ['', Validators.required],
     classification: ['', Validators.required],
     productCode: ['', Validators.required],
-    baseUnitMeasure : [{value:'',disabled:true}]
+    baseUnitMeasure: [{ value: '', disabled: true }],
+    stockCount: [{ value: '', disabled: true }]
   });
 
   machines = <any>[];
@@ -101,6 +102,21 @@ export class IssueMaterialComponent implements OnInit {
     this.inventoryTypeMap.set("CMC", "CMC");
 
     this.issueMaterialItemForm.get('classification').setValue(this.classificationDefault);
+
+    this.issueMaterialItemForm.get('inventoryType').valueChanges.subscribe(data => {
+      if (this.issueMaterialItemForm.get('inventoryType').value) {
+        console.log('inventory type changed: ' + this.issueMaterialItemForm.get('inventoryType').value);
+        let stocks = this.issueMaterialItemForm.get('productCode').value.stokcs;
+        console.log(stocks);
+        if (stocks) {
+          stocks.forEach(s => {
+            if (this.issueMaterialItemForm.get('inventoryType').value === s.inventoryTypeName) {
+              this.issueMaterialItemForm.get('stockCount').setValue(s.quantity);
+            }
+          })
+        }
+      }
+    })
 
   }
 
@@ -188,7 +204,7 @@ export class IssueMaterialComponent implements OnInit {
       return;
     }
 
-    if(!this.issueMaterialForm.get('machineCode').value.code){
+    if (!this.issueMaterialForm.get('machineCode').value.code) {
       this.openSnackBar('Machine Code not selected', 'Please enter Machine Code');
       return;
     }
