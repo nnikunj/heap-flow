@@ -11,7 +11,7 @@
           <div class="heap-row">
             <mat-form-field>
               <mat-label>Vendor Name</mat-label>
-              <input type="text" matInput formControlName="vendorCode" [matAutocomplete]="auto_material_vendor">
+              <input type="text" matInput formControlName="vendorCode" [matAutocomplete]="auto_material_vendor" (focusout)="vendorFocusOut($event)">
               <mat-autocomplete #auto_material_vendor="matAutocomplete" [displayWith]="displayVendorName">
                 <mat-option *ngFor="let vendor of vendors " [value]="vendor">
                   {{vendor.name}}
@@ -83,7 +83,7 @@
             <mat-form-field>
               <mat-label>Accepting Material Code</mat-label>
               <input type="text" matInput formControlName="productCode" [matAutocomplete]="auto_inventory_item"
-                (focusout)="acceptMaterialFocusOut($event)">
+                (focusout)="productFocusOut($event)">
               <mat-autocomplete #auto_inventory_item="matAutocomplete" [displayWith]="displayInventoryItemCode"
                 (optionSelected)="itemSelected($event)">
                 <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">

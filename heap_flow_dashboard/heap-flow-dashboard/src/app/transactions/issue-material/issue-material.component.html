@@ -11,7 +11,7 @@
                         <mat-form-field>
                             <mat-label>Machine Code</mat-label>
                             <input type="text" matInput formControlName="machineCode"
-                                [matAutocomplete]="auto_machine_code">
+                                [matAutocomplete]="auto_machine_code" (focusout)="machineCodeFocusOut($event)">
                             <mat-autocomplete #auto_machine_code="matAutocomplete" [displayWith]="displayMachineCode">
                                 <mat-option *ngFor="let machine of machines " [value]="machine">
                                     {{machine.code}}
@@ -65,7 +65,7 @@
                         <mat-form-field>
                             <mat-label>Issue Material Code</mat-label>
                             <input type="text" matInput formControlName="productCode"
-                                [matAutocomplete]="auto_issue_material_code" (focusout)="issueMaterialFocusOut($event)">
+                                [matAutocomplete]="auto_issue_material_code" (focusout)="materialCodeFocusOut($event)">
                             <mat-autocomplete #auto_issue_material_code="matAutocomplete"
                                 (optionSelected)="itemSelected($event)" [displayWith]="displayIssueMaterialCode">
                                 <mat-option *ngFor="let inventoryItem of inventoryItems " [value]="inventoryItem">

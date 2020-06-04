@@ -188,6 +188,11 @@ export class IssueMaterialComponent implements OnInit {
       return;
     }
 
+    if(!this.issueMaterialForm.get('machineCode').value.code){
+      this.openSnackBar('Machine Code not selected', 'Please enter Machine Code');
+      return;
+    }
+
     let issueMaterial = new IssueMaterial();
 
     issueMaterial.machineCode = this.issueMaterialForm.get('machineCode').value.code;
@@ -229,8 +234,23 @@ export class IssueMaterialComponent implements OnInit {
 
   }
 
-  issueMaterialFocusOut(event: Event) {
-    console.log("focus out");
+  machineCodeFocusOut(event: Event) {
+    console.log("machine code focus out");
+    if (typeof this.issueMaterialForm.get('machineCode').value === 'string') {
+      this.httpService.get('http://localhost:9443/api/v1/machines/fetch-machine-with-code/' + this.issueMaterialForm.get('machineCode').value)
+        .subscribe(res => {
+          console.log(res.body);
+          if (res.body) {
+            this.issueMaterialForm.get('machineCode').setValue(res.body, { emitEvent: false });
+          }
+        }, error => {
+          console.error(error);
+        })
+    }
+  }
+
+  materialCodeFocusOut(event: Event) {
+    console.log("material code focus out");
     if (typeof this.issueMaterialItemForm.get('productCode').value === 'string') {
       this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.issueMaterialItemForm.get('productCode').value)
         .subscribe(res => {
@@ -238,7 +258,6 @@ export class IssueMaterialComponent implements OnInit {
           if (res.body) {
             this.issueMaterialItemForm.get('productCode').setValue(res.body, { emitEvent: false });
             this.updateFieldOnItemSelect(res.body);
-            // this.updateInventoryType(res.body.stokcs);
           }
         }, error => {
           console.error(error);

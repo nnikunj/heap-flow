@@ -136,6 +136,11 @@ export class AcceptMaterialComponent implements OnInit {
   addMaterial() {
     let item = new Item();
 
+    if (!this.acceptMaterialItemForm.get('productCode').value.inventoryItemCode) {
+      this.openSnackBar('Material Code not selected', 'Please select valid Material code.');
+      return;
+    }
+
     item.productCode = this.acceptMaterialItemForm.get('productCode').value.inventoryItemCode;
     item.classification = this.acceptMaterialItemForm.get('classification').value;
     item.quantity = this.acceptMaterialItemForm.get('quantity').value;
@@ -173,6 +178,11 @@ export class AcceptMaterialComponent implements OnInit {
 
     if (this.items.length === 0) {
       this.openSnackBar('No items are added', 'Please add some items');
+      return;
+    }
+
+    if(!this.acceptMaterialForm.get('vendorCode').value.vendorId){
+      this.openSnackBar('Vendor not selected', 'Please select valid vendor');
       return;
     }
 
@@ -217,8 +227,24 @@ export class AcceptMaterialComponent implements OnInit {
     this.table.renderRows();
   }
 
-  acceptMaterialFocusOut(event: Event) {
-    console.log("focus out");
+  vendorFocusOut(event: Event) {
+    console.log("vendor focus out");
+    if (typeof this.acceptMaterialForm.get('vendorCode').value === 'string') {
+      this.httpService.get('http://localhost:9443/api/v1/vendors/fetch-vendor-with-search-name/' + this.acceptMaterialForm.get('vendorCode').value)
+        .subscribe(res => {
+          console.log(res.body);
+          if (res.body) {
+            this.acceptMaterialForm.get('vendorCode').setValue(res.body, { emitEvent: false });
+            console.log(this.acceptMaterialForm.get('vendorCode').value);
+          }
+        }, error => {
+          console.error(error);
+        })
+    }
+  }
+
+  productFocusOut(event: Event) {
+    console.log("product focus out");
     if (typeof this.acceptMaterialItemForm.get('productCode').value === 'string') {
       this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.acceptMaterialItemForm.get('productCode').value)
         .subscribe(res => {
