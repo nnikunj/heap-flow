@@ -93,7 +93,10 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		try {
 			machineDO = machineDao.getMachinewithCode(machineCode);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Could find any Machine with code: " + machineCode, e);
+			throw new HeapFlowException("Could find any Machine with code: " + machineCode);
+		}
+		if (machineDO == null) {
 			throw new HeapFlowException("Could find any Machine with code: " + machineCode);
 		}
 
@@ -195,8 +198,11 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		try {
 			vendor = vendorDao.getVendorwithCode(vendorCode);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Could find any vendor with code: " + vendorCode, e);
 			throw new HeapFlowException("Could find any vendor with code: " + vendorCode);
+		}
+		if (vendor == null) {
+			throw new HeapFlowException("Could find any Vendor with code: " + vendorCode);
 		}
 		ArrayList<IngressLedgerDO> ledgerList = new ArrayList<IngressLedgerDO>();
 
