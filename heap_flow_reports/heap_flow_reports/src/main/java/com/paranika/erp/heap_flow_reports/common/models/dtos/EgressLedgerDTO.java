@@ -24,6 +24,7 @@ public class EgressLedgerDTO {
 	private String issuedBy;
 
 	public EgressLedgerDTO(EgressLedgerDO dbObj) {
+		String noDataFoundMsg = "NO_DATA_FOUND";
 		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
 
 		this.srNo = String.valueOf(dbObj.getId());
@@ -33,18 +34,25 @@ public class EgressLedgerDTO {
 		this.itemGroup = String.valueOf(dbObj.getInventoryType().getTypeName());
 		this.ved = " ";
 
-		this.machineNummber = dbObj.getConsumingMachine().getCode();
+		this.machineNummber = (dbObj.getConsumingMachine() == null) ? noDataFoundMsg
+				: dbObj.getConsumingMachine().getCode();
 		this.engineer = (dbObj.getIssuedTo() == null) ? " " : dbObj.getIssuedTo().trim();
 		this.approvedBy = (dbObj.getApprovedBy() == null) ? " " : dbObj.getApprovedBy().trim();
-		this.category = (dbObj.getOutgoingMaterial().getItemCategoryCode() == null) ? " "
-				: dbObj.getOutgoingMaterial().getItemCategoryCode();
-		this.itemCode = dbObj.getOutgoingMaterial().getInventoryItemCode();
-		this.description = InventoryItemDescriptions.fromJson(dbObj.getOutgoingMaterial().getDescriptions())
-				.getDescription();
+
+		this.category = (dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+				: ((dbObj.getOutgoingMaterial().getItemCategoryCode() == null) ? " "
+						: dbObj.getOutgoingMaterial().getItemCategoryCode());
+		this.itemCode = (dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+				: (dbObj.getOutgoingMaterial().getInventoryItemCode());
+		String strDesc = (dbObj.getOutgoingMaterial() == null) ? null : dbObj.getOutgoingMaterial().getDescriptions();
+
+		this.description = (strDesc == null) ? noDataFoundMsg
+				: InventoryItemDescriptions.fromJson(strDesc).getDescription();
 		this.qunatity = String.valueOf(dbObj.getOutgoingQuantity());
 
-		this.baseUnitMeasure = String.valueOf((dbObj.getOutgoingMaterial().getBaseUnitMeasure() == null) ? " "
-				: dbObj.getOutgoingMaterial().getBaseUnitMeasure());
+		this.baseUnitMeasure = String.valueOf((((dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+				: dbObj.getOutgoingMaterial().getBaseUnitMeasure()) == null) ? " "
+						: dbObj.getOutgoingMaterial().getBaseUnitMeasure());
 		this.issuedBy = (dbObj.getIssuedBy() == null) ? " " : dbObj.getIssuedBy();
 
 	}
