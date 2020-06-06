@@ -22,6 +22,8 @@ public class IssuingMaterialDataDTO {
 
 	private String loggedInUser;
 
+	private String issueSlipNumber;
+
 	private List<OutgoingMaterialDataDTO> outgoingItemsList = new ArrayList<OutgoingMaterialDataDTO>();
 
 	public String getRecordDate() {
@@ -80,6 +82,14 @@ public class IssuingMaterialDataDTO {
 		this.loggedInUser = loggedInUser;
 	}
 
+	public String getIssueSlipNumber() {
+		return issueSlipNumber;
+	}
+
+	public void setIssueSlipNumber(String issueSlipNumber) {
+		this.issueSlipNumber = issueSlipNumber;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -95,6 +105,8 @@ public class IssuingMaterialDataDTO {
 		builder.append(approvedBy);
 		builder.append(", loggedInUser=");
 		builder.append(loggedInUser);
+		builder.append(", issueSlipNumber=");
+		builder.append(issueSlipNumber);
 		builder.append(", outgoingItemsList=");
 		builder.append(outgoingItemsList);
 		builder.append("]");
@@ -125,6 +137,8 @@ public class IssuingMaterialDataDTO {
 		data.setLoggedInUser("JaganNath");
 		data.setApprovedBy("Paneer Selvam");
 		data.setIssuedForDept("Engineering");
+
+		data.setIssueSlipNumber("17560");
 		// Thu May 14 2020
 		data.setRecordDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
 		data.setOutgoingItemsList(l);

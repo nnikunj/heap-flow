@@ -22,6 +22,7 @@ public class EgressLedgerDTO {
 	private String qunatity;
 	private String baseUnitMeasure;
 	private String issuedBy;
+	private String issueSlipNumber;
 
 	public EgressLedgerDTO(EgressLedgerDO dbObj) {
 		String noDataFoundMsg = "NO_DATA_FOUND";
@@ -55,6 +56,17 @@ public class EgressLedgerDTO {
 						: dbObj.getOutgoingMaterial().getBaseUnitMeasure());
 		this.issuedBy = (dbObj.getIssuedBy() == null) ? " " : dbObj.getIssuedBy();
 
+		this.issueSlipNumber = (dbObj.getIssueSlipNumber() == null) ? noDataFoundMsg
+				: dbObj.getIssueSlipNumber().trim();
+
+	}
+
+	public String getIssueSlipNumber() {
+		return issueSlipNumber;
+	}
+
+	public void setIssueSlipNumber(String issueSlipNumber) {
+		this.issueSlipNumber = issueSlipNumber;
 	}
 
 	public String getSrNo() {
@@ -200,6 +212,8 @@ public class EgressLedgerDTO {
 		builder.append(baseUnitMeasure);
 		builder.append(", issuedBy=");
 		builder.append(issuedBy);
+		builder.append(", issueSlipNumber=");
+		builder.append(issueSlipNumber);
 		builder.append("]");
 		return builder.toString();
 	}

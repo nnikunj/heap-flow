@@ -99,7 +99,8 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		if (machineDO == null) {
 			throw new HeapFlowException("Could find any Machine with code: " + machineCode);
 		}
-
+		String issueSlipNumber = outgoingMaterials.getIssueSlipNumber();
+		logger.debug("Issuing materials for issueSlipNumber: " + issueSlipNumber);
 		ArrayList<EgressLedgerDO> ledgerList = new ArrayList<EgressLedgerDO>();
 
 		List<OutgoingMaterialDataDTO> outgoinMats = outgoingMaterials.getOutgoingItemsList();
@@ -145,6 +146,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 				ledgerDO.setIssuedForDept(issuedForDept);
 				ledgerDO.setIssuedBy(issuedBy);
 				ledgerDO.setApprovedBy(approvedBy);
+				ledgerDO.setIssueSlipNumber(issueSlipNumber);
 				ledgerList.add(ledgerDO);
 			}
 		}
