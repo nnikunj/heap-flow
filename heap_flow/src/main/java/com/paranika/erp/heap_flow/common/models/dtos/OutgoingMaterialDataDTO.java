@@ -6,6 +6,7 @@ public class OutgoingMaterialDataDTO {
 	private String inventoryType;
 	private String classification;
 	private String productCode;
+	private Double price;
 
 	public OutgoingMaterialDataDTO() {
 
@@ -43,6 +44,14 @@ public class OutgoingMaterialDataDTO {
 		this.productCode = productCode;
 	}
 
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -54,6 +63,8 @@ public class OutgoingMaterialDataDTO {
 		builder.append(classification);
 		builder.append(", productCode=");
 		builder.append(productCode);
+		builder.append(", price=");
+		builder.append(price);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -23,6 +23,7 @@ public class EgressLedgerDTO {
 	private String baseUnitMeasure;
 	private String issuedBy;
 	private String issueSlipNumber;
+	private String price;
 
 	public EgressLedgerDTO(EgressLedgerDO dbObj) {
 		String noDataFoundMsg = "NO_DATA_FOUND";
@@ -58,6 +59,9 @@ public class EgressLedgerDTO {
 
 		this.issueSlipNumber = (dbObj.getIssueSlipNumber() == null) ? noDataFoundMsg
 				: dbObj.getIssueSlipNumber().trim();
+
+		this.price = (dbObj.getOutgoingMaterialPrice() == null) ? noDataFoundMsg
+				: String.valueOf(dbObj.getOutgoingMaterialPrice());
 
 	}
 
@@ -181,6 +185,14 @@ public class EgressLedgerDTO {
 		this.issuedBy = issuedBy;
 	}
 
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -214,6 +226,8 @@ public class EgressLedgerDTO {
 		builder.append(issuedBy);
 		builder.append(", issueSlipNumber=");
 		builder.append(issueSlipNumber);
+		builder.append(", price=");
+		builder.append(price);
 		builder.append("]");
 		return builder.toString();
 	}

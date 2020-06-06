@@ -59,6 +59,8 @@ public class EgressLedgerDO extends BaseDO {
 
 	@Column(name = "issue_slip_number", nullable = true)
 	private String issueSlipNumber;
+	@Column(name = "outgoing_mat_price", nullable = true)
+	private Double outgoingMaterialPrice;
 
 	public Date getRecordDate() {
 		return recordDate;
@@ -146,6 +148,14 @@ public class EgressLedgerDO extends BaseDO {
 
 	public void setIssueSlipNumber(String issueSlipNumber) {
 		this.issueSlipNumber = issueSlipNumber;
+	}
+
+	public Double getOutgoingMaterialPrice() {
+		return outgoingMaterialPrice;
+	}
+
+	public void setOutgoingMaterialPrice(Double outgoingMaterialPrice) {
+		this.outgoingMaterialPrice = outgoingMaterialPrice;
 	}
 
 }

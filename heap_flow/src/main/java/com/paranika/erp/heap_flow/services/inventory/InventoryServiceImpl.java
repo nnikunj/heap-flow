@@ -132,10 +132,11 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 						+ ", We only have " + inventory.getQuantity() + " " + inventoryItemDO.getBaseUnitMeasure()
 						+ " and demand is for " + outgoingMaterialDataDTO.getQuantity() + " "
 						+ inventoryItemDO.getBaseUnitMeasure());
-			}
-
-			else {
+			} else {
 				EgressLedgerDO ledgerDO = new EgressLedgerDO();
+				Double priceOutgoingMat = inventory.getAverageUnitPrice() * outgoingMaterialDataDTO.getQuantity();
+				logger.debug("Calculated price for outgoing material: " + inventoryItemDO.getInventoryItemCode()
+						+ " is " + priceOutgoingMat);
 				ledgerDO.setClassificationCategory(outgoingMaterialDataDTO.getClassification());
 				ledgerDO.setConsumingMachine(machineDO);
 				ledgerDO.setInventoryType(inventoryTypeDO);
@@ -147,7 +148,9 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 				ledgerDO.setIssuedBy(issuedBy);
 				ledgerDO.setApprovedBy(approvedBy);
 				ledgerDO.setIssueSlipNumber(issueSlipNumber);
+				ledgerDO.setOutgoingMaterialPrice(priceOutgoingMat);
 				ledgerList.add(ledgerDO);
+
 			}
 		}
 		try {
