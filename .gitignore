@@ -9,3 +9,4 @@ logs/*
 heap_flow_reports/heap_flow_reports/.idea/
 heap_flow_reports/heap_flow_reports/heap_flow_reports.iml
 heap_flow_reports/heap_flow_reports/target/
+heap_flow_dashboard/.DS_Store
