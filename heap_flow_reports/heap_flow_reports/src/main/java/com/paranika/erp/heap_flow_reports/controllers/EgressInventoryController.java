@@ -55,10 +55,11 @@ public class EgressInventoryController {
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "inline; filename=outgoingMaterialRpt.xlsx");
-
+		headers.add("Content-Disposition", "attachment; filename=\"outgoingMaterialRpt.xlsx\"");
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return ResponseEntity.ok().headers(headers)
 				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))
+
 				.body(new InputStreamResource(output));
 
 	}

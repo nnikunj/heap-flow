@@ -140,7 +140,7 @@ public class IssuingMaterialDataDTO {
 
 		data.setIssueSlipNumber("17560");
 		// Thu May 14 2020
-		data.setRecordDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
+		data.setRecordDate((new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).format(new Date()));
 		data.setOutgoingItemsList(l);
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 

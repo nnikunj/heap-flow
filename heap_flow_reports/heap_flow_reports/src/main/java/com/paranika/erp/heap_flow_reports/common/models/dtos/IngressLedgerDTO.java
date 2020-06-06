@@ -11,7 +11,9 @@ public class IngressLedgerDTO {
 	private String srNo;
 	private String recordDate;
 	private String invNumber;
+	private String invDate;
 	private String poNumber;
+	private String poDate;
 	private String supplierName;
 	private String itemDescription;
 	private String quantity;
@@ -24,24 +26,36 @@ public class IngressLedgerDTO {
 	private String itemCode;
 
 	public IngressLedgerDTO(IngressLedgerDO dbObj) {
-		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.REPORT_DATE_FORMAT);
 
 		this.srNo = String.valueOf(dbObj.getId());
-		this.recordDate = dateFormat.format(dbObj.getRecordDate());
-		this.invNumber = String.valueOf(dbObj.getInvoiceNumber());
-		this.poNumber = String.valueOf(dbObj.getPoNumber());
-		this.supplierName = String.valueOf(dbObj.getVendor().getSearchName());
-		this.itemCode = dbObj.getIncomingMaterial().getInventoryItemCode();
-		this.itemDescription = InventoryItemDescriptions.fromJson(dbObj.getIncomingMaterial().getDescriptions())
-				.getDescription();
+		this.recordDate = (dbObj.getRecordDate() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: dateFormat.format(dbObj.getRecordDate());
+		this.poDate = (dbObj.getPoDate() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: dateFormat.format(dbObj.getPoDate());
+		this.invNumber = (dbObj.getInvoiceNumber() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: String.valueOf(dbObj.getInvoiceNumber());
+		this.invDate = (dbObj.getInvoiceDate() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: dateFormat.format(dbObj.getInvoiceDate());
+		this.poNumber = (dbObj.getPoNumber() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: String.valueOf(dbObj.getPoNumber());
+
+		this.supplierName = (dbObj.getVendor() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: String.valueOf(dbObj.getVendor().getSearchName());
+		this.itemCode = (dbObj.getIncomingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: dbObj.getIncomingMaterial().getInventoryItemCode();
+		this.itemDescription = (dbObj.getIncomingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: InventoryItemDescriptions.fromJson(dbObj.getIncomingMaterial().getDescriptions()).getDescription();
 
 		this.quantity = String.valueOf(dbObj.getIncomingQuantity());
-		this.baseUnitMeasure = String.valueOf(dbObj.getIncomingMaterial().getBaseUnitMeasure());
+		this.baseUnitMeasure = (dbObj.getIncomingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: String.valueOf(dbObj.getIncomingMaterial().getBaseUnitMeasure());
 		this.rate = String.valueOf(dbObj.getPricePerUnit());
 		this.amount = String.valueOf(dbObj.getPricePerUnit() * dbObj.getIncomingQuantity());
 		this.remark = "";
 		this.checkedBy = String.valueOf(dbObj.getMaterialAcceptedBy());
-		this.indentNumber = String.valueOf(dbObj.getIntentNumber());
+		this.indentNumber = (dbObj.getIntentNumber() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: String.valueOf(dbObj.getIntentNumber());
 	}
 
 	public String getItemCode() {
@@ -156,39 +170,20 @@ public class IngressLedgerDTO {
 		this.indentNumber = indentNumber;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("IngressLedgerDTO [srNo=");
-		builder.append(srNo);
-		builder.append(", recordDate=");
-		builder.append(recordDate);
-		builder.append(", invNumber=");
-		builder.append(invNumber);
-		builder.append(", poNumber=");
-		builder.append(poNumber);
-		builder.append(", supplierName=");
-		builder.append(supplierName);
-		builder.append(", itemDescription=");
-		builder.append(itemDescription);
-		builder.append(", quantity=");
-		builder.append(quantity);
-		builder.append(", baseUnitMeasure=");
-		builder.append(baseUnitMeasure);
-		builder.append(", rate=");
-		builder.append(rate);
-		builder.append(", amount=");
-		builder.append(amount);
-		builder.append(", remark=");
-		builder.append(remark);
-		builder.append(", checkedBy=");
-		builder.append(checkedBy);
-		builder.append(", indentNumber=");
-		builder.append(indentNumber);
-		builder.append(", itemCode=");
-		builder.append(itemCode);
-		builder.append("]");
-		return builder.toString();
+	public String getInvDate() {
+		return invDate;
+	}
+
+	public void setInvDate(String invDate) {
+		this.invDate = invDate;
+	}
+
+	public String getPoDate() {
+		return poDate;
+	}
+
+	public void setPoDate(String poDate) {
+		this.poDate = poDate;
 	}
 
 }

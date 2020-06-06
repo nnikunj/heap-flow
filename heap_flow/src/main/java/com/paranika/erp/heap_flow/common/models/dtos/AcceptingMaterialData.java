@@ -153,13 +153,13 @@ public class AcceptingMaterialData {
 		AcceptingMaterialData data = new AcceptingMaterialData();
 		data.setGrn("GenratedGRN");
 		data.setInvoice("invoice001");
-		data.setInvoiceDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
+		data.setInvoiceDate((new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).format(new Date()));
 		data.setVendorCode("VEND5857");
 		// Thu May 14 2020
-		data.setRecordDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
+		data.setRecordDate((new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).format(new Date()));
 		data.setIncomingItemsList(l);
 		data.setPoNumber("PoNumber");
-		data.setPoDate((new SimpleDateFormat(AppConstants.commonAppDateFormat)).format(new Date()));
+		data.setPoDate((new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).format(new Date()));
 		data.setLoggedInUser("JaganNath");
 		data.setIntentNumber("intynt001");
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -107,7 +107,7 @@ public class CommonUtil {
 	public Date extractDateFromInput(String inputDate, short offsetDays) {
 		logger.debug("inputDate " + inputDate);
 		Date retDate = null;
-		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT);
 		if (!StringUtils.isEmpty(inputDate)) {
 			try {
 				retDate = dateFormat.parse(inputDate);

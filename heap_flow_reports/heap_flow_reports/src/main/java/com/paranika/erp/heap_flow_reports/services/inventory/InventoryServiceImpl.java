@@ -52,18 +52,21 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 	private ByteArrayInputStream generateExcel(List<IngressLedgerDTO> translatedData) throws HeapFlowReportException {
 
-		String[] cols = { "SR NO.", "RECORD DATE", "INVOICE NUMBER", "PO NUMBER", "SUPPLIER NAME", "ITEM CODE",
-				"ITEM DESCRIPTION", "QUANTITY", "BASE UNIT MEASURE", "RATE", "AMOUNT", "REMARK", "CHECKED BY",
-				"INDENT NUMBER" };
+		String[] cols = { "SR NO.", "RECEIVED DATE", "INDENT NUMBER", "INVOICE NUMBER", "INVOICE DATE", "PO NUMBER",
+				"PO DATE", "SUPPLIER NAME", "ITEM CODE", "ITEM DESCRIPTION", "QUANTITY", "UOM", "RATE", "AMOUNT",
+				"REMARK", "CHECKED BY" };
 		List<List<String>> fillInData = new LinkedList<List<String>>();
 
 		for (IngressLedgerDTO data : translatedData) {
 			LinkedList<String> dataSet = new LinkedList<String>();
 			dataSet.add(data.getSrNo());
 			dataSet.add(data.getRecordDate());
-
+			dataSet.add((data.getIndentNumber() == null) ? " " : data.getIndentNumber().trim());
 			dataSet.add((data.getInvNumber() == null) ? " " : data.getInvNumber().trim());
+			dataSet.add((data.getInvDate() == null) ? " " : data.getInvDate().trim());
+
 			dataSet.add((data.getPoNumber() == null) ? " " : data.getPoNumber().trim());
+			dataSet.add((data.getPoDate() == null) ? " " : data.getPoDate().trim());
 			dataSet.add((data.getSupplierName() == null) ? " " : data.getSupplierName().trim());
 			dataSet.add(data.getItemCode());
 			dataSet.add((data.getItemDescription() == null) ? " " : data.getItemDescription().trim());
@@ -73,10 +76,10 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			dataSet.add((data.getAmount() == null) ? " " : data.getAmount().trim());
 			dataSet.add((data.getRemark() == null) ? " " : data.getRemark().trim());
 			dataSet.add((data.getCheckedBy() == null) ? " " : data.getCheckedBy().trim());
-			dataSet.add((data.getIndentNumber() == null) ? " " : data.getIndentNumber().trim());
+
 			fillInData.add(dataSet);
 		}
-		logger.debug("\nfillInData\n" + fillInData);
+		logger.debug("Ingress Ledger fillInData size" + fillInData.size());
 		ByteArrayInputStream stream = null;
 		try {
 			stream = util.genrateExcel(fillInData, cols, "AcceptedMaterialReport");
@@ -92,13 +95,14 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	private ByteArrayInputStream generateEgresExcel(List<EgressLedgerDTO> translatedData)
 			throws HeapFlowReportException {
 
-		String[] cols = { "SR NO.", "RECORD DATE", "DEPARTMENT", "ITEM GROUP", "VED", "MACHINE NUMBER", "ENGINEER",
-				"APPROVED BY", "CATEGORY", "ITEM CODE", "DESCRIPTION", "QUANTITY", "BASE UNIT MEASURE", "ISSUED BY" };
+		String[] cols = { "ISSUE SLIP NUMBER", "ISSUED DATE", "DEPARTMENT", "ITEM GROUP", "VED", "MACHINE NUMBER",
+				"ENGINEER", "APPROVED BY", "CATEGORY", "ITEM CODE", "DESCRIPTION", "QUANTITY", "UOM", "PRICE",
+				"ISSUED BY" };
 		List<List<String>> fillInData = new LinkedList<List<String>>();
 
 		for (EgressLedgerDTO data : translatedData) {
 			LinkedList<String> dataSet = new LinkedList<String>();
-			dataSet.add(data.getSrNo());
+			dataSet.add(data.getIssueSlipNumber());
 			dataSet.add(data.getRecordDate());
 			dataSet.add(data.getDepartment());
 			dataSet.add(data.getItemGroup());
@@ -111,10 +115,11 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			dataSet.add(data.getDescription());
 			dataSet.add(data.getQunatity());
 			dataSet.add(data.getBaseUnitMeasure());
+			dataSet.add(data.getPrice());
 			dataSet.add(data.getIssuedBy());
 			fillInData.add(dataSet);
 		}
-		logger.debug("\nfillInData\n" + fillInData);
+		logger.debug("Egress Ledger fillInData size" + fillInData.size());
 		ByteArrayInputStream stream = null;
 		try {
 			stream = util.genrateExcel(fillInData, cols, "IssuedMaterialReport");

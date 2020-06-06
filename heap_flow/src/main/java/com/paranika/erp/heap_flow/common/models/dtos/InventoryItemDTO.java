@@ -36,7 +36,7 @@ public class InventoryItemDTO {
 		this.gstGrpCode = doOb.getGstGrpCode();
 
 		this.hsnSacCode = doOb.getHsnSacCode();
-		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT);
 		this.creation = dateFormat.format(doOb.getCreation());
 		this.modified = dateFormat.format(doOb.getModified());
 

@@ -76,7 +76,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		Date recordDate = null;
 		String strDate = (outgoingMaterials.getRecordDate() == null) ? null : outgoingMaterials.getRecordDate().trim();
 		try {
-			recordDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strDate);
+			recordDate = (new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).parse(strDate);
 		} catch (ParseException e) {
 
 			e.printStackTrace();
@@ -170,7 +170,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		Date invoiceDate = null;
 		String strDate = (incomingMaterials.getRecordDate() == null) ? null : incomingMaterials.getRecordDate().trim();
 		try {
-			recordDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strDate);
+			recordDate = (new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).parse(strDate);
 		} catch (ParseException e) {
 
 			e.printStackTrace();
@@ -179,14 +179,14 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		String strInvoiceDate = incomingMaterials.getInvoiceDate();
 		try {
-			invoiceDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strInvoiceDate);
+			invoiceDate = (new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).parse(strInvoiceDate);
 		} catch (ParseException e) {
 			logger.warn("Could not parse invoiceDate", strInvoiceDate);
 
 		}
 		String strPoDate = incomingMaterials.getPoDate();
 		try {
-			poDate = (new SimpleDateFormat(AppConstants.commonAppDateFormat)).parse(strPoDate);
+			poDate = (new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).parse(strPoDate);
 		} catch (ParseException e) {
 			logger.warn("Could not parse poDate", strPoDate);
 

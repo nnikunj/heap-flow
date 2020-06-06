@@ -55,7 +55,7 @@ public class IngressInventoryController {
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "inline; filename=incomingMaterialRpt.xlsx");
+		headers.add("Content-Disposition", "inline; filename=\"incomingMaterialRpt.xlsx\"");
 
 		return ResponseEntity.ok().headers(headers)
 				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))

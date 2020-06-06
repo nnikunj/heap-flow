@@ -26,8 +26,8 @@ public class EgressLedgerDTO {
 	private String price;
 
 	public EgressLedgerDTO(EgressLedgerDO dbObj) {
-		String noDataFoundMsg = "NO_DATA_FOUND";
-		DateFormat dateFormat = new SimpleDateFormat(AppConstants.commonAppDateFormat);
+
+		DateFormat dateFormat = new SimpleDateFormat(AppConstants.REPORT_DATE_FORMAT);
 
 		this.srNo = String.valueOf(dbObj.getId());
 		this.recordDate = dateFormat.format(dbObj.getRecordDate());
@@ -36,31 +36,31 @@ public class EgressLedgerDTO {
 		this.itemGroup = String.valueOf(dbObj.getInventoryType().getTypeName());
 		this.ved = " ";
 
-		this.machineNummber = (dbObj.getConsumingMachine() == null) ? noDataFoundMsg
+		this.machineNummber = (dbObj.getConsumingMachine() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: dbObj.getConsumingMachine().getCode();
 		this.engineer = (dbObj.getIssuedTo() == null) ? " " : dbObj.getIssuedTo().trim();
 		this.approvedBy = (dbObj.getApprovedBy() == null) ? " " : dbObj.getApprovedBy().trim();
 
-		this.category = (dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+		this.category = (dbObj.getOutgoingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: ((dbObj.getOutgoingMaterial().getItemCategoryCode() == null) ? " "
 						: dbObj.getOutgoingMaterial().getItemCategoryCode());
-		this.itemCode = (dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+		this.itemCode = (dbObj.getOutgoingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: (dbObj.getOutgoingMaterial().getInventoryItemCode());
 		String strDesc = (dbObj.getOutgoingMaterial() == null) ? null : dbObj.getOutgoingMaterial().getDescriptions();
 
-		this.description = (strDesc == null) ? noDataFoundMsg
+		this.description = (strDesc == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: InventoryItemDescriptions.fromJson(strDesc).getDescription();
 		this.qunatity = String.valueOf(dbObj.getOutgoingQuantity());
 
-		this.baseUnitMeasure = String.valueOf((((dbObj.getOutgoingMaterial() == null) ? noDataFoundMsg
+		this.baseUnitMeasure = String.valueOf((((dbObj.getOutgoingMaterial() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: dbObj.getOutgoingMaterial().getBaseUnitMeasure()) == null) ? " "
 						: dbObj.getOutgoingMaterial().getBaseUnitMeasure());
 		this.issuedBy = (dbObj.getIssuedBy() == null) ? " " : dbObj.getIssuedBy();
 
-		this.issueSlipNumber = (dbObj.getIssueSlipNumber() == null) ? noDataFoundMsg
+		this.issueSlipNumber = (dbObj.getIssueSlipNumber() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: dbObj.getIssueSlipNumber().trim();
 
-		this.price = (dbObj.getOutgoingMaterialPrice() == null) ? noDataFoundMsg
+		this.price = (dbObj.getOutgoingMaterialPrice() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: String.valueOf(dbObj.getOutgoingMaterialPrice());
 
 	}
