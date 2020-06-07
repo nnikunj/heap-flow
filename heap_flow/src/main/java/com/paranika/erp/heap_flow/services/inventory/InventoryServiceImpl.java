@@ -76,10 +76,12 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		Date recordDate = null;
 		String strDate = (outgoingMaterials.getRecordDate() == null) ? null : outgoingMaterials.getRecordDate().trim();
 		try {
+			logger.debug("strDate " + strDate);
 			recordDate = (new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).parse(strDate);
+			logger.debug("recordDate " + recordDate);
 		} catch (ParseException e) {
+			logger.debug("Failed parsing of date", e);
 
-			e.printStackTrace();
 			// Ignore and take current date
 			recordDate = new Date();
 		}
