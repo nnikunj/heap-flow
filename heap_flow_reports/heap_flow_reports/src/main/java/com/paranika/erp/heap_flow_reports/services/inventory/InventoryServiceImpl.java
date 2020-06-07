@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.springframework.stereotype.Component;
 
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
+import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.EgressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.IngressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.daos.inventory.InventoryDAO;
@@ -154,4 +157,41 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		logger.debug("Exiting getEgressReport");
 		return generateEgresExcel(translatedData);
 	}
+
+	@Override
+	public ByteArrayInputStream generateABCAnalysisReport(List<AbcAnalysisInputParameters> boundaries)
+			throws HeapFlowReportException {
+		if (boundaries == null) {
+			throw new HeapFlowReportException("ABC model not defined to formulate data.");
+		}
+		TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>> analysisRptData = new TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>>();
+
+		for (AbcAnalysisInputParameters abcAnalysisInputParameters : boundaries) {
+			try {
+				List<AbcAnalysisQResPojo> data = dao.getAbcAnalysis(abcAnalysisInputParameters.getMinValue(),
+						abcAnalysisInputParameters.getMaxValue());
+				if (data == null) {
+					logger.debug("Type: " + abcAnalysisInputParameters.getCategoryName() + " obtained data size: null");
+				} else {
+					logger.debug("Type: " + abcAnalysisInputParameters.getCategoryName() + " obtained data size: "
+							+ data.size());
+				}
+				analysisRptData.put(abcAnalysisInputParameters, data);
+			} catch (Exception e) {
+				logger.error("Could not fetch abc analysis data.", e);
+				throw new HeapFlowReportException("Could not fetch abc analysis data.");
+			}
+
+		}
+		ByteArrayInputStream retWb = null;
+		try {
+			retWb = util.formulateExcelRptForAbcAnalysis(analysisRptData);
+		} catch (IOException e) {
+			logger.error("Failed to genearte excel workbook.");
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting generateABCAnalysisReport");
+		return retWb;
+	}
+
 }
