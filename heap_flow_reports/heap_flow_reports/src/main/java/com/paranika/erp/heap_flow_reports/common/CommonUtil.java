@@ -8,7 +8,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -24,6 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
+
+import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
+import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
 
 @Component
 public class CommonUtil {
@@ -56,6 +62,42 @@ public class CommonUtil {
 		// logger.debug("\nretVal: \n" + retVal);
 		return retVal;
 
+	}
+
+	private void populateSheet(Workbook workbook, Sheet sheet, List<List<String>> data, String[] cols) {
+		for (int index = 0; index < cols.length; index++) {
+			sheet.autoSizeColumn(index);
+
+		}
+		Font headerFont = workbook.createFont();
+		headerFont.setBold(true);
+		headerFont.setFontHeightInPoints((short) 16);
+		headerFont.setColor(IndexedColors.WHITE.getIndex());
+
+		CellStyle headerCellStyle = workbook.createCellStyle();
+		headerCellStyle.setFont(headerFont);
+		headerCellStyle.setFillBackgroundColor(IndexedColors.ROYAL_BLUE.getIndex());
+		headerCellStyle.setFillPattern(FillPatternType.BIG_SPOTS);
+		// Row for Header
+		Row headerRow = sheet.createRow(0);
+
+		// Header
+		for (int col = 0; col < cols.length; col++) {
+			Cell cell = headerRow.createCell(col);
+			cell.setCellValue(cols[col]);
+			cell.setCellStyle(headerCellStyle);
+		}
+
+		int rowIdx = 1;
+		for (int i = 0; i < data.size(); i++) {
+
+			List<String> actualdata = data.get(i);
+			// logger.debug("actualdata" + actualdata);
+			Row row = sheet.createRow(rowIdx++);
+			for (int j = 0; j < actualdata.size(); j++) {
+				row.createCell(j).setCellValue(actualdata.get(j));
+			}
+		}
 	}
 
 	public ByteArrayInputStream genrateExcel(List<List<String>> data, String[] cols, String sheetName)
@@ -126,6 +168,43 @@ public class CommonUtil {
 		}
 		logger.debug("Retrun Date " + retDate);
 		return retDate;
+
+	}
+
+	public ByteArrayInputStream formulateExcelRptForAbcAnalysis(
+			TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>> analysisRptData) throws IOException {
+
+		String[] cols = { "ITEM CODE", "ITEM CATEGORY", "DESCRIPTION", "TOTAL QUANTITY", "UOM", "TOTAL VALUE" };
+
+		try (ByteArrayOutputStream out = new ByteArrayOutputStream(); Workbook workbook = new XSSFWorkbook();) {
+			// CreationHelper createHelper = workbook.getCreationHelper();
+
+			Set<AbcAnalysisInputParameters> keySet = analysisRptData.keySet();
+			for (AbcAnalysisInputParameters abcAnalysisInputParameters : keySet) {
+
+				Sheet sheet = workbook.createSheet(abcAnalysisInputParameters.getCategoryName());
+				List<AbcAnalysisQResPojo> categoryResult = analysisRptData.get(abcAnalysisInputParameters);
+				List<List<String>> fillInData = new LinkedList<List<String>>();
+
+				for (AbcAnalysisQResPojo data : categoryResult) {
+					LinkedList<String> dataSet = new LinkedList<String>();
+					dataSet.add(data.getItemCode());
+					dataSet.add(data.getCategory());
+					dataSet.add(data.getDescriptions());
+
+					dataSet.add(String.valueOf(data.getTotalQuantity()));
+					dataSet.add(data.getUnitOfMeasurement());
+					dataSet.add(String.valueOf(data.getTotalValue()));
+
+					fillInData.add(dataSet);
+				}
+				populateSheet(workbook, sheet, fillInData, cols);
+			}
+
+			workbook.write(out);
+			logger.debug("workbook created and returing from genrateExcel for formulateExcelRptForAbcAnalysis.");
+			return new ByteArrayInputStream(out.toByteArray());
+		}
 
 	}
 }

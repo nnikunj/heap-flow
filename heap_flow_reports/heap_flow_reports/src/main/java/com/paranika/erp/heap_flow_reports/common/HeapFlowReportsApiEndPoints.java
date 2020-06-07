@@ -11,4 +11,7 @@ public interface HeapFlowReportsApiEndPoints {
 	public String BASE_END_POINT_ISSUE_MAT = BASE_END_POINT + "/outgoing-rpt";
 	public String GET_EGRESS_RPT = "/fetch-material-egress";
 
+	public String BASE_END_POINT_ABC_ANALYSIS = BASE_END_POINT + "/abc-rpt";
+	public String GENERATE_MAT_VALUE_RPT = "inventory-valuation";
+
 }
