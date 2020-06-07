@@ -49,7 +49,7 @@ export class ReportsComponent implements OnInit {
       url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
       this.callReportService(url, params);
     } else if (this.reportForm.get('reportType').value === 'ABC-Analysis') {
-      url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
+      url = 'http://localhost:8443/api/rpts/abc-rpt/inventory-valuation';
       this.httpService.getBodyFromPost(url, {})
       .subscribe(data => {
         console.log(data)
