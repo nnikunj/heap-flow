@@ -46,11 +46,14 @@ public class ABCAnalysisController {
 
 			inputList = new ArrayList<AbcAnalysisInputParameters>();
 			new ArrayList<AbcAnalysisInputParameters>();
-			AbcAnalysisInputParameters typeA = new AbcAnalysisInputParameters("Type A", Double.MIN_VALUE,
+			AbcAnalysisInputParameters typeA = new AbcAnalysisInputParameters(
+					"Type A " + " From 0.00 to " + AppConstants.DEFAULT_MAX_A_VALUE, Double.MIN_VALUE,
 					AppConstants.DEFAULT_MAX_A_VALUE);
-			AbcAnalysisInputParameters typeB = new AbcAnalysisInputParameters("Type B",
+			AbcAnalysisInputParameters typeB = new AbcAnalysisInputParameters(
+					"Type B From " + AppConstants.DEFAULT_MAX_A_VALUE + " to " + AppConstants.DEFAULT_MAX_B_VALUE,
 					AppConstants.DEFAULT_MAX_A_VALUE, AppConstants.DEFAULT_MAX_B_VALUE);
-			AbcAnalysisInputParameters typeC = new AbcAnalysisInputParameters("Type C",
+			AbcAnalysisInputParameters typeC = new AbcAnalysisInputParameters(
+					"Type C" + " from " + AppConstants.DEFAULT_MIN_C_VALUE + " to Remianing ",
 					AppConstants.DEFAULT_MIN_C_VALUE, Double.MAX_VALUE);
 			inputList.add(typeA);
 			inputList.add(typeB);

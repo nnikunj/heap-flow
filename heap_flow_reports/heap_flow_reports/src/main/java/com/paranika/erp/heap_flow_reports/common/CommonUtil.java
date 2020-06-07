@@ -182,7 +182,7 @@ public class CommonUtil {
 			Set<AbcAnalysisInputParameters> keySet = analysisRptData.keySet();
 			for (AbcAnalysisInputParameters abcAnalysisInputParameters : keySet) {
 
-				Sheet sheet = workbook.createSheet(abcAnalysisInputParameters.getCategoryName());
+				Sheet sheet = workbook.createSheet(abcAnalysisInputParameters.getCategoryName()+" From "+abcAnalysisInputParameters.getMinValue()+" to "+abcAnalysisInputParameters.getMaxValue());
 				List<AbcAnalysisQResPojo> categoryResult = analysisRptData.get(abcAnalysisInputParameters);
 				List<List<String>> fillInData = new LinkedList<List<String>>();
 

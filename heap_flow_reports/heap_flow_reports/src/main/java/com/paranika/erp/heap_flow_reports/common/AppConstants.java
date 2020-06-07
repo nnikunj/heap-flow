@@ -6,7 +6,7 @@ public interface AppConstants {
 	public String NO_DATA_FOUND_MSG = "NO_DATA_FOUND";
 
 	public Double DEFAULT_MAX_A_VALUE = 1000.00;
-	public Double DEFAULT_MAX_B_VALUE = 100000.00;
-	public Double DEFAULT_MIN_C_VALUE = 1000000.00;
+	public Double DEFAULT_MAX_B_VALUE = 50000.00;
+	public Double DEFAULT_MIN_C_VALUE = 50000.00;
 
 }
