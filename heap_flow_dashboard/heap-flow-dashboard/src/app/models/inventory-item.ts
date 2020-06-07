@@ -35,6 +35,9 @@ export class InventoryItem {
   itemCategoryCode: string;
   gstGrpCode: string;
   hsnSacCode: string;
+  reserveQuantAlert: number;
+  reOrderQuant: number;
+  maxOrderQuant: number;
 
 
 }

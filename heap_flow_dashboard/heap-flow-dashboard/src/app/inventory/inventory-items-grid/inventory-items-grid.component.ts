@@ -1,12 +1,15 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 import { MatPaginator } from "@angular/material/paginator";
+//import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { merge, fromEvent } from "rxjs";
 import { debounceTime, distinctUntilChanged, startWith, tap, delay } from 'rxjs/operators';
 
 import { InventoryItemDatasource } from './inventory-items.datasource'
 import { InventoryService } from 'src/app/services/inventory.service'
+import { AddInventoryDialog } from 'src/app/inventory/add-inventory-item/add-inventory-dialog.component'
 
 @Component({
   selector: 'app-inventory-items-grid',
@@ -17,13 +20,13 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
 
   dataSource: InventoryItemDatasource;
 
-  displayedColumns = ['inventoryItemCode','description', 'description2', 'description3', 'description4', 'description5', 'description6', 'baseUnitMeasure',
+  displayedColumns = ['action', 'inventoryItemCode','description', 'description2', 'description3', 'description4', 'description5', 'description6', 'baseUnitMeasure',
     'productGrpCode', 'genProductPostingGrp', 'itemCategoryCode', 'gstGrpCode', 'hsnSacCode', 'creation', 'modified'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;
 
-  constructor(private inventoryService: InventoryService) { }
+  constructor(private inventoryService: InventoryService, private dialog : MatDialog) { }
 
 
   ngOnInit(): void {
@@ -64,6 +67,49 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
     console.dir(row);
   }
 
+  openDialog(action : any, item : any) {
+    let obj = new Map();
+    obj.set('action', action);
+    obj.set('item', item);
+
+    const dialogRef = this.dialog.open(AddInventoryDialog, {
+      data:obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadInventoryItems();
+      if(result.event == 'Add'){
+        //this.addRowData(result.data);
+      }else if(result.event == 'Update'){
+        //this.updateRowData(result.data);
+      }else if(result.event == 'Delete'){
+        //this.deleteRowData(result.data);
+      }
+    });
+  }
+
+  // addRowData(row_obj){
+  //   var d = new Date();
+  //   this.dataSource.push({
+  //     id:d.getTime(),
+  //     name:row_obj.name
+  //   });
+  //   this.table.renderRows();
+    
+  // }
+  // updateRowData(row_obj){
+  //   this.dataSource = this.dataSource.filter((value,key)=>{
+  //     if(value.id == row_obj.id){
+  //       value.name = row_obj.name;
+  //     }
+  //     return true;
+  //   });
+  // }
+  // deleteRowData(row_obj){
+  //   this.dataSource = this.dataSource.filter((value,key)=>{
+  //     return value.id != row_obj.id;
+  //   });
+  // }
 
 
 }

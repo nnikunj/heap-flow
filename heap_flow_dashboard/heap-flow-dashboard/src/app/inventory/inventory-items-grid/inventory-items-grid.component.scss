@@ -44,3 +44,12 @@
 .spinner-container mat-spinner {
     margin: 130px auto 0 auto;
 }
+
+.heap-row {
+    width: 100%;
+  }
+
+  .heap-row button{
+    display: table-cell;
+    margin: 8px;
+  }

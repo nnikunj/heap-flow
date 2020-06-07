@@ -26,6 +26,7 @@ class SelectInterface {
 export class IssueMaterialComponent implements OnInit {
 
   issueMaterialForm = this.fb.group({
+    issueSlipNumber: ['', Validators.required],
     recordDate: [new Date(), Validators.required],
     machineCode: ['', Validators.required],
     issuedViaEmp: ['', Validators.required],
@@ -211,6 +212,7 @@ export class IssueMaterialComponent implements OnInit {
 
     let issueMaterial = new IssueMaterial();
 
+    issueMaterial.issueSlipNumber = this.issueMaterialForm.get('issueSlipNumber').value;
     issueMaterial.machineCode = this.issueMaterialForm.get('machineCode').value.code;
     issueMaterial.recordDate = this.issueMaterialForm.get('recordDate').value.toDateString();
     issueMaterial.issuedViaEmp = this.issueMaterialForm.get('issuedViaEmp').value;

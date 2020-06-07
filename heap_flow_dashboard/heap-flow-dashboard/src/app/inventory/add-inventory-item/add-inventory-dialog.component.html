@@ -1,0 +1,118 @@
+<div class="heap-container">
+    <h1 mat-dialog-title>{{action}} Inventory</h1>
+    <div mat-dialog-content>
+        <form class="heap-form" [formGroup]="inventoryItemForm" (ngSubmit)="onSubmit()">
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Item Code</mat-label>
+                    <input matInput placeholder="Please enter Item Code." formControlName="inventoryItemCode">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <input matInput placeholder="Please enter Description." formControlName="description">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Description 2</mat-label>
+                    <input matInput placeholder="Please enter Description 2." formControlName="description2">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Description 3</mat-label>
+                    <input matInput placeholder="Please enter Description 3." formControlName="description3">
+                </mat-form-field>
+
+
+                <mat-form-field>
+                    <mat-label>Description 4</mat-label>
+                    <input matInput placeholder="Please enter Description 4." formControlName="description4">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Description 5</mat-label>
+                    <input matInput placeholder="Please enter Description 5." formControlName="description5">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Description 6</mat-label>
+                    <input matInput placeholder="Please enter Description 6." formControlName="description6">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Base Unit Measure</mat-label>
+                    <input matInput placeholder="Please enter base unit measure." formControlName="baseUnitMeasure">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Product Group Code</mat-label>
+                    <input matInput placeholder="Please enter product group code." formControlName="productGrpCode">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>General Product Posting Group</mat-label>
+                    <input matInput placeholder="Please enter General Product Posting Group."
+                        formControlName="genProductPostingGrp">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Item Category Code</mat-label>
+                    <input matInput placeholder="Please enter Item Category Code." formControlName="itemCategoryCode">
+                </mat-form-field>
+            </div>
+
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>GST Group Code</mat-label>
+                    <input matInput placeholder="Please enter GST Group Code." formControlName="gstGrpCode">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>HSN SAC Code</mat-label>
+                    <input matInput placeholder="Please enter HSN SAC Code." formControlName="hsnSacCode">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Reserve Quantity Alert</mat-label>
+                    <input matInput type="number" placeholder="Please enter Reserve Quantity Alert."
+                        formControlName="reserveQuantAlert">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Re-Order Quantity</mat-label>
+                    <input matInput type="number" placeholder="Please enter Re-Order Quantity."
+                        formControlName="reOrderQuant">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Maximum Quantity Order</mat-label>
+                    <input matInput type="number" placeholder="Please enter Maximum Quantity Order."
+                        formControlName="maxOrderQuant">
+                </mat-form-field>
+            </div>
+
+            <div mat-dialog-actions>
+                <button mat-stroked-button color="primary" type="submit"
+                    [disabled]="!inventoryItemForm.valid">{{action}}</button>
+                <button mat-stroked-button color="primary" type="reset"
+                    [disabled]="action === 'Update' || action === 'Delete'">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

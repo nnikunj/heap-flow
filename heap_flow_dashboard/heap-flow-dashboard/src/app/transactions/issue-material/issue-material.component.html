@@ -9,6 +9,14 @@
 
                     <div class="heap-row">
                         <mat-form-field>
+                            <mat-label>Issued Slip Number</mat-label>
+                            <input matInput type="string" placeholder="Please enter Issue Slip Number."
+                                formControlName="issueSlipNumber">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="heap-row">
+                        <mat-form-field>
                             <mat-label>Machine Code</mat-label>
                             <input type="text" matInput formControlName="machineCode"
                                 [matAutocomplete]="auto_machine_code" (focusout)="machineCodeFocusOut($event)">

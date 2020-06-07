@@ -26,6 +26,7 @@ import { InventoryImportComponent } from './inventory/inventory-import/inventory
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
+import { AddInventoryDialog } from 'src/app/inventory/add-inventory-item/add-inventory-dialog.component'
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -39,6 +40,7 @@ import { MatSnackBarModule  } from '@angular/material/snack-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog'
  
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import { MatSortModule } from '@angular/material/sort';
     InventoryImportComponent,
     MachineImportComponent,
     VendorImportComponent,
-    AddInventoryItemComponent
+    AddInventoryItemComponent,
+    AddInventoryDialog
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,8 @@ import { MatSortModule } from '@angular/material/sort';
     MatSnackBarModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
