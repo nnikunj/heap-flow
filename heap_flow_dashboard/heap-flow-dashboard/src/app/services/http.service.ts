@@ -56,6 +56,12 @@ export class HttpService {
         });
       }
 
+      getBodyFromPost(url : string, body : any){
+        return this.httpClient.post(url,body , {
+          responseType: 'blob'
+        });
+      }
+
     // get(url: string){
     //     let result = this.httpClient.get(url).subscribe(res => {
     //         return res;

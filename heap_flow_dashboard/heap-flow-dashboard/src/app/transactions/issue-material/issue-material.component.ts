@@ -26,7 +26,7 @@ class SelectInterface {
 export class IssueMaterialComponent implements OnInit {
 
   issueMaterialForm = this.fb.group({
-    issueSlipNumber: ['', Validators.required],
+    issueSlipNumber: [''],
     recordDate: [new Date(), Validators.required],
     machineCode: ['', Validators.required],
     issuedViaEmp: ['', Validators.required],

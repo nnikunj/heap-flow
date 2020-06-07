@@ -21,7 +21,7 @@ export class ReportsComponent implements OnInit {
     reportType: ['', Validators.required]
   });
 
-  reportType = ['Accept Material', 'Issue Material'];
+  reportType = ['Accept Material', 'Issue Material', 'ABC-Analysis'];
 
   constructor(private fb: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private sanitizer: DomSanitizer) { }
 
@@ -44,11 +44,22 @@ export class ReportsComponent implements OnInit {
 
     if (this.reportForm.get('reportType').value === 'Accept Material') {
       url = 'http://localhost:8443/api/rpts/incoming-rpt/fetch-material-ingress';
+      this.callReportService(url, params);
     } else if (this.reportForm.get('reportType').value === 'Issue Material') {
       url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
+      this.callReportService(url, params);
+    } else if (this.reportForm.get('reportType').value === 'ABC-Analysis') {
+      url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
+      this.httpService.getBodyFromPost(url, {})
+      .subscribe(data => {
+        console.log(data)
+        const blob = new Blob([data], { type: 'application/vnd.ms.excel' });
+        const file = new File([blob], "report" + '.xlsx', { type: 'application/vnd.ms.excel' });
+        saveAs(file);
+      });
     }
 
-    this.callReportService(url, params);
+    
   }
 
   callReportService(url: string, params: HttpParams) {

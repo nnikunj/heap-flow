@@ -59,12 +59,17 @@ export class AcceptMaterialComponent implements OnInit {
   inventoryItems = <any>[];
 
   inventoryTypes: SelectInterface[] = [
-    { value: 'FOC', viewValue: 'FREE OF COST' },
     { value: 'PURCHASED', viewValue: 'PURCHASED' },
     { value: 'IMPORTED', viewValue: 'IMPORTED' },
     { value: 'REPAIRED_OR_REJECTED', viewValue: 'REPAIRED OR REJECTED' },
     { value: 'SERVICE_OR_AMC', viewValue: 'SERVICE OR AMC' },
-    { value: 'CMC', viewValue: 'CMC' }
+    { value: 'CMC', viewValue: 'CMC' },
+    { value: 'RECYCLED', viewValue: 'RECYCLED' },
+    { value: 'OTHER_PLANT', viewValue: 'OTHER_PLANT' },
+    { value: 'CRP', viewValue: 'CRP' },
+    { value: 'GL_ACCOUNT', viewValue: 'GL_ACCOUNT' },
+    { value: 'CAPEX', viewValue: 'CAPEX' },
+    { value: 'FOC', viewValue: 'FREE OF COST' }
   ];
 
   classifications: SelectInterface[] = [
