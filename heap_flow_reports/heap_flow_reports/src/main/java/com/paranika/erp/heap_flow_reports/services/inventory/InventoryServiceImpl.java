@@ -1,8 +1,13 @@
 package com.paranika.erp.heap_flow_reports.services.inventory;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -11,16 +16,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.EgressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.IngressLedgerDTO;
+import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDTO;
 import com.paranika.erp.heap_flow_reports.daos.inventory.InventoryDAO;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Component
 public class InventoryServiceImpl implements InventoryServiceIX {
@@ -192,6 +209,53 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		logger.debug("Exiting generateABCAnalysisReport");
 		return retWb;
+	}
+
+	@Override
+	public ByteArrayInputStream getProductSticker(String prodCode) throws HeapFlowReportException {
+		if (StringUtils.isEmpty(prodCode)) {
+			logger.debug("Cannot operate with null product code as input.");
+			return null;
+		}
+		ByteArrayInputStream retStream = null;
+		InventoryItemDO invDo = null;
+		try {
+			invDo = dao.getInventoryItemswithCode(prodCode);
+		} catch (Exception e) {
+			logger.error("Could not fetch inventory Item ", e);
+			throw new HeapFlowReportException(e);
+		}
+		if (invDo == null) {
+			logger.error("No Inventory Item found in db with code: " + prodCode);
+			throw new HeapFlowReportException("No Inventory Item found in db with code: " + prodCode);
+
+		}
+		InventoryItemDTO dtoObj = new InventoryItemDTO(invDo);
+		HashMap<String, Object> parameters = new HashMap<String, Object>();
+
+		ArrayList<InventoryItemDTO> dataList = new ArrayList<InventoryItemDTO>();
+		dataList.add(dtoObj);
+		File jrXml = null;
+		JasperReport report = null;
+		try {
+			jrXml = ResourceUtils.getFile("classpath:jasperReports/ProductLabel.jrxml");
+			report = JasperCompileManager.compileReport(jrXml.getAbsolutePath());
+
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataList);
+
+			JasperPrint printer = JasperFillManager.fillReport(report, parameters, dataSource);
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			JasperExportManager.exportReportToPdfStream(printer, outputStream);
+
+			retStream = new ByteArrayInputStream(outputStream.toByteArray());
+
+		} catch (FileNotFoundException | JRException e) {
+			logger.error("Report file not found.", e);
+			throw new HeapFlowReportException("Report file not found.");
+		}
+
+		return retStream;
+
 	}
 
 }

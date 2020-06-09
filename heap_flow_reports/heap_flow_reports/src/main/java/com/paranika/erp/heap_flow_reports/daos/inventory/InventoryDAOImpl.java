@@ -9,10 +9,12 @@ import org.springframework.stereotype.Component;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.AbcAnalysisRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.EgressLedgersRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.IngressLedgersRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.InventoriesRepository;
+import com.paranika.erp.heap_flow_reports.daos.defaultProviders.InventoryItemsRepository;
 
 @Component
 public class InventoryDAOImpl implements InventoryDAO {
@@ -24,6 +26,8 @@ public class InventoryDAOImpl implements InventoryDAO {
 	InventoriesRepository invRepo;
 	@Autowired
 	AbcAnalysisRepository abcRepo;
+	@Autowired
+	InventoryItemsRepository itemRepo;
 
 	public List<IngressLedgerDO> getIngressLedgers(Date startDate, Date endDate) throws Exception {
 
@@ -42,4 +46,13 @@ public class InventoryDAOImpl implements InventoryDAO {
 		return abcRepo.findAbcAnalysis(lowerLimit, upperLimit);
 	}
 
+	@Override
+	public InventoryItemDO getInventoryItemswithCode(String prodCode) throws Exception {
+		if (prodCode == null || prodCode.isEmpty()) {
+			return null;
+		}
+		InventoryItemDO fetchedObj = itemRepo.findItemWithId(prodCode);
+		return fetchedObj;
+
+	}
 }

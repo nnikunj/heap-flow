@@ -41,6 +41,14 @@ public class InventoryItemDO extends BaseDO {
 	@Column(name = "hsn_sac_code", nullable = true, length = 10)
 	private String hsnSacCode;
 
+	@Column(name = "reserve_qunatity", nullable = true)
+	private Double reserveQuantAlert;
+	@Column(name = "max_order_qunatity", nullable = true)
+	private Double maxOrderQuant;
+
+	@Column(name = "re_order_qunatity", nullable = true)
+	private Double reOrderQuant;
+
 	public String getInventoryItemCode() {
 		return inventoryItemCode;
 	}
@@ -140,12 +148,34 @@ public class InventoryItemDO extends BaseDO {
 		this.egressLedgers = egressLedgers;
 	}
 
+	public Double getReserveQuantAlert() {
+		return reserveQuantAlert;
+	}
+
+	public void setReserveQuantAlert(Double reserveQuantAlert) {
+		this.reserveQuantAlert = reserveQuantAlert;
+	}
+
+	public Double getMaxOrderQuant() {
+		return maxOrderQuant;
+	}
+
+	public void setMaxOrderQuant(Double maxOrderQuant) {
+		this.maxOrderQuant = maxOrderQuant;
+	}
+
+	public Double getReOrderQuant() {
+		return reOrderQuant;
+	}
+
+	public void setReOrderQuant(Double reOrderQuant) {
+		this.reOrderQuant = reOrderQuant;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		String baseDo = super.toString();
-		builder.append(baseDo);
-		builder.append("\nInventoryItem [inventoryItemCode=");
+		builder.append("InventoryItemDO [inventoryItemCode=");
 		builder.append(inventoryItemCode);
 		builder.append(", descriptions=");
 		builder.append(descriptions);
@@ -161,6 +191,18 @@ public class InventoryItemDO extends BaseDO {
 		builder.append(gstGrpCode);
 		builder.append(", hsnSacCode=");
 		builder.append(hsnSacCode);
+		builder.append(", reserveQuantAlert=");
+		builder.append(reserveQuantAlert);
+		builder.append(", maxOrderQuant=");
+		builder.append(maxOrderQuant);
+		builder.append(", reOrderQuant=");
+		builder.append(reOrderQuant);
+		builder.append(", stocks=");
+		builder.append(stocks);
+		builder.append(", ingressLedgers=");
+		builder.append(ingressLedgers);
+		builder.append(", egressLedgers=");
+		builder.append(egressLedgers);
 		builder.append("]");
 		return builder.toString();
 	}

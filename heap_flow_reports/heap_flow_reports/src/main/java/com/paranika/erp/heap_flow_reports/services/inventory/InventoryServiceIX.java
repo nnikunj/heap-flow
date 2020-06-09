@@ -17,4 +17,6 @@ public interface InventoryServiceIX {
 
 	public ByteArrayInputStream generateABCAnalysisReport(List<AbcAnalysisInputParameters> boundaries)
 			throws HeapFlowReportException;
+
+	public ByteArrayInputStream getProductSticker(String prodCode) throws HeapFlowReportException;
 }
