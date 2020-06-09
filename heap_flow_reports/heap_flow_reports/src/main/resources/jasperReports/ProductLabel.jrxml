@@ -66,7 +66,7 @@
 				<text><![CDATA[Category:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="22" y="12" width="67" height="11" uuid="bc797c31-1070-44a3-a228-a0b4fe8f80fb"/>
+				<reportElement x="23" y="12" width="67" height="11" uuid="bc797c31-1070-44a3-a228-a0b4fe8f80fb"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
@@ -87,7 +87,7 @@
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription3()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="43" y="74" width="67" height="11" uuid="01e18f04-3803-432f-b8a2-0a026778cb08"/>
+				<reportElement x="43" y="74" width="67" height="10" uuid="01e18f04-3803-432f-b8a2-0a026778cb08"/>
 				<textElement>
 					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
