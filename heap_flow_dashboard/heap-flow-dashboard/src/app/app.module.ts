@@ -26,7 +26,8 @@ import { InventoryImportComponent } from './inventory/inventory-import/inventory
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
-import { AddInventoryDialog } from 'src/app/inventory/add-inventory-item/add-inventory-dialog.component'
+import { AddInventoryDialog } from 'src/app/inventory/add-inventory-item/add-inventory-dialog.component';
+import { PrintItemQRCode } from 'src/app/inventory/print-item-qrcode/print-item-qrcode.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -41,6 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog'
+import { PdfViewerModule } from 'ng2-pdf-viewer'
  
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     MachineImportComponent,
     VendorImportComponent,
     AddInventoryItemComponent,
-    AddInventoryDialog
+    AddInventoryDialog,
+    PrintItemQRCode
   ],
   imports: [
     BrowserModule,
@@ -86,7 +89,8 @@ import { MatDialogModule } from '@angular/material/dialog'
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

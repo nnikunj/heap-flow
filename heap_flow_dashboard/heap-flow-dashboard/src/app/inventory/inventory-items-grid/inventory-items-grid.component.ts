@@ -10,6 +10,7 @@ import { debounceTime, distinctUntilChanged, startWith, tap, delay } from 'rxjs/
 import { InventoryItemDatasource } from './inventory-items.datasource'
 import { InventoryService } from 'src/app/services/inventory.service'
 import { AddInventoryDialog } from 'src/app/inventory/add-inventory-item/add-inventory-dialog.component'
+import { PrintItemQRCode } from 'src/app/inventory/print-item-qrcode/print-item-qrcode.component'
 
 @Component({
   selector: 'app-inventory-items-grid',
@@ -26,7 +27,8 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;
 
-  constructor(private inventoryService: InventoryService, private dialog : MatDialog) { }
+  constructor(private inventoryService: InventoryService,
+     private dialog : MatDialog) { }
 
 
   ngOnInit(): void {
@@ -86,6 +88,17 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
         //this.deleteRowData(result.data);
       }
     });
+  }
+
+  print(item : any){
+    const dialogRef = this.dialog.open(PrintItemQRCode, {
+      data:item
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+   
   }
 
   // addRowData(row_obj){

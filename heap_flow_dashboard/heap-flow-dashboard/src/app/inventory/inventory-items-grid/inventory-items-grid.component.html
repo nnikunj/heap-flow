@@ -96,7 +96,7 @@
       <!-- <td mat-cell *matCellDef="let item" class="action-link"> -->
         <td mat-cell *matCellDef="let item" >
         <a (click)="openDialog('Update',item)">Edit</a> | 
-        <a >Print</a>
+        <a (click)="print(item)">Print</a>
       </td>
     </ng-container>
 
