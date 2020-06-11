@@ -66,6 +66,9 @@ public class IngressLedgerDO extends BaseDO {
 	@Column(name = "grn_number", nullable = true)
 	private String grnNumber;
 
+	@Column(name = "department", nullable = true)
+	private String department;
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "vendor_fk")
@@ -181,6 +184,14 @@ public class IngressLedgerDO extends BaseDO {
 
 	public void setMaterialAcceptedBy(String materialAcceptedBy) {
 		this.materialAcceptedBy = materialAcceptedBy;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 }

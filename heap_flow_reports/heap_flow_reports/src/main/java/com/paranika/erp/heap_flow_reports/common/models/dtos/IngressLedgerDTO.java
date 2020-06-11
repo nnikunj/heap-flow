@@ -24,6 +24,7 @@ public class IngressLedgerDTO {
 	private String checkedBy;
 	private String indentNumber;
 	private String itemCode;
+	private String department;
 
 	public IngressLedgerDTO(IngressLedgerDO dbObj) {
 		DateFormat dateFormat = new SimpleDateFormat(AppConstants.REPORT_DATE_FORMAT);
@@ -56,6 +57,9 @@ public class IngressLedgerDTO {
 		this.checkedBy = String.valueOf(dbObj.getMaterialAcceptedBy());
 		this.indentNumber = (dbObj.getIntentNumber() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: String.valueOf(dbObj.getIntentNumber());
+
+		this.department = (dbObj.getDepartment() == null) ? AppConstants.NO_DATA_FOUND_MSG
+				: dbObj.getDepartment().trim();
 	}
 
 	public String getItemCode() {
@@ -184,6 +188,14 @@ public class IngressLedgerDTO {
 
 	public void setPoDate(String poDate) {
 		this.poDate = poDate;
+	}
+
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
 	}
 
 }

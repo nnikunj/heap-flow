@@ -109,7 +109,9 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 			itemFetched.setHsnSacCode(inventoryItemDO.getHsnSacCode());
 			itemFetched.setItemCategoryCode(inventoryItemDO.getItemCategoryCode());
 			itemFetched.setProductGrpCode(inventoryItemDO.getProductGrpCode());
-
+			itemFetched.setReserveQuantAlert(inventoryItemDO.getReserveQuantAlert());
+			itemFetched.setReOrderQuant(inventoryItemDO.getReOrderQuant());
+			itemFetched.setMaxOrderQuant(inventoryItemDO.getMaxOrderQuant());
 			dataPersisted = em.merge(itemFetched);
 		}
 		return dataPersisted;

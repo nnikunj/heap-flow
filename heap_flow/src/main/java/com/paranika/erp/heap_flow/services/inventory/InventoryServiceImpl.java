@@ -195,7 +195,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		String grn = incomingMaterials.getGrn();
 		String invoice = incomingMaterials.getInvoice();
-
+		String department = incomingMaterials.getDepartment();
 		String vendorCode = incomingMaterials.getVendorCode();
 		String loggedInUser = incomingMaterials.getLoggedInUser();
 		String intentNumber = incomingMaterials.getIntentNumber();
@@ -244,7 +244,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			ledgerDO.setGrnNumber(grn);
 			ledgerDO.setIncomingMaterial(inventoryItemDO);
 			ledgerDO.setIncomingQuantity(materialData.getQuantity());
-
+			ledgerDO.setDepartment(department);
 			ledgerDO.setInvoiceNumber(invoice);
 			ledgerDO.setRecordDate(recordDate);
 			ledgerDO.setInventoryType(inventoryTypeDO);

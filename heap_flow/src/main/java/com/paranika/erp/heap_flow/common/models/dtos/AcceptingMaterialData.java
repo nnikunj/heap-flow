@@ -22,6 +22,7 @@ public class AcceptingMaterialData {
 	private String poNumber;
 	private String poDate;
 	private String loggedInUser;
+	private String department;
 
 	private List<MaterialData> incomingItemsList = new ArrayList<MaterialData>();
 
@@ -105,6 +106,14 @@ public class AcceptingMaterialData {
 		this.loggedInUser = loggedInUser;
 	}
 
+	public String getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -126,6 +135,8 @@ public class AcceptingMaterialData {
 		builder.append(poDate);
 		builder.append(", loggedInUser=");
 		builder.append(loggedInUser);
+		builder.append(", department=");
+		builder.append(department);
 		builder.append(", incomingItemsList=");
 		builder.append(incomingItemsList);
 		builder.append("]");
@@ -153,6 +164,8 @@ public class AcceptingMaterialData {
 		AcceptingMaterialData data = new AcceptingMaterialData();
 		data.setGrn("GenratedGRN");
 		data.setInvoice("invoice001");
+
+		data.setDepartment("Engg");
 		data.setInvoiceDate((new SimpleDateFormat(AppConstants.COMMON_APP_DATE_FORMAT)).format(new Date()));
 		data.setVendorCode("VEND5857");
 		// Thu May 14 2020
