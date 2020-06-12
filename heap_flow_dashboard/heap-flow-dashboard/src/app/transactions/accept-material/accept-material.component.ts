@@ -35,7 +35,8 @@ export class AcceptMaterialComponent implements OnInit {
     invoiceDate: [new Date()],
     poNumber: [''],
     poDate: [new Date()],
-    loggedInUser: ['']
+    loggedInUser: [''],
+    department: ['']
   });
 
   acceptMaterialItemForm = this.fb.group({
@@ -202,6 +203,7 @@ export class AcceptMaterialComponent implements OnInit {
     am.poNumber = this.acceptMaterialForm.get('poNumber').value;
     am.poDate = this.acceptMaterialForm.get('poDate').value.toDateString();
     am.loggedInUser = this.acceptMaterialForm.get('loggedInUser').value;
+    am.department = this.acceptMaterialForm.get('department').value;
 
     this.items.forEach(i => i.baseUnitMeasure = null);//base unit measure is just for display purpose.
     am.incomingItemsList = this.items;

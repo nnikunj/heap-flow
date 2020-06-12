@@ -16,6 +16,7 @@ export class AcceptMaterial {
   poNumber: string;
   poDate: string;
   loggedInUser: string;
+  department: string;
 
   incomingItemsList: Item[];
 
