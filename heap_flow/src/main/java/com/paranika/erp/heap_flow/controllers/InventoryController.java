@@ -114,6 +114,35 @@ public class InventoryController {
 		return response;
 	}
 
+	@RequestMapping(method = RequestMethod.DELETE, value = HeapFlowApiEndPoints.CANCEL_ACCEPT_OF_MATERIAL)
+	ResponseEntity<String> deleteAcceptedItem(@PathVariable("dbId") String dbId) {
+		logger.debug(HeapFlowApiEndPoints.CANCEL_ACCEPT_OF_MATERIAL + " invoked");
+		logger.debug("Incoming dbId: " + dbId);
+		ResponseEntity<String> response = null;
+		if (StringUtils.isEmpty(dbId)) {
+			respBuild.setErrorMessage("Failed, cannot operate with null input of dbId");
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.BAD_REQUEST.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.BAD_REQUEST);
+			return response;
+		}
+		try {
+			service.deleteAcceptedItem(dbId);
+			logger.debug("Accepted item deleted from database, Inventory and price altered accordingly.");
+			respBuild.setErrorMessage(null);
+			respBuild.setMessage("Success");
+			respBuild.setStatusCode(HttpStatus.NO_CONTENT.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.NO_CONTENT);
+		} catch (HeapFlowException e) {
+			logger.error(e.getMessage(), e);
+			respBuild.setErrorMessage("Failed " + e.getMessage());
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return response;
+	}
+
 	@RequestMapping(method = RequestMethod.DELETE, value = HeapFlowApiEndPoints.CANCEL_ISSUE_OF_MATERIAL)
 	ResponseEntity<String> deleteIssuedItem(@PathVariable("dbId") String dbId) {
 		logger.debug(HeapFlowApiEndPoints.CANCEL_ISSUE_OF_MATERIAL + " invoked");

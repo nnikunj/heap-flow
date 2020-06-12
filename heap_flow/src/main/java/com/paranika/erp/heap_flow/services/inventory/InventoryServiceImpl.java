@@ -515,4 +515,21 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		logger.debug("Service call exit deleteIsuedItem");
 	}
 
+	@Override
+	public void deleteAcceptedItem(String dbId) throws HeapFlowException {
+		logger.debug("Service call deleteAcceptedItem");
+		try {
+			Long lDbId = Long.parseLong(dbId);
+			logger.debug("Converted long dbId: " + lDbId);
+			inventoryDao.deleteAcceptedItem(lDbId);
+		} catch (NumberFormatException e) {
+			logger.error("Supplied DB Id is not of long type.", e);
+			throw new HeapFlowException(e);
+		} catch (Exception e) {
+			logger.error("deleteAcceptedItem failed", e);
+			throw new HeapFlowException(e);
+		}
+		logger.debug("Service call exit deleteAcceptedItem");
+	}
+
 }

@@ -31,4 +31,6 @@ public interface InventoryServiceIX {
 	public Page<IngressDTO> getPagedAcceptedMaterialsWithIdLike(String idLike, Pageable paging)
 			throws HeapFlowException;
 
+	public void deleteAcceptedItem(String dbId) throws HeapFlowException;
+
 }

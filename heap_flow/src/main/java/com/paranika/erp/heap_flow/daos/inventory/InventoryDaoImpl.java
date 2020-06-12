@@ -187,4 +187,48 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 
 	}
 
+	@Override
+	@Transactional
+	public void deleteAcceptedItem(Long dbId) throws Exception {
+
+		Optional<IngressLedgerDO> dbObj = ingressRepo.findById(dbId);
+		IngressLedgerDO dbIngressObj = dbObj.get();
+		InventoryItemDO item = dbIngressObj.getIncomingMaterial();
+		Double averageUnitPrice = dbIngressObj.getPricePerUnit();
+
+		double acceptedQuantity = dbIngressObj.getIncomingQuantity();
+		InventoryTypeDO type = dbIngressObj.getInventoryType();
+		InventoryDO inventory = invRepo.findInventoryWithProductAndType(item, type);
+		logger.debug("Deleting Ingress ledger item with dbId: " + dbId + " for item: " + item.getInventoryItemCode()
+				+ " and type: " + type.getTypeName() + " isuedQuantity: " + acceptedQuantity + " averageUnitPrice: "
+				+ averageUnitPrice);
+		logger.debug("Db operation started.");
+		if (inventory != null) {
+			if (inventory.getQuantity() < acceptedQuantity) {
+				throw new HeapFlowException("Part of accepted material is already issued, "
+						+ "cannot cancel it until issued material is accepted back.");
+			}
+			if (inventory.getQuantity() == acceptedQuantity) {
+				logger.debug("Deleting simply inventory as there are only that much item as accepted.");
+				invRepo.delete(inventory);
+			} else {
+				logger.debug("Altering quantity and price for inventory.");
+				double existingAvgPrice = inventory.getAverageUnitPrice();
+				double existingQuant = inventory.getQuantity();
+				existingAvgPrice = (((existingQuant * existingAvgPrice) - (acceptedQuantity * averageUnitPrice))
+						/ (existingQuant - acceptedQuantity));
+				// New Quant
+				existingQuant = existingQuant - acceptedQuantity;
+				inventory.setAverageUnitPrice(existingAvgPrice);
+				inventory.setQuantity(existingQuant);
+				inventory.setNotes("Data altered by cancellation of accepted item.");
+				em.merge(inventory);
+			}
+		} else {
+			throw new HeapFlowException("Inventory not existing for given type cannot cancel accepted item.");
+		}
+		ingressRepo.delete(dbIngressObj);
+
+	}
+
 }
