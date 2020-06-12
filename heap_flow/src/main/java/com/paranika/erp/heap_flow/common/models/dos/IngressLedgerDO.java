@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +20,6 @@ public class IngressLedgerDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "record_date", nullable = false)
-	@Temporal(TemporalType.DATE)
 	private Date recordDate;
 
 	@ManyToOne

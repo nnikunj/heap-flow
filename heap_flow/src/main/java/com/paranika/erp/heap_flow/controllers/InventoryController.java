@@ -24,6 +24,7 @@ import com.paranika.erp.heap_flow.common.ResponseBuilder;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
 import com.paranika.erp.heap_flow.common.models.dtos.EgressDTO;
+import com.paranika.erp.heap_flow.common.models.dtos.IngressDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventorySummaryDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
@@ -86,6 +87,29 @@ public class InventoryController {
 
 			logger.error(e.getMessage(), e);
 			response = new ResponseEntity<Page<EgressDTO>>((Page<EgressDTO>) null, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_ACCEPTED_MAT_LIST_PAGE_WISE)
+	ResponseEntity<Page<IngressDTO>> getAcceptedMaterialsList(
+			@RequestParam(required = false, name = "idLike") String idLike, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "25") int size) {
+		Pageable paging = PageRequest.of(page, size, Sort.by("recordDate").descending());
+		Page<IngressDTO> fetchedList = null;
+		ResponseEntity<Page<IngressDTO>> response;
+		if (!StringUtils.isEmpty(idLike)) {
+			// Get Rid of all extra characters like \n etc
+			idLike = idLike.trim();
+		}
+		try {
+			fetchedList = service.getPagedAcceptedMaterialsWithIdLike(idLike, paging);
+			response = new ResponseEntity<Page<IngressDTO>>(fetchedList, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_ACCEPTED_MAT_LIST_PAGE_WISE + " Success");
+		} catch (HeapFlowException e) {
+
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<Page<IngressDTO>>((Page<IngressDTO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return response;
 	}

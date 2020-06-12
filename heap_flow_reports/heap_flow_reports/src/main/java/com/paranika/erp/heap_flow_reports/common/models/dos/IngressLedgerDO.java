@@ -20,7 +20,6 @@ public class IngressLedgerDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "record_date", nullable = false)
-	// @Temporal(TemporalType.DATE)
 	private Date recordDate;
 
 	@ManyToOne
@@ -45,14 +44,12 @@ public class IngressLedgerDO extends BaseDO {
 	private String invoiceNumber;
 
 	@Column(name = "invoice_date", nullable = true)
-	// @Temporal(TemporalType.DATE)
 	private Date invoiceDate;
 
 	@Column(name = "po_number", nullable = true)
 	private String poNumber;
 
 	@Column(name = "po_date", nullable = true)
-	// @Temporal(TemporalType.DATE)
 	private Date poDate;
 
 	@Column(name = "intent_number", nullable = true)

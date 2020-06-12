@@ -24,6 +24,7 @@ public interface HeapFlowApiEndPoints {
 	public String ISSUE_INVENTORY = "/issue-materials";
 	public String GET_INVENTORYSUMMARY_PAGE_WISE = "/fetch-inventory-summary-page-wise";
 	public String UPDATE_PRE_EXISTING_STOCKS = "/update-inventory-stocks";
+	public String GET_ACCEPTED_MAT_LIST_PAGE_WISE = "/fetch-accepted-materials-page-wise";
 	public String GET_ISSUED_ITEMS_LIST_PAGE_WISE = "/fetch-issued-materials-page-wise";
 	public String CANCEL_ISSUE_OF_MATERIAL = "/cancel-issued-mat/{dbId}";
 

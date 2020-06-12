@@ -25,4 +25,6 @@ public interface InventoryDaoIX {
 
 	public void deleteIsuedItem(Long dbId) throws Exception;
 
+	public Page<IngressLedgerDO> getPagedAcceptedMaterialWithIdLike(String idLike, Pageable paging) throws Exception;
+
 }

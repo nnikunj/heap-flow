@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
 import com.paranika.erp.heap_flow.common.models.dtos.EgressDTO;
+import com.paranika.erp.heap_flow.common.models.dtos.IngressDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventorySummaryDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
@@ -26,5 +27,8 @@ public interface InventoryServiceIX {
 	public Page<EgressDTO> getPagedIssuedMaterialsWithIdLike(String idLike, Pageable paging) throws HeapFlowException;
 
 	public void deleteIsuedItem(String dbId) throws HeapFlowException;
+
+	public Page<IngressDTO> getPagedAcceptedMaterialsWithIdLike(String idLike, Pageable paging)
+			throws HeapFlowException;
 
 }

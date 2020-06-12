@@ -20,7 +20,6 @@ public class EgressLedgerDO extends BaseDO {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "record_date", nullable = false)
-	// @Temporal(TemporalType.DATE)
 	private Date recordDate;
 
 	@ManyToOne

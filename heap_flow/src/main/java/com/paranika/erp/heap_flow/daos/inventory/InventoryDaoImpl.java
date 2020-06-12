@@ -142,6 +142,15 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 	}
 
 	@Override
+	public Page<IngressLedgerDO> getPagedAcceptedMaterialWithIdLike(String idLike, Pageable paging) throws Exception {
+		if (StringUtils.isEmpty(idLike)) {
+			return ingressRepo.findAll(paging);
+		} else {
+			return ingressRepo.findByIncomingMaterial_InventoryItemCodeIgnoreCaseContaining(idLike, paging);
+		}
+	}
+
+	@Override
 	@Transactional
 	public void deleteIsuedItem(Long dbId) throws Exception {
 		Optional<EgressLedgerDO> dbObj = egressRepo.findById(dbId);
@@ -177,4 +186,5 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 		egressRepo.delete(dbEgressObj);
 
 	}
+
 }
