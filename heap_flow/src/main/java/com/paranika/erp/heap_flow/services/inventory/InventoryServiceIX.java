@@ -25,4 +25,6 @@ public interface InventoryServiceIX {
 
 	public Page<EgressDTO> getPagedIssuedMaterialsWithIdLike(String idLike, Pageable paging) throws HeapFlowException;
 
+	public void deleteIsuedItem(String dbId) throws HeapFlowException;
+
 }

@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,6 +88,38 @@ public class InventoryController {
 			response = new ResponseEntity<Page<EgressDTO>>((Page<EgressDTO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE, value = HeapFlowApiEndPoints.CANCEL_ISSUE_OF_MATERIAL)
+	ResponseEntity<String> deleteIssuedItem(@PathVariable("dbId") String dbId) {
+		logger.debug(HeapFlowApiEndPoints.CANCEL_ISSUE_OF_MATERIAL + " invoked");
+		logger.debug("Incoming dbId: " + dbId);
+		ResponseEntity<String> response = null;
+		if (StringUtils.isEmpty(dbId)) {
+			respBuild.setErrorMessage("Failed, cannot operate with null input of dbId");
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.BAD_REQUEST.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.BAD_REQUEST);
+			return response;
+
+		}
+		try {
+			service.deleteIsuedItem(dbId);
+			logger.debug("Issued item deleted from database, Inventory altered accordingly.");
+			respBuild.setErrorMessage(null);
+			respBuild.setMessage("Success");
+			respBuild.setStatusCode(HttpStatus.NO_CONTENT.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.NO_CONTENT);
+		} catch (HeapFlowException e) {
+			logger.error(e.getMessage(), e);
+			respBuild.setErrorMessage("Failed " + e.getMessage());
+			respBuild.setMessage(null);
+			respBuild.setStatusCode(HttpStatus.SERVICE_UNAVAILABLE.value());
+			response = new ResponseEntity<String>(respBuild.getResponseText(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+
+		return response;
+
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.ACCEPT_INVENTORY, produces = MediaType.APPLICATION_JSON_VALUE)

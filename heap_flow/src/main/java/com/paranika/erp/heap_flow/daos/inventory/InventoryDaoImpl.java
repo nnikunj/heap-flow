@@ -1,17 +1,21 @@
 package com.paranika.erp.heap_flow.daos.inventory;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.IngressLedgerDO;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryDO;
@@ -36,6 +40,7 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 	@Autowired
 	@PersistenceContext
 	private EntityManager em;
+	private final Logger logger = LoggerFactory.getLogger(InventoryDaoImpl.class);
 
 	@Override
 	@Transactional
@@ -134,5 +139,42 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 		} else {
 			return egressRepo.findByOutgoingMaterial_InventoryItemCodeIgnoreCaseContaining(idLike, paging);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteIsuedItem(Long dbId) throws Exception {
+		Optional<EgressLedgerDO> dbObj = egressRepo.findById(dbId);
+		EgressLedgerDO dbEgressObj = dbObj.get();
+		InventoryItemDO item = dbEgressObj.getOutgoingMaterial();
+		Double averageUnitPrice = dbEgressObj.getOutgoingMaterialPrice();
+
+		double isuedQuantity = dbEgressObj.getOutgoingQuantity();
+		InventoryTypeDO type = dbEgressObj.getInventoryType();
+		InventoryDO inventory = invRepo.findInventoryWithProductAndType(item, type);
+		logger.debug("Deleting Egress ledger item with dbId: " + dbId + " for item: " + item.getInventoryItemCode()
+				+ " and type: " + type.getTypeName() + " isuedQuantity: " + isuedQuantity + " averageUnitPrice: "
+				+ averageUnitPrice);
+		logger.debug("Db operation started.");
+		if (inventory != null) {
+			logger.debug("Inventory pre-existing, Just altering quantity.");
+			inventory.setQuantity(inventory.getQuantity() + isuedQuantity);
+			em.merge(inventory);
+		} else {
+			if (averageUnitPrice == null) {
+				throw new HeapFlowException(
+						"Outgoing material price is null and hence cannot update deleted inventory price.");
+			}
+			logger.debug("Inventory not existing, Creating fresh inventory.");
+			inventory = new InventoryDO();
+			inventory.setAverageUnitPrice(averageUnitPrice);
+			inventory.setItem(item);
+			inventory.setNotes("Inventory Recreated by virtue of issued item deletion.");
+			inventory.setQuantity(isuedQuantity);
+			inventory.setType(type);
+			invRepo.save(inventory);
+		}
+		egressRepo.delete(dbEgressObj);
+
 	}
 }
