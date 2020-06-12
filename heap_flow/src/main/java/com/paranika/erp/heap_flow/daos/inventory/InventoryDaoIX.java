@@ -21,4 +21,6 @@ public interface InventoryDaoIX {
 
 	public Page<InventoryDO> getPagedInvSummaryWithIdLike(String idLike, Pageable paging) throws Exception;
 
+	public Page<EgressLedgerDO> getPagedIssuedMaterialWithIdLike(String idLike, Pageable paging) throws Exception;
+
 }

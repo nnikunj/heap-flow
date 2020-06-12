@@ -127,4 +127,12 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 		}
 	}
 
+	@Override
+	public Page<EgressLedgerDO> getPagedIssuedMaterialWithIdLike(String idLike, Pageable paging) throws Exception {
+		if (StringUtils.isEmpty(idLike)) {
+			return egressRepo.findAll(paging);
+		} else {
+			return egressRepo.findByOutgoingMaterial_InventoryItemCodeIgnoreCaseContaining(idLike, paging);
+		}
+	}
 }

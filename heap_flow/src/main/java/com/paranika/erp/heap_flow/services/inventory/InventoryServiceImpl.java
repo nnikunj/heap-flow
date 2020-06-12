@@ -33,6 +33,7 @@ import com.paranika.erp.heap_flow.common.models.dos.InventoryTypeDO;
 import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.EgressDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow.common.models.dtos.InventorySummaryDTO;
@@ -461,6 +462,21 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			logger.error("getPagedInvSummaryWithIdLike failed", e);
 		}
 		logger.debug("Service call exit getPagedInvSummaryWithIdLike");
+		return dtoPage;
+	}
+
+	@Override
+	public Page<EgressDTO> getPagedIssuedMaterialsWithIdLike(String idLike, Pageable paging) throws HeapFlowException {
+		logger.debug("Service call getPagedIssuedMaterialsWithIdLike");
+		Page<EgressLedgerDO> collectedData = null;
+		Page<EgressDTO> dtoPage = null;
+		try {
+			collectedData = inventoryDao.getPagedIssuedMaterialWithIdLike(idLike, paging);
+			dtoPage = collectedData.map(obj -> new EgressDTO(obj));
+		} catch (Exception e) {
+			logger.error("getPagedIssuedMaterialsWithIdLike failed", e);
+		}
+		logger.debug("Service call exit getPagedIssuedMaterialsWithIdLike");
 		return dtoPage;
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.ResponseBuilder;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dtos.AcceptingMaterialData;
+import com.paranika.erp.heap_flow.common.models.dtos.EgressDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventorySummaryDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.IssuingMaterialDataDTO;
@@ -60,6 +62,29 @@ public class InventoryController {
 			logger.error(e.getMessage(), e);
 			response = new ResponseEntity<Page<InventorySummaryDTO>>((Page<InventorySummaryDTO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_ISSUED_ITEMS_LIST_PAGE_WISE)
+	ResponseEntity<Page<EgressDTO>> getIssuedMaterialsList(
+			@RequestParam(required = false, name = "idLike") String idLike, @RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "25") int size) {
+		Pageable paging = PageRequest.of(page, size, Sort.by("recordDate").descending());
+		Page<EgressDTO> fetchedList = null;
+		ResponseEntity<Page<EgressDTO>> response;
+		if (!StringUtils.isEmpty(idLike)) {
+			// Get Rid of all extra characters like \n etc
+			idLike = idLike.trim();
+		}
+		try {
+			fetchedList = service.getPagedIssuedMaterialsWithIdLike(idLike, paging);
+			response = new ResponseEntity<Page<EgressDTO>>(fetchedList, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_ISSUED_ITEMS_LIST_PAGE_WISE + " Success");
+		} catch (HeapFlowException e) {
+
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<Page<EgressDTO>>((Page<EgressDTO>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return response;
 	}
