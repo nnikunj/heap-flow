@@ -21,7 +21,7 @@ import { InventorySummaryComponent } from './inventory/inventory-summary/invento
 import { VendorsListComponent } from './vendors/vendors-list/vendors-list.component';
 import { VendorsAddComponent } from './vendors/vendors-add/vendors-add.component';
 import { MachinesListComponent } from './machines/machines-list/machines-list.component';
-import { MachinesAddComponent } from './machines/machines-add/machines-add.component';
+import { MachinesAddComponent } from 'src/app/machines/machines-add/machines-add.component';
 import { InventoryImportComponent } from './inventory/inventory-import/inventory-import.component';
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';

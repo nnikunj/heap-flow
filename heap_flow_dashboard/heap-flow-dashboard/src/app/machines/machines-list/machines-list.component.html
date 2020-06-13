@@ -1,1 +1,70 @@
-<p>machines-list works!</p>
+<div class="heap-grid">
+
+    <div class="heap-row">
+        <mat-form-field>
+            <input matInput placeholder="Search Machine" #input>
+        </mat-form-field>
+
+        <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Machine</button>
+    </div>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="heap-table-container">
+        <mat-table class="heap-table mat-elevation-z8" [dataSource]="dataSource">
+
+            <ng-container matColumnDef="serialNo">
+                <mat-header-cell *matHeaderCellDef>Serial No</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.serialNo}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef>Code</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.code}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="model">
+                <mat-header-cell *matHeaderCellDef>Model</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.model}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="category">
+                <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.category}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="kWKva">
+                <mat-header-cell *matHeaderCellDef>kWKva</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.kWKva}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="make">
+                <mat-header-cell *matHeaderCellDef>Make</mat-header-cell>
+                <mat-cell *matCellDef="let machine">{{machine.make}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <!-- <td mat-cell *matCellDef="let item" class="action-link"> -->
+                  <td mat-cell *matCellDef="let machine" >
+                  <a (click)="openDialog('Update',machine)">Edit</a>
+                </td>
+              </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns" ></mat-row>
+        </mat-table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+
+
+</div>

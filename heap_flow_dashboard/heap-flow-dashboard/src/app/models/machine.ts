@@ -1,7 +1,26 @@
 import { Injectable } from '@angular/core';
+import { Pageable, Sort } from './pageable';
+
 @Injectable({
   providedIn: 'root'
 })
+
+export class MachineResponse {
+  constructor() { }
+  content: Machine[]
+
+  pageable: Pageable;
+  totalElements: Number;
+  totalPages: Number;
+  last: boolean;
+  number: Number;
+  size: Number;
+  sort: Sort;
+  numberOfElements: Number;
+  first: boolean;
+  empty: boolean;
+}
+
 export class Machine {
   constructor() { }
 
@@ -15,5 +34,6 @@ export class Machine {
   model: string;
   make: string;
   category: string;
+  kWKva: string;
 
 }

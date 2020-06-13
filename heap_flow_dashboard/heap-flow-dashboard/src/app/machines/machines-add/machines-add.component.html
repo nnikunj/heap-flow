@@ -1,1 +1,56 @@
-<p>machines-add works!</p>
+<div class="heap-container" >
+    <h1 mat-dialog-title>{{action}} Machine</h1>
+    <div   mat-dialog-content>
+        <form class="heap-form" [formGroup]="machineForm" (ngSubmit)="onSubmit()">
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Code</mat-label>
+                    <input matInput placeholder="Please enter Code." formControlName="code">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Please enter Name." formControlName="name">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Serial No</mat-label>
+                    <input matInput placeholder="Please enter Serial No." formControlName="serialNo">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Model</mat-label>
+                    <input matInput placeholder="Please enter Model." formControlName="model">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Category</mat-label>
+                    <input matInput placeholder="Please enter Category." formControlName="category">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>kWKva</mat-label>
+                    <input matInput placeholder="Please enter kWKva." formControlName="kWKva">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>Make</mat-label>
+                    <input matInput placeholder="Please enter Make." formControlName="make">
+                </mat-form-field>
+            </div>
+
+            <div mat-dialog-actions>
+                <button mat-stroked-button color="primary" type="submit"
+                    [disabled]="!machineForm.valid">{{action}}</button>
+                <button mat-stroked-button color="primary" type="reset"
+                    [disabled]="action === 'Update' || action === 'Delete'">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
