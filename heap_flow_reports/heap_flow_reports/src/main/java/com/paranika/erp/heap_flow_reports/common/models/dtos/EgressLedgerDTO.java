@@ -3,6 +3,9 @@ package com.paranika.erp.heap_flow_reports.common.models.dtos;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.paranika.erp.heap_flow_reports.common.AppConstants;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 
@@ -24,6 +27,8 @@ public class EgressLedgerDTO {
 	private String issuedBy;
 	private String issueSlipNumber;
 	private String price;
+	private String perUnitPrice;
+	private final Logger logger = LoggerFactory.getLogger(EgressLedgerDTO.class);
 
 	public EgressLedgerDTO(EgressLedgerDO dbObj) {
 
@@ -62,7 +67,22 @@ public class EgressLedgerDTO {
 
 		this.price = (dbObj.getOutgoingMaterialPrice() == null) ? AppConstants.NO_DATA_FOUND_MSG
 				: String.valueOf(dbObj.getOutgoingMaterialPrice());
+		calculatePerUnitPrice();
+	}
 
+	private void calculatePerUnitPrice() {
+		try {
+			double totalAmt = Double.parseDouble(getPrice());
+			double quant = Double.parseDouble(getQunatity());
+			double perUnPr = totalAmt / quant;
+			this.perUnitPrice = String.valueOf(perUnPr);
+		} catch (NumberFormatException nfe) {
+			logger.debug("Number fomat exception, Could not parse either totalAmt or quant ", nfe);
+			this.perUnitPrice = AppConstants.NO_DATA_FOUND_MSG;
+		} catch (Exception e) {
+			logger.debug("Exception: ", e);
+			this.perUnitPrice = AppConstants.NO_DATA_FOUND_MSG;
+		}
 	}
 
 	public String getIssueSlipNumber() {
@@ -193,6 +213,14 @@ public class EgressLedgerDTO {
 		this.price = price;
 	}
 
+	public String getPerUnitPrice() {
+		return perUnitPrice;
+	}
+
+	public void setPerUnitPrice(String perUnitPrice) {
+		this.perUnitPrice = perUnitPrice;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -228,8 +256,9 @@ public class EgressLedgerDTO {
 		builder.append(issueSlipNumber);
 		builder.append(", price=");
 		builder.append(price);
+		builder.append(", perUnitPrice=");
+		builder.append(perUnitPrice);
 		builder.append("]");
 		return builder.toString();
 	}
-
 }
