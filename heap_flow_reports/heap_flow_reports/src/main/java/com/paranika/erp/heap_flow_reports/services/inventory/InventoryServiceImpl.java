@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -181,7 +182,8 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		if (boundaries == null) {
 			throw new HeapFlowReportException("ABC model not defined to formulate data.");
 		}
-		TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>> analysisRptData = new TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>>();
+		TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>> analysisRptData = new TreeMap<AbcAnalysisInputParameters, List<AbcAnalysisQResPojo>>(
+				Collections.reverseOrder());
 
 		for (AbcAnalysisInputParameters abcAnalysisInputParameters : boundaries) {
 			try {

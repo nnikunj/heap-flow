@@ -46,18 +46,18 @@ public class ABCAnalysisController {
 
 			inputList = new ArrayList<AbcAnalysisInputParameters>();
 			new ArrayList<AbcAnalysisInputParameters>();
-			AbcAnalysisInputParameters typeA = new AbcAnalysisInputParameters(
-					"Type A " + " From 0.00 to " + AppConstants.DEFAULT_MAX_A_VALUE, Double.MIN_VALUE,
+			AbcAnalysisInputParameters typeC = new AbcAnalysisInputParameters(
+					"Type C " + " From 0.00 to " + AppConstants.DEFAULT_MAX_A_VALUE, Double.MIN_VALUE,
 					AppConstants.DEFAULT_MAX_A_VALUE);
 			AbcAnalysisInputParameters typeB = new AbcAnalysisInputParameters(
 					"Type B From " + AppConstants.DEFAULT_MAX_A_VALUE + " to " + AppConstants.DEFAULT_MAX_B_VALUE,
 					AppConstants.DEFAULT_MAX_A_VALUE, AppConstants.DEFAULT_MAX_B_VALUE);
-			AbcAnalysisInputParameters typeC = new AbcAnalysisInputParameters(
-					"Type C" + " from " + AppConstants.DEFAULT_MIN_C_VALUE + " to Remianing ",
+			AbcAnalysisInputParameters typeA = new AbcAnalysisInputParameters(
+					"Type A" + " from " + AppConstants.DEFAULT_MIN_C_VALUE + " to Remianing ",
 					AppConstants.DEFAULT_MIN_C_VALUE, Double.MAX_VALUE);
-			inputList.add(typeA);
-			inputList.add(typeB);
 			inputList.add(typeC);
+			inputList.add(typeB);
+			inputList.add(typeA);
 			logger.debug("No Data from input, formulating default set.");
 		} else {
 			logger.debug("Got data from input.");
