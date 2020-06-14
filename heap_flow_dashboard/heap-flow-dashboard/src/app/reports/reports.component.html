@@ -1,5 +1,10 @@
 <div class="heap-container">
     <form class="heap-form" [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+
+        <div class="spinner-container" *ngIf="loading$ | async">
+            <mat-spinner></mat-spinner>
+        </div>
+
         <div class="heap-row">
             <mat-form-field>
                 <mat-label>Start Date</mat-label>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms'
 import { HttpHeaders, HttpClient, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Observable, BehaviorSubject, of } from "rxjs";
 
 import { saveAs } from 'file-saver';
 
@@ -14,6 +15,9 @@ import { HttpService } from 'src/app/services/http.service'
   providers: [HttpService]
 })
 export class ReportsComponent implements OnInit {
+
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
 
   reportForm = this.fb.group({
     startDate: [new Date(), Validators.required],
@@ -30,6 +34,7 @@ export class ReportsComponent implements OnInit {
   }
 
   onSubmit() {
+    this.loadingSubject.next(true);
     console.log(this.reportForm.value);
 
     console.log('new');
@@ -55,6 +60,7 @@ export class ReportsComponent implements OnInit {
         console.log(data)
         const blob = new Blob([data], { type: 'application/vnd.ms.excel' });
         const file = new File([blob], "abc-analysis-report" + '.xlsx', { type: 'application/vnd.ms.excel' });
+        this.loadingSubject.next(false);
         saveAs(file);
       });
     } else if (this.reportForm.get('reportType').value === 'Inventory Summary Report'){
@@ -77,6 +83,7 @@ export class ReportsComponent implements OnInit {
         console.log(data)
         const blob = new Blob([data], { type: 'application/vnd.ms.excel' });
         const file = new File([blob], reportName + '.xlsx', { type: 'application/vnd.ms.excel' });
+        this.loadingSubject.next(false);
         saveAs(file);
       });
   }
