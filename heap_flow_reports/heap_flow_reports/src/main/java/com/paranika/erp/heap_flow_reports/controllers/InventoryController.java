@@ -76,4 +76,26 @@ public class InventoryController {
 				.body(new InputStreamResource(output));
 
 	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_AGING_RPT, produces = "application/vnd.ms-excel;charset=UTF-8")
+	public ResponseEntity<InputStreamResource> getAgingRpt() {
+
+		logger.debug(HeapFlowReportsApiEndPoints.GET_AGING_RPT + " Invoked.");
+
+		ByteArrayInputStream output = null;
+		try {
+			output = service.getInventoryAgingReport();
+		} catch (HeapFlowReportException e) {
+			logger.error(HeapFlowReportsApiEndPoints.GET_AGING_RPT + " Failed ", e);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "inline; filename=\"agingRpt.xlsx\"");
+
+		return ResponseEntity.ok().headers(headers)
+				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))
+				.body(new InputStreamResource(output));
+
+	}
+
 }

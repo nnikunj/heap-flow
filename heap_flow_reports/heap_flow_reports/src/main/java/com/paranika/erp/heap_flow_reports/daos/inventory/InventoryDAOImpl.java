@@ -3,10 +3,13 @@ package com.paranika.erp.heap_flow_reports.daos.inventory;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
@@ -30,6 +33,7 @@ public class InventoryDAOImpl implements InventoryDAO {
 	AbcAnalysisRepository abcRepo;
 	@Autowired
 	InventoryItemsRepository itemRepo;
+	private final Logger logger = LoggerFactory.getLogger(InventoryDAOImpl.class);
 
 	public List<IngressLedgerDO> getIngressLedgers(Date startDate, Date endDate) throws Exception {
 
@@ -66,5 +70,22 @@ public class InventoryDAOImpl implements InventoryDAO {
 			return invRepo.findByItem_InventoryItemCodeIgnoreCaseContaining(idLike);
 		}
 
+	}
+
+	@Override
+	public List<InventoryDO> getInvModifiedBetween(Date startDate, Date endDate) throws Exception {
+		logger.debug("Entering getInvModifiedDateAgo");
+		if (startDate == null) {
+			logger.debug("startDate date is null.");
+			throw new HeapFlowReportException("startDate date is null.");
+		}
+		if (endDate == null) {
+			logger.debug("endDate date is null.");
+			throw new HeapFlowReportException("endDate date is null.");
+		}
+		List<InventoryDO> fetchedList = invRepo.findAllInventoryModifiedBetween(startDate, endDate);
+		logger.debug("Fetched Item: " + ((fetchedList == null) ? "null" : fetchedList.size()));
+		logger.debug("Exiting getInvModifiedDateAgo");
+		return fetchedList;
 	}
 }

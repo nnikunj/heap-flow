@@ -24,4 +24,6 @@ public interface InventoryDAO {
 
 	public List<InventoryDO> getInvSummaryWithIdLike(String idLike) throws Exception;
 
+	public List<InventoryDO> getInvModifiedBetween(Date startDate, Date endDate) throws Exception;
+
 }

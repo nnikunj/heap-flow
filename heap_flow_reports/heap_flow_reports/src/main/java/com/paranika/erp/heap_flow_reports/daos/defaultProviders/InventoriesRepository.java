@@ -1,5 +1,6 @@
 package com.paranika.erp.heap_flow_reports.daos.defaultProviders;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,9 @@ public interface InventoriesRepository extends JpaRepository<InventoryDO, Long> 
 
 	List<InventoryDO> findByItem_InventoryItemCodeIgnoreCaseContaining(
 			@Param("inventoryItemCode") String inventoryItemCode);
+
+	@Query("from InventoryDO inv where ( modified> :startDate and modified < :endDate ) ORDER BY inv.item")
+	List<InventoryDO> findAllInventoryModifiedBetween(@Param("startDate") Date startDate,
+			@Param("endDate") Date endDate);
 
 }

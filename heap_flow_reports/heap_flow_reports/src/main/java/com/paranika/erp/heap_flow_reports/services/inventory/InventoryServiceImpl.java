@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
-import com.paranika.erp.heap_flow_reports.common.AppConstants;
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
@@ -32,7 +31,6 @@ import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputPar
 import com.paranika.erp.heap_flow_reports.common.models.dtos.EgressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.IngressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDTO;
-import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow_reports.daos.inventory.InventoryDAO;
 
 import net.sf.jasperreports.engine.JRException;
@@ -220,6 +218,61 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	}
 
 	@Override
+	public ByteArrayInputStream getInventoryAgingReport() throws HeapFlowReportException {
+		HashMap<String, List<InventoryDO>> analysisRptData = new HashMap<String, List<InventoryDO>>();
+		logger.debug("Entered:  getInventoryAgingReport");
+		Date oneMonth = util.getCurrentDateMinusDaysAsDate(-30);
+		Date sixMonth = util.getCurrentDateMinusDaysAsDate(-180);
+		Date oneYear = util.getCurrentDateMinusDaysAsDate(-365);
+		Date oneAndHalfYear = util.getCurrentDateMinusDaysAsDate(-546);
+		Date twoYear = util.getCurrentDateMinusDaysAsDate(-730);
+		Date threeYear = util.getCurrentDateMinusDaysAsDate(-1095);
+		Date fiveYear = util.getCurrentDateMinusDaysAsDate(-1825);
+		Date now = util.getCurrentDateMinusDaysAsDate(0);
+		List<InventoryDO> g_fiveAndThreeYrs = null;
+		List<InventoryDO> f_threeAndTwoYrs = null;
+
+		List<InventoryDO> e_twoAndoneAndHalfYrs = null;
+		List<InventoryDO> d_oneAndHalfAndOneYrs = null;
+		List<InventoryDO> c_oneAndSixMonth = null;
+		List<InventoryDO> b_sixMonthAnd1Month = null;
+		List<InventoryDO> a_nowAndOneMonth = null;
+		try {
+			g_fiveAndThreeYrs = dao.getInvModifiedBetween(fiveYear, threeYear);
+			f_threeAndTwoYrs = dao.getInvModifiedBetween(threeYear, twoYear);
+
+			e_twoAndoneAndHalfYrs = dao.getInvModifiedBetween(twoYear, oneAndHalfYear);
+
+			d_oneAndHalfAndOneYrs = dao.getInvModifiedBetween(oneAndHalfYear, oneYear);
+
+			c_oneAndSixMonth = dao.getInvModifiedBetween(oneYear, sixMonth);
+
+			b_sixMonthAnd1Month = dao.getInvModifiedBetween(sixMonth, oneMonth);
+
+			a_nowAndOneMonth = dao.getInvModifiedBetween(oneMonth, now);
+			analysisRptData.put("07fiveAndThreeYrs", g_fiveAndThreeYrs);
+			analysisRptData.put("06threeAndTwoYrs", f_threeAndTwoYrs);
+			analysisRptData.put("05twoAndoneAndHalfYrs", e_twoAndoneAndHalfYrs);
+			analysisRptData.put("04oneAndHalfAndOneYrs", d_oneAndHalfAndOneYrs);
+			analysisRptData.put("03oneAndSixMonth", c_oneAndSixMonth);
+			analysisRptData.put("02sixMonthAnd1Month", b_sixMonthAnd1Month);
+			analysisRptData.put("01nowAndOneMonth", a_nowAndOneMonth);
+
+		} catch (Exception e) {
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting:  getInventoryAgingReport");
+		ByteArrayInputStream rpt = null;
+		try {
+			rpt = util.generateAgingAnalysisRpt(analysisRptData);
+		} catch (IOException e) {
+			logger.error("Could not generate aging report ", e);
+			throw new HeapFlowReportException(e);
+		}
+		return rpt;
+	}
+
+	@Override
 	public ByteArrayInputStream getProductSticker(String prodCode) throws HeapFlowReportException {
 		if (StringUtils.isEmpty(prodCode)) {
 			logger.debug("Cannot operate with null product code as input.");
@@ -268,9 +321,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 	@Override
 	public ByteArrayInputStream getInventorySummaryReport(String idLike) throws HeapFlowReportException {
-
 		List<InventoryDO> collectedData = null;
-
 		logger.debug("Entered getInventorySummaryReport");
 		try {
 			collectedData = dao.getInvSummaryWithIdLike(idLike);
@@ -281,60 +332,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			throw new HeapFlowReportException(e);
 		}
 		logger.debug("Exiting getInventorySummaryReport");
-		return generateInvSummaryExcel(collectedData);
-	}
-
-	private ByteArrayInputStream generateInvSummaryExcel(List<InventoryDO> collectedData)
-			throws HeapFlowReportException {
-
-		String[] cols = { "ITEM CODE", "CATEGORY", "DESCRIPTION1", "DESCRIPTION2", "TYPE", "QTY", "UOM",
-				"AVERAGE UNIT PRICE", "TOTAL VALUE" };
-		List<List<String>> fillInData = new LinkedList<List<String>>();
-
-		for (InventoryDO data : collectedData) {
-			LinkedList<String> dataSet = new LinkedList<String>();
-			String itemCode = AppConstants.NO_DATA_FOUND_MSG;
-			String category = AppConstants.NO_DATA_FOUND_MSG;
-			String desc1 = AppConstants.NO_DATA_FOUND_MSG;
-			String desc2 = AppConstants.NO_DATA_FOUND_MSG;
-			String uom = AppConstants.NO_DATA_FOUND_MSG;
-			InventoryItemDO item = data.getItem();
-			if (item != null) {
-				InventoryItemDescriptions descriptions = InventoryItemDescriptions.fromJson(item.getDescriptions());
-				itemCode = item.getInventoryItemCode();
-				category = item.getItemCategoryCode();
-				if (descriptions != null) {
-					desc1 = descriptions.getDescription();
-					desc2 = descriptions.getDescription2();
-				}
-				uom = item.getBaseUnitMeasure();
-			}
-			String type = data.getType().getTypeName();
-			String qty = String.valueOf(data.getQuantity());
-			String avgUnitPr = String.valueOf(data.getAverageUnitPrice());
-			String tot = String.valueOf(data.getValue());
-			dataSet.add(itemCode);
-			dataSet.add(category);
-			dataSet.add(desc1);
-			dataSet.add(desc2);
-			dataSet.add(type);
-			dataSet.add(qty);
-			dataSet.add(uom);
-			dataSet.add(avgUnitPr);
-			dataSet.add(tot);
-			fillInData.add(dataSet);
-		}
-		logger.debug("Egress Ledger fillInData size" + fillInData.size());
-		ByteArrayInputStream stream = null;
-		try {
-			stream = util.genrateExcel(fillInData, cols, "Stock Reports");
-		} catch (IOException e) {
-
-			logger.error("Excel genartion failed.", e);
-			throw new HeapFlowReportException(e);
-		}
-
-		return stream;
+		return util.generateInvSummaryExcel(collectedData);
 	}
 
 }
