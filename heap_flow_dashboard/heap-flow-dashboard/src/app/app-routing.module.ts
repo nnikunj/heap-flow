@@ -8,7 +8,9 @@ import { VendorsComponent } from './vendors/vendors.component';
 import { MachinesComponent } from './machines/machines.component';
 import { AboutComponent } from './about/about.component';
 import { AcceptMaterialComponent } from './transactions/accept-material/accept-material.component';
+import { AcceptMaterialListComponent } from 'src/app/transactions/accept-material-list/accept-material-list.component';
 import { IssueMaterialComponent } from './transactions/issue-material/issue-material.component';
+import { IssueMaterialListComponent } from 'src/app/transactions/issue-material-list/issue-material-list.component'
 import { InventoryItemsGridComponent } from './inventory/inventory-items-grid/inventory-items-grid.component';
 import { InventorySummaryComponent } from './inventory/inventory-summary/inventory-summary.component';
 import { VendorsListComponent } from './vendors/vendors-list/vendors-list.component';
@@ -37,7 +39,9 @@ const routes: Routes = [
     component: TransactionsComponent,
     children: [
       { path: 'accept-material', component: AcceptMaterialComponent },
-      { path: 'issue-material', component: IssueMaterialComponent }
+      { path: 'issue-material', component: IssueMaterialComponent },
+      { path: 'accept-material-list', component: AcceptMaterialListComponent},
+      { path: 'issue-material-list', component: IssueMaterialListComponent}
 
     ]
   },

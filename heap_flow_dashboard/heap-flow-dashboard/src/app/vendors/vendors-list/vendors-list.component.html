@@ -1,1 +1,85 @@
-<p>vendors-list works!</p>
+<div class="heap-grid">
+
+    <div class="heap-row">
+        <mat-form-field>
+            <input matInput placeholder="Search Vendor" #input>
+        </mat-form-field>
+
+        <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Vendor</button>
+    </div>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="heap-table-container">
+        <mat-table class="heap-table mat-elevation-z8" [dataSource]="dataSource">
+
+           
+            <ng-container matColumnDef='vendorId'>
+                <mat-header-cell *matHeaderCellDef>vendorId</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.vendorId}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='name'>
+                <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.name}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='searchName'>
+                <mat-header-cell *matHeaderCellDef>searchName</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.searchName}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='gstRegNo'>
+                <mat-header-cell *matHeaderCellDef>gstRegNo</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.gstRegNo}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='panNumber'>
+                <mat-header-cell *matHeaderCellDef>panNumber</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.panNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='address'>
+                <mat-header-cell *matHeaderCellDef>address</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.address}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='address2'>
+                <mat-header-cell *matHeaderCellDef>address2</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.address2}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='city'>
+                <mat-header-cell *matHeaderCellDef>city</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.city}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='stateCode'>
+                <mat-header-cell *matHeaderCellDef>stateCode</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.stateCode}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='contactPerson'>
+                <mat-header-cell *matHeaderCellDef>contactPerson</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.contactPerson}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='phone'>
+                <mat-header-cell *matHeaderCellDef>phone</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.phone}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='email'>
+                <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
+                <mat-cell *matCellDef='let vendor'>{{vendor.email}}</mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let vendor" class="action-link">
+                    <a (click)="openDialog('Update',vendor)">Edit</a>
+                </td>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+
+
+</div>

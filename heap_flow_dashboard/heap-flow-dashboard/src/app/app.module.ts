@@ -16,7 +16,9 @@ import { AboutComponent } from './about/about.component';
 import { InventoryItemsGridComponent } from './inventory/inventory-items-grid/inventory-items-grid.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AcceptMaterialComponent } from './transactions/accept-material/accept-material.component';
+import { AcceptMaterialListComponent, AcceptMaterialDeleteDialog } from 'src/app/transactions/accept-material-list/accept-material-list.component'
 import { IssueMaterialComponent } from './transactions/issue-material/issue-material.component';
+import { IssueMaterialListComponent, IssueMaterialDeleteDialog } from 'src/app/transactions/issue-material-list/issue-material-list.component';
 import { InventorySummaryComponent } from './inventory/inventory-summary/inventory-summary.component';
 import { VendorsListComponent } from './vendors/vendors-list/vendors-list.component';
 import { VendorsAddComponent } from './vendors/vendors-add/vendors-add.component';
@@ -56,7 +58,11 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'
     AboutComponent,
     InventoryItemsGridComponent,
     AcceptMaterialComponent,
+    AcceptMaterialListComponent,
+    AcceptMaterialDeleteDialog,
     IssueMaterialComponent,
+    IssueMaterialListComponent,
+    IssueMaterialDeleteDialog,
     InventorySummaryComponent,
     VendorsListComponent,
     VendorsAddComponent,

@@ -1,0 +1,106 @@
+<div class="heap-grid">
+
+    <div class="heap-row">
+        <mat-form-field>
+            <input matInput placeholder="Search Material" #input>
+        </mat-form-field>
+    </div>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="heap-table-container">
+        <mat-table class="heap-table mat-elevation-z8" [dataSource]="dataSource">
+
+            <ng-container matColumnDef='entryCreatedOnDate'>
+                <mat-header-cell *matHeaderCellDef>entryCreatedOnDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.entryCreatedOnDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='recievedDate'>
+                <mat-header-cell *matHeaderCellDef>recievedDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.recievedDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='inventoryType'>
+                <mat-header-cell *matHeaderCellDef>inventoryType</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.inventoryType}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='incomingQuantity'>
+                <mat-header-cell *matHeaderCellDef>incomingQuantity</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.incomingQuantity}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='pricePerUnit'>
+                <mat-header-cell *matHeaderCellDef>pricePerUnit</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.pricePerUnit}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='incomingMaterial'>
+                <mat-header-cell *matHeaderCellDef>incomingMaterial</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.incomingMaterial}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='classificationCategory'>
+                <mat-header-cell *matHeaderCellDef>classificationCategory</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.classificationCategory}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='invoiceNumber'>
+                <mat-header-cell *matHeaderCellDef>invoiceNumber</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.invoiceNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='invoiceDate'>
+                <mat-header-cell *matHeaderCellDef>invoiceDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.invoiceDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='poNumber'>
+                <mat-header-cell *matHeaderCellDef>poNumber</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.poNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='poDate'>
+                <mat-header-cell *matHeaderCellDef>poDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.poDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='intdentNumber'>
+                <mat-header-cell *matHeaderCellDef>intdentNumber</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.intdentNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='materialAcceptedBy'>
+                <mat-header-cell *matHeaderCellDef>materialAcceptedBy</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.materialAcceptedBy}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='grnNumber'>
+                <mat-header-cell *matHeaderCellDef>grnNumber</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.grnNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='department'>
+                <mat-header-cell *matHeaderCellDef>department</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.department}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='vendor'>
+                <mat-header-cell *matHeaderCellDef>vendor</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.vendor}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='incomingMaterialDescription'>
+                <mat-header-cell *matHeaderCellDef>incomingMaterialDescription</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.incomingMaterialDescription}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='uom'>
+                <mat-header-cell *matHeaderCellDef>uom</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.uom}}</mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let material" class="action-link">
+                    <a (click)="openDialog('Delete',material)">Delete</a>
+                </td>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+
+
+</div>

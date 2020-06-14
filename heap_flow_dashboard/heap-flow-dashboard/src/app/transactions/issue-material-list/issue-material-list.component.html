@@ -1,0 +1,93 @@
+<div class="heap-grid">
+
+    <div class="heap-row">
+        <mat-form-field>
+            <input matInput placeholder="Search Material" #input>
+        </mat-form-field>
+    </div>
+
+    <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div class="heap-table-container">
+        <mat-table class="heap-table mat-elevation-z8" [dataSource]="dataSource">
+
+            <ng-container matColumnDef='entryCreatedOnDate'>
+                <mat-header-cell *matHeaderCellDef>entryCreatedOnDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.entryCreatedOnDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='issueDate'>
+                <mat-header-cell *matHeaderCellDef>issueDate</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.issueDate}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='inventoryType'>
+                <mat-header-cell *matHeaderCellDef>inventoryType</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.inventoryType}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='outgoingQuantity'>
+                <mat-header-cell *matHeaderCellDef>outgoingQuantity</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.outgoingQuantity}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='uom'>
+                <mat-header-cell *matHeaderCellDef>uom</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.uom}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='outgoingMaterial'>
+                <mat-header-cell *matHeaderCellDef>outgoingMaterial</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.outgoingMaterial}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='outgoingMaterialDescription'>
+                <mat-header-cell *matHeaderCellDef>outgoingMaterialDescription</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.outgoingMaterialDescription}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='classificationCategory'>
+                <mat-header-cell *matHeaderCellDef>classificationCategory</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.classificationCategory}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='consumingMachine'>
+                <mat-header-cell *matHeaderCellDef>consumingMachine</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.consumingMachine}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='issuedToEngineer'>
+                <mat-header-cell *matHeaderCellDef>issuedToEngineer</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.issuedToEngineer}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='issuedForDept'>
+                <mat-header-cell *matHeaderCellDef>issuedForDept</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.issuedForDept}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='approvedBy'>
+                <mat-header-cell *matHeaderCellDef>approvedBy</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.approvedBy}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='issuedBy'>
+                <mat-header-cell *matHeaderCellDef>issuedBy</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.issuedBy}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='issueSlipNumber'>
+                <mat-header-cell *matHeaderCellDef>issueSlipNumber</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.issueSlipNumber}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='outgoingMaterialPrice'>
+                <mat-header-cell *matHeaderCellDef>outgoingMaterialPrice</mat-header-cell>
+                <mat-cell *matCellDef='let material'>{{material.outgoingMaterialPrice}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let material" class="action-link">
+                    <a (click)="openDialog('Delete',material)">Delete</a>
+                </td>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"></mat-paginator>
+
+
+</div>

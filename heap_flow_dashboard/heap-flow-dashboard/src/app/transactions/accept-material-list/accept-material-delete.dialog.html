@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Delete Accept Material</h1>
+<div mat-dialog-content>
+    <p>Are you sure, you want to delete?</p>
+    <b>{{data.incomingMaterial}}</b>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No </button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Yes</button>
+</div>

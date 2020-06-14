@@ -1,7 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Pageable, Sort } from './pageable';
+
 @Injectable({
   providedIn: 'root'
 })
+
+export class VendorResponse{
+  content : Vendor[];
+
+  pageable: Pageable;
+  totalElements: Number;
+  totalPages: Number;
+  last: boolean;
+  number: Number;
+  size: Number;
+  sort: Sort;
+  numberOfElements: Number;
+  first: boolean;
+  empty: boolean;
+}
+
 export class Vendor {
   constructor() { }
   public id: Number;

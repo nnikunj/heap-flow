@@ -1,1 +1,78 @@
-<p>vendors-add works!</p>
+<div class="heap-container">
+    <h1 mat-dialog-title>{{action}} Vendor</h1>
+    <div mat-dialog-content>
+        <form class="heap-form" [formGroup]="vendorForm" (ngSubmit)="onSubmit()">
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>vendorId</mat-label> <input matInput placeholder="Please enter vendorId."
+                        formControlName="vendorId">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>name</mat-label> <input matInput placeholder="Please enter name." formControlName="name">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>searchName</mat-label> <input matInput placeholder="Please enter searchName."
+                        formControlName="searchName">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>gstRegNo</mat-label> <input matInput placeholder="Please enter gstRegNo."
+                        formControlName="gstRegNo">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>address</mat-label> <input matInput placeholder="Please enter address."
+                        formControlName="address">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>address2</mat-label> <input matInput placeholder="Please enter address2."
+                        formControlName="address2">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>city</mat-label> <input matInput placeholder="Please enter city." formControlName="city">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>contactPerson</mat-label> <input matInput placeholder="Please enter contactPerson."
+                        formControlName="contactPerson">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>email</mat-label> <input matInput placeholder="Please enter email."
+                        formControlName="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>panNumber</mat-label> <input matInput placeholder="Please enter panNumber."
+                        formControlName="panNumber">
+                </mat-form-field>
+            </div>
+
+            <div class="heap-row">
+                <mat-form-field>
+                    <mat-label>phone</mat-label> <input matInput placeholder="Please enter phone."
+                        formControlName="phone">
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>stateCode</mat-label> <input matInput placeholder="Please enter stateCode."
+                        formControlName="stateCode">
+                </mat-form-field>
+            </div>
+
+            <div mat-dialog-actions>
+                <button mat-stroked-button color="primary" type="submit"
+                    [disabled]="!vendorForm.valid">{{action}}</button>
+                <button mat-stroked-button color="primary" type="reset"
+                    [disabled]="action === 'Update' || action === 'Delete'">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>
