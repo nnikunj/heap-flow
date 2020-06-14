@@ -23,7 +23,7 @@ export class IssueMaterialListComponent implements OnInit, AfterViewInit {
   constructor(private dialog: MatDialog, private transactionService: TransactionService, private apiService: ApiHandlerService) { }
 
   dataSource: IssueMaterialDatasource;
-  displayedColumns = ["action", "entryCreatedOnDate", "issueDate", "inventoryType", "outgoingQuantity", "uom", "outgoingMaterial", "outgoingMaterialDescription", "classificationCategory", "consumingMachine", "issuedToEngineer", "issuedForDept", "approvedBy", "issuedBy", "issueSlipNumber", "outgoingMaterialPrice"];
+  displayedColumns = ["action", "issueDate", "inventoryType", "outgoingQuantity", "uom", "outgoingMaterial", "outgoingMaterialDescription", "classificationCategory", "consumingMachine", "issuedToEngineer", "issuedForDept", "approvedBy", "issuedBy", "issueSlipNumber", "outgoingMaterialPrice", "entryCreatedOnDate"];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;

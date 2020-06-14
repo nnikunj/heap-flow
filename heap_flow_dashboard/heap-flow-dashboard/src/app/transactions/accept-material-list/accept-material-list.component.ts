@@ -23,7 +23,7 @@ export class AcceptMaterialListComponent implements OnInit, AfterViewInit {
   constructor(private dialog: MatDialog, private transactionService: TransactionService, private apiService: ApiHandlerService) { }
 
   dataSource: AcceptMaterialDatasource;
-  displayedColumns = ["action", "entryCreatedOnDate", "recievedDate", "inventoryType", "incomingQuantity", "pricePerUnit", "incomingMaterial", "classificationCategory", "invoiceNumber", "invoiceDate", "poNumber", "poDate", "intdentNumber", "materialAcceptedBy", "grnNumber", "department", "vendor", "incomingMaterialDescription", "uom"];
+  displayedColumns = ["action", "recievedDate", "inventoryType", "incomingQuantity", "pricePerUnit", "incomingMaterial", "classificationCategory", "invoiceNumber", "invoiceDate", "poNumber", "poDate", "intdentNumber", "materialAcceptedBy", "grnNumber", "department", "vendor", "incomingMaterialDescription", "uom", "entryCreatedOnDate"];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('input') input: ElementRef;
