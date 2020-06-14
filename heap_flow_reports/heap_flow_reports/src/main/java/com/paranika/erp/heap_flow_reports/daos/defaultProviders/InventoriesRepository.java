@@ -1,7 +1,7 @@
 package com.paranika.erp.heap_flow_reports.daos.defaultProviders;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,9 +17,9 @@ public interface InventoriesRepository extends JpaRepository<InventoryDO, Long> 
 			@Param("invType") InventoryTypeDO invType);
 
 	@Query("from InventoryDO inv ORDER BY inv.item")
-	Page<InventoryDO> findPagedAllInv(Pageable pageable);
+	List<InventoryDO> findPagedAllInv();
 
-	Page<InventoryDO> findByItem_InventoryItemCodeIgnoreCaseContaining(
-			@Param("inventoryItemCode") String inventoryItemCode, Pageable pageable);
+	List<InventoryDO> findByItem_InventoryItemCodeIgnoreCaseContaining(
+			@Param("inventoryItemCode") String inventoryItemCode);
 
 }

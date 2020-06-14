@@ -20,16 +20,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
+import com.paranika.erp.heap_flow_reports.common.AppConstants;
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.EgressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.IngressLedgerDTO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDTO;
+import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDescriptions;
 import com.paranika.erp.heap_flow_reports.daos.inventory.InventoryDAO;
 
 import net.sf.jasperreports.engine.JRException;
@@ -261,6 +264,77 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		return retStream;
 
+	}
+
+	@Override
+	public ByteArrayInputStream getInventorySummaryReport(String idLike) throws HeapFlowReportException {
+
+		List<InventoryDO> collectedData = null;
+
+		logger.debug("Entered getInventorySummaryReport");
+		try {
+			collectedData = dao.getInvSummaryWithIdLike(idLike);
+			logger.debug("Data collected collectedData size " + collectedData.size());
+
+		} catch (Exception e) {
+			logger.error("Could not get getInventorySummaryReport.", e);
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting getInventorySummaryReport");
+		return generateInvSummaryExcel(collectedData);
+	}
+
+	private ByteArrayInputStream generateInvSummaryExcel(List<InventoryDO> collectedData)
+			throws HeapFlowReportException {
+
+		String[] cols = { "ITEM CODE", "CATEGORY", "DESCRIPTION1", "DESCRIPTION2", "TYPE", "QTY", "UOM",
+				"AVERAGE UNIT PRICE", "TOTAL VALUE" };
+		List<List<String>> fillInData = new LinkedList<List<String>>();
+
+		for (InventoryDO data : collectedData) {
+			LinkedList<String> dataSet = new LinkedList<String>();
+			String itemCode = AppConstants.NO_DATA_FOUND_MSG;
+			String category = AppConstants.NO_DATA_FOUND_MSG;
+			String desc1 = AppConstants.NO_DATA_FOUND_MSG;
+			String desc2 = AppConstants.NO_DATA_FOUND_MSG;
+			String uom = AppConstants.NO_DATA_FOUND_MSG;
+			InventoryItemDO item = data.getItem();
+			if (item != null) {
+				InventoryItemDescriptions descriptions = InventoryItemDescriptions.fromJson(item.getDescriptions());
+				itemCode = item.getInventoryItemCode();
+				category = item.getItemCategoryCode();
+				if (descriptions != null) {
+					desc1 = descriptions.getDescription();
+					desc2 = descriptions.getDescription2();
+				}
+				uom = item.getBaseUnitMeasure();
+			}
+			String type = data.getType().getTypeName();
+			String qty = String.valueOf(data.getQuantity());
+			String avgUnitPr = String.valueOf(data.getAverageUnitPrice());
+			String tot = String.valueOf(data.getValue());
+			dataSet.add(itemCode);
+			dataSet.add(category);
+			dataSet.add(desc1);
+			dataSet.add(desc2);
+			dataSet.add(type);
+			dataSet.add(qty);
+			dataSet.add(uom);
+			dataSet.add(avgUnitPr);
+			dataSet.add(tot);
+			fillInData.add(dataSet);
+		}
+		logger.debug("Egress Ledger fillInData size" + fillInData.size());
+		ByteArrayInputStream stream = null;
+		try {
+			stream = util.genrateExcel(fillInData, cols, "Stock Reports");
+		} catch (IOException e) {
+
+			logger.error("Excel genartion failed.", e);
+			throw new HeapFlowReportException(e);
+		}
+
+		return stream;
 	}
 
 }

@@ -19,4 +19,6 @@ public interface InventoryServiceIX {
 			throws HeapFlowReportException;
 
 	public ByteArrayInputStream getProductSticker(String prodCode) throws HeapFlowReportException;
+
+	public ByteArrayInputStream getInventorySummaryReport(String idLike) throws HeapFlowReportException;
 }
