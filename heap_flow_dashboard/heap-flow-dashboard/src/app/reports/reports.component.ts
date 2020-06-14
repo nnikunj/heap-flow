@@ -21,7 +21,7 @@ export class ReportsComponent implements OnInit {
     reportType: ['', Validators.required]
   });
 
-  reportType = ['Accept Material', 'Issue Material', 'ABC-Analysis'];
+  reportType = ['Accept Material', 'Issue Material', 'ABC-Analysis', 'Inventory Summary Report', 'Ageing Analysis', 'Fast Moving Items'];
 
   constructor(private fb: FormBuilder, private httpClient: HttpClient, private httpService: HttpService, private sanitizer: DomSanitizer) { }
 
@@ -44,30 +44,39 @@ export class ReportsComponent implements OnInit {
 
     if (this.reportForm.get('reportType').value === 'Accept Material') {
       url = 'http://localhost:8443/api/rpts/incoming-rpt/fetch-material-ingress';
-      this.callReportService(url, params);
+      this.callReportService(url, params, 'accept-material-report');
     } else if (this.reportForm.get('reportType').value === 'Issue Material') {
       url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
-      this.callReportService(url, params);
+      this.callReportService(url, params, 'issue-material-report');
     } else if (this.reportForm.get('reportType').value === 'ABC-Analysis') {
       url = 'http://localhost:8443/api/rpts/abc-rpt/inventory-valuation';
       this.httpService.getBodyFromPost(url, {})
       .subscribe(data => {
         console.log(data)
         const blob = new Blob([data], { type: 'application/vnd.ms.excel' });
-        const file = new File([blob], "report" + '.xlsx', { type: 'application/vnd.ms.excel' });
+        const file = new File([blob], "abc-analysis-report" + '.xlsx', { type: 'application/vnd.ms.excel' });
         saveAs(file);
       });
+    } else if (this.reportForm.get('reportType').value === 'Inventory Summary Report'){
+      url = 'http://localhost:8443/api/rpts/inventory/inventory-summary-rpt';
+      this.callReportService(url, null, 'inventory-summary-report');
+    } else if (this.reportForm.get('reportType').value === 'Ageing Analysis'){
+      url = 'http://localhost:8443/api/rpts/inventory/inventory-aging-rpt';
+      this.callReportService(url, null, 'ageing-analysys-report');
+    } else if (this.reportForm.get('reportType').value === 'Fast Moving Items'){
+      url = 'http://localhost:8443/api/rpts/inventory/inventory-aging-rpt/inventory-fast-moving-rpt';
+      this.callReportService(url, params, 'fast-moving-report');
     }
 
     
   }
 
-  callReportService(url: string, params: HttpParams) {
+  callReportService(url: string, params: HttpParams, reportName: string) {
     this.httpService.getBody(url, params)
       .subscribe(data => {
         console.log(data)
         const blob = new Blob([data], { type: 'application/vnd.ms.excel' });
-        const file = new File([blob], "report" + '.xlsx', { type: 'application/vnd.ms.excel' });
+        const file = new File([blob], reportName + '.xlsx', { type: 'application/vnd.ms.excel' });
         saveAs(file);
       });
   }
