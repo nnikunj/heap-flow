@@ -1,6 +1,7 @@
 package com.paranika.erp.heap_flow_reports.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.HeapFlowReportsApiEndPoints;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.services.inventory.InventoryServiceIX;
@@ -29,6 +31,9 @@ public class InventoryController {
 	@Autowired
 	InventoryServiceIX service;
 	private final Logger logger = LoggerFactory.getLogger(InventoryController.class);
+
+	@Autowired
+	CommonUtil util;
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_ITEM_QRCODE_RPT, produces = "application/pdf")
 	public ResponseEntity<InputStreamResource> getIngressRpt(@PathVariable("prodCode") String prodCode) {
@@ -73,6 +78,37 @@ public class InventoryController {
 
 		return ResponseEntity.ok().headers(headers)
 				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))
+				.body(new InputStreamResource(output));
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_FASTMOVING_RPT, produces = "application/vnd.ms-excel;charset=UTF-8")
+	public ResponseEntity<InputStreamResource> getFastMovingItemsRpt(
+			@RequestParam(required = false, name = "startDate") String startDate,
+			@RequestParam(required = false, name = "endDate") String endDate) {
+		Date stDate = null;
+		Date enDate = null;
+
+		logger.debug("startDate " + startDate);
+		logger.debug("endDate " + endDate);
+		stDate = util.extractDateFromInput(startDate, (short) -30);
+		enDate = util.extractDateFromInput(endDate, (short) 0);
+
+		logger.debug("startDate after check " + stDate);
+		logger.debug("endDate after check " + enDate);
+		ByteArrayInputStream output = null;
+		try {
+			output = service.getFastMovingItemsReport(stDate, enDate);
+		} catch (HeapFlowReportException e) {
+			logger.error(HeapFlowReportsApiEndPoints.GET_FASTMOVING_RPT + " Failed ", e);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "attachment; filename=\"fastMovingRpt.xlsx\"");
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return ResponseEntity.ok().headers(headers)
+				.contentType(MediaType.parseMediaType("application/vnd.ms-excel;charset=UTF-8"))
+
 				.body(new InputStreamResource(output));
 
 	}

@@ -23,4 +23,6 @@ public interface InventoryServiceIX {
 	public ByteArrayInputStream getInventorySummaryReport(String idLike) throws HeapFlowReportException;
 
 	public ByteArrayInputStream getInventoryAgingReport() throws HeapFlowReportException;
+
+	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException;
 }

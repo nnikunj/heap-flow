@@ -335,4 +335,10 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		return util.generateInvSummaryExcel(collectedData);
 	}
 
+	@Override
+	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
+
+		return null;
+	}
+
 }

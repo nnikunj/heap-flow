@@ -8,6 +8,7 @@ public interface HeapFlowReportsApiEndPoints {
 	public String GET_ITEM_QRCODE_RPT = "/fetch-item-qrcode/{prodCode}";
 	public String GET_INVENTORY_SUMMARY_RPT = "/inventory-summary-rpt";
 	public String GET_AGING_RPT = "/inventory-aging-rpt";
+	public String GET_FASTMOVING_RPT = "/inventory-fast-moving-rpt";
 
 	// Ingress related Reports
 	public String BASE_END_POINT_ACCEPTED_MAT = BASE_END_POINT + "/incoming-rpt";
