@@ -25,6 +25,7 @@ import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportExcept
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.EgressLedgerDTO;
@@ -217,6 +218,61 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	}
 
 	@Override
+	public ByteArrayInputStream getInventoryAgingReport() throws HeapFlowReportException {
+		HashMap<String, List<InventoryDO>> analysisRptData = new HashMap<String, List<InventoryDO>>();
+		logger.debug("Entered:  getInventoryAgingReport");
+		Date oneMonth = util.getCurrentDateMinusDaysAsDate(-30);
+		Date sixMonth = util.getCurrentDateMinusDaysAsDate(-180);
+		Date oneYear = util.getCurrentDateMinusDaysAsDate(-365);
+		Date oneAndHalfYear = util.getCurrentDateMinusDaysAsDate(-546);
+		Date twoYear = util.getCurrentDateMinusDaysAsDate(-730);
+		Date threeYear = util.getCurrentDateMinusDaysAsDate(-1095);
+		Date fiveYear = util.getCurrentDateMinusDaysAsDate(-1825);
+		Date now = util.getCurrentDateMinusDaysAsDate(0);
+		List<InventoryDO> g_fiveAndThreeYrs = null;
+		List<InventoryDO> f_threeAndTwoYrs = null;
+
+		List<InventoryDO> e_twoAndoneAndHalfYrs = null;
+		List<InventoryDO> d_oneAndHalfAndOneYrs = null;
+		List<InventoryDO> c_oneAndSixMonth = null;
+		List<InventoryDO> b_sixMonthAnd1Month = null;
+		List<InventoryDO> a_nowAndOneMonth = null;
+		try {
+			g_fiveAndThreeYrs = dao.getInvModifiedBetween(fiveYear, threeYear);
+			f_threeAndTwoYrs = dao.getInvModifiedBetween(threeYear, twoYear);
+
+			e_twoAndoneAndHalfYrs = dao.getInvModifiedBetween(twoYear, oneAndHalfYear);
+
+			d_oneAndHalfAndOneYrs = dao.getInvModifiedBetween(oneAndHalfYear, oneYear);
+
+			c_oneAndSixMonth = dao.getInvModifiedBetween(oneYear, sixMonth);
+
+			b_sixMonthAnd1Month = dao.getInvModifiedBetween(sixMonth, oneMonth);
+
+			a_nowAndOneMonth = dao.getInvModifiedBetween(oneMonth, now);
+			analysisRptData.put("07fiveAndThreeYrs", g_fiveAndThreeYrs);
+			analysisRptData.put("06threeAndTwoYrs", f_threeAndTwoYrs);
+			analysisRptData.put("05twoAndoneAndHalfYrs", e_twoAndoneAndHalfYrs);
+			analysisRptData.put("04oneAndHalfAndOneYrs", d_oneAndHalfAndOneYrs);
+			analysisRptData.put("03oneAndSixMonth", c_oneAndSixMonth);
+			analysisRptData.put("02sixMonthAnd1Month", b_sixMonthAnd1Month);
+			analysisRptData.put("01nowAndOneMonth", a_nowAndOneMonth);
+
+		} catch (Exception e) {
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting:  getInventoryAgingReport");
+		ByteArrayInputStream rpt = null;
+		try {
+			rpt = util.generateAgingAnalysisRpt(analysisRptData);
+		} catch (IOException e) {
+			logger.error("Could not generate aging report ", e);
+			throw new HeapFlowReportException(e);
+		}
+		return rpt;
+	}
+
+	@Override
 	public ByteArrayInputStream getProductSticker(String prodCode) throws HeapFlowReportException {
 		if (StringUtils.isEmpty(prodCode)) {
 			logger.debug("Cannot operate with null product code as input.");
@@ -261,6 +317,28 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		return retStream;
 
+	}
+
+	@Override
+	public ByteArrayInputStream getInventorySummaryReport(String idLike) throws HeapFlowReportException {
+		List<InventoryDO> collectedData = null;
+		logger.debug("Entered getInventorySummaryReport");
+		try {
+			collectedData = dao.getInvSummaryWithIdLike(idLike);
+			logger.debug("Data collected collectedData size " + collectedData.size());
+
+		} catch (Exception e) {
+			logger.error("Could not get getInventorySummaryReport.", e);
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting getInventorySummaryReport");
+		return util.generateInvSummaryExcel(collectedData);
+	}
+
+	@Override
+	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
+
+		return null;
 	}
 
 }
