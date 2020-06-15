@@ -33,6 +33,7 @@ import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
+import com.paranika.erp.heap_flow_reports.common.models.dos.FastMovingItemsPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.common.models.dtos.AbcAnalysisInputParameters;
@@ -226,6 +227,31 @@ public class CommonUtil {
 
 	}
 
+	public ByteArrayInputStream formulateExcelRptForFastMovingAnalysis(List<FastMovingItemsPojo> data)
+			throws IOException {
+		String[] cols = { "ITEM CODE", "ITEM CATEGORY", "DESCRIPTION", "TOTAL QUANTITY", "UOM", "TOTAL VALUE" };
+		try (ByteArrayOutputStream out = new ByteArrayOutputStream(); Workbook workbook = new XSSFWorkbook();) {
+			List<List<String>> fillInData = new LinkedList<List<String>>();
+			Sheet sheet = workbook.createSheet("Fast moving items");
+			for (FastMovingItemsPojo entry : data) {
+				LinkedList<String> dataSet = new LinkedList<String>();
+				dataSet.add(entry.getItemCode());
+				dataSet.add(entry.getCategory());
+				dataSet.add(entry.getDescriptions());
+
+				dataSet.add(String.valueOf(entry.getTotalQuantity()));
+				dataSet.add(entry.getUnitOfMeasurement());
+				dataSet.add(String.valueOf(entry.getTotalValue()));
+
+				fillInData.add(dataSet);
+			}
+			populateSheet(workbook, sheet, fillInData, cols);
+			workbook.write(out);
+			logger.debug("workbook created and returing from genrateExcel for formulateExcelRptForFastMovingAnalysis.");
+			return new ByteArrayInputStream(out.toByteArray());
+		}
+	}
+
 	public ByteArrayInputStream generateAgingAnalysisRpt(Map<String, List<InventoryDO>> analysisRptData)
 			throws IOException {
 		String[] cols = { "ITEM CODE", "CATEGORY", "DESCRIPTION1", "DESCRIPTION2", "TYPE", "QTY", "UOM",
@@ -339,4 +365,5 @@ public class CommonUtil {
 
 		return stream;
 	}
+
 }

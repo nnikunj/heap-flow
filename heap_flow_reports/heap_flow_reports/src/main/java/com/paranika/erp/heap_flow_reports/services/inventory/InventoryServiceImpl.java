@@ -24,6 +24,7 @@ import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.FastMovingItemsPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
@@ -218,6 +219,28 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	}
 
 	@Override
+	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
+		List<FastMovingItemsPojo> data = null;
+		logger.debug("Entering getFastMovingItemsReport");
+		try {
+			data = dao.getFastMovingAnalysis(startDate, endDate);
+
+		} catch (Exception e) {
+			logger.error("Could not get fastmoving items", e);
+			return null;
+		}
+		ByteArrayInputStream retWb = null;
+		try {
+			retWb = util.formulateExcelRptForFastMovingAnalysis(data);
+		} catch (IOException e) {
+			logger.error("Failed to genearte excel workbook.");
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting getFastMovingItemsReport");
+		return retWb;
+	}
+
+	@Override
 	public ByteArrayInputStream getInventoryAgingReport() throws HeapFlowReportException {
 		HashMap<String, List<InventoryDO>> analysisRptData = new HashMap<String, List<InventoryDO>>();
 		logger.debug("Entered:  getInventoryAgingReport");
@@ -333,12 +356,6 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		logger.debug("Exiting getInventorySummaryReport");
 		return util.generateInvSummaryExcel(collectedData);
-	}
-
-	@Override
-	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
-
-		return null;
 	}
 
 }
