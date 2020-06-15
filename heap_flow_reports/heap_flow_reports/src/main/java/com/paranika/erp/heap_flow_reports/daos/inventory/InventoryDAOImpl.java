@@ -12,11 +12,13 @@ import org.springframework.util.StringUtils;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.FastMovingItemsPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.AbcAnalysisRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.EgressLedgersRepository;
+import com.paranika.erp.heap_flow_reports.daos.defaultProviders.FastMovingItemRepo;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.IngressLedgersRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.InventoriesRepository;
 import com.paranika.erp.heap_flow_reports.daos.defaultProviders.InventoryItemsRepository;
@@ -33,6 +35,8 @@ public class InventoryDAOImpl implements InventoryDAO {
 	AbcAnalysisRepository abcRepo;
 	@Autowired
 	InventoryItemsRepository itemRepo;
+	@Autowired
+	FastMovingItemRepo fastItemRepo;
 	private final Logger logger = LoggerFactory.getLogger(InventoryDAOImpl.class);
 
 	public List<IngressLedgerDO> getIngressLedgers(Date startDate, Date endDate) throws Exception {
@@ -50,6 +54,11 @@ public class InventoryDAOImpl implements InventoryDAO {
 	public List<AbcAnalysisQResPojo> getAbcAnalysis(Double lowerLimit, Double upperLimit) throws Exception {
 
 		return abcRepo.findAbcAnalysis(lowerLimit, upperLimit);
+	}
+
+	@Override
+	public List<FastMovingItemsPojo> getFastMovingAnalysis(Date startDate, Date endDate) throws Exception {
+		return fastItemRepo.findFastMovingAnalysis(startDate, endDate);
 	}
 
 	@Override
@@ -88,4 +97,5 @@ public class InventoryDAOImpl implements InventoryDAO {
 		logger.debug("Exiting getInvModifiedDateAgo");
 		return fetchedList;
 	}
+
 }

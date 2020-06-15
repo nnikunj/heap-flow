@@ -70,7 +70,7 @@ export class ReportsComponent implements OnInit {
       url = 'http://localhost:8443/api/rpts/inventory/inventory-aging-rpt';
       this.callReportService(url, null, 'ageing-analysys-report');
     } else if (this.reportForm.get('reportType').value === 'Fast Moving Items'){
-      url = 'http://localhost:8443/api/rpts/inventory/inventory-aging-rpt/inventory-fast-moving-rpt';
+      url = 'http://localhost:8443/api/rpts/inventory/inventory-fast-moving-rpt';
       this.callReportService(url, params, 'fast-moving-report');
     }
 

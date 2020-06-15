@@ -2,9 +2,8 @@ package com.paranika.erp.heap_flow_reports.services.inventory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,14 +15,16 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
 import com.paranika.erp.heap_flow_reports.common.exceptions.HeapFlowReportException;
 import com.paranika.erp.heap_flow_reports.common.models.dos.AbcAnalysisQResPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.EgressLedgerDO;
+import com.paranika.erp.heap_flow_reports.common.models.dos.FastMovingItemsPojo;
 import com.paranika.erp.heap_flow_reports.common.models.dos.IngressLedgerDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryDO;
 import com.paranika.erp.heap_flow_reports.common.models.dos.InventoryItemDO;
@@ -218,6 +219,28 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 	}
 
 	@Override
+	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
+		List<FastMovingItemsPojo> data = null;
+		logger.debug("Entering getFastMovingItemsReport");
+		try {
+			data = dao.getFastMovingAnalysis(startDate, endDate);
+
+		} catch (Exception e) {
+			logger.error("Could not get fastmoving items", e);
+			return null;
+		}
+		ByteArrayInputStream retWb = null;
+		try {
+			retWb = util.formulateExcelRptForFastMovingAnalysis(data);
+		} catch (IOException e) {
+			logger.error("Failed to genearte excel workbook.");
+			throw new HeapFlowReportException(e);
+		}
+		logger.debug("Exiting getFastMovingItemsReport");
+		return retWb;
+	}
+
+	@Override
 	public ByteArrayInputStream getInventoryAgingReport() throws HeapFlowReportException {
 		HashMap<String, List<InventoryDO>> analysisRptData = new HashMap<String, List<InventoryDO>>();
 		logger.debug("Entered:  getInventoryAgingReport");
@@ -296,11 +319,16 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		ArrayList<InventoryItemDTO> dataList = new ArrayList<InventoryItemDTO>();
 		dataList.add(dtoObj);
-		File jrXml = null;
+		// File jrXml = null;
 		JasperReport report = null;
 		try {
-			jrXml = ResourceUtils.getFile("classpath:jasperReports/ProductLabel.jrxml");
-			report = JasperCompileManager.compileReport(jrXml.getAbsolutePath());
+
+			Resource resource = new ClassPathResource("jasperReports/ProductLabel.jrxml");
+
+			InputStream input = resource.getInputStream();
+			// jrXml = ResourceUtils.getFile("classpath:jasperReports/ProductLabel.jrxml");
+
+			report = JasperCompileManager.compileReport(input);
 
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataList);
 
@@ -310,7 +338,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 			retStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-		} catch (FileNotFoundException | JRException e) {
+		} catch (IOException | JRException e) {
 			logger.error("Report file not found.", e);
 			throw new HeapFlowReportException("Report file not found.");
 		}
@@ -333,12 +361,6 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		logger.debug("Exiting getInventorySummaryReport");
 		return util.generateInvSummaryExcel(collectedData);
-	}
-
-	@Override
-	public ByteArrayInputStream getFastMovingItemsReport(Date startDate, Date endDate) throws HeapFlowReportException {
-
-		return null;
 	}
 
 }
