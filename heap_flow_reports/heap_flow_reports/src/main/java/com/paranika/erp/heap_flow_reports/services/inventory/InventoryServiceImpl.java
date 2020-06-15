@@ -2,9 +2,8 @@ package com.paranika.erp.heap_flow_reports.services.inventory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -16,8 +15,9 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow_reports.common.CommonUtil;
@@ -319,11 +319,16 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		ArrayList<InventoryItemDTO> dataList = new ArrayList<InventoryItemDTO>();
 		dataList.add(dtoObj);
-		File jrXml = null;
+		// File jrXml = null;
 		JasperReport report = null;
 		try {
-			jrXml = ResourceUtils.getFile("classpath:jasperReports/ProductLabel.jrxml");
-			report = JasperCompileManager.compileReport(jrXml.getAbsolutePath());
+
+			Resource resource = new ClassPathResource("jasperReports/ProductLabel.jrxml");
+
+			InputStream input = resource.getInputStream();
+			// jrXml = ResourceUtils.getFile("classpath:jasperReports/ProductLabel.jrxml");
+
+			report = JasperCompileManager.compileReport(input);
 
 			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataList);
 
@@ -333,7 +338,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 			retStream = new ByteArrayInputStream(outputStream.toByteArray());
 
-		} catch (FileNotFoundException | JRException e) {
+		} catch (IOException | JRException e) {
 			logger.error("Report file not found.", e);
 			throw new HeapFlowReportException("Report file not found.");
 		}

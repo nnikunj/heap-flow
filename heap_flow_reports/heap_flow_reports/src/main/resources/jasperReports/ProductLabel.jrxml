@@ -12,98 +12,98 @@
 			<staticText>
 				<reportElement x="2" y="1" width="59" height="18" uuid="98c630fa-fac7-4ac9-9ea7-49a83115fbf8"/>
 				<textElement>
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="SansSerif" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Item Code:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="61" y="1" width="102" height="18" uuid="9024abd8-1688-472a-a637-59130fe4226d"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="SansSerif" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{inventoryItemCode}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="2" y="19" width="21" height="11" uuid="887c45ab-a8f3-4545-aa9e-f9af7128c2ad"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Desc:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="30" width="29" height="11" uuid="ccc90a8b-0508-4e0b-aed6-5f014a5d5893"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Desc2:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="41" width="29" height="11" uuid="e85a7aea-9825-4152-94d8-11850b1b5c90"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Desc3:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="52" width="29" height="10" uuid="f903cd56-8135-4e08-90bd-6fc3989a226d"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Desc4:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="62" width="29" height="12" uuid="935ae85b-5239-4f34-828c-b24a4ea61dff"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Desc5:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="2" y="74" width="40" height="10" uuid="8545ec4b-fa65-49d6-bd4f-2fb250722a91"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="SansSerif" size="8"/>
 				</textElement>
 				<text><![CDATA[Category:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="23" y="19" width="75" height="11" uuid="bc797c31-1070-44a3-a228-a0b4fe8f80fb"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="31" y="30" width="67" height="11" uuid="beb42864-df7d-4b4a-b346-2cbd3a909351"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription2()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="31" y="41" width="67" height="11" uuid="b9d0c6f4-b955-4e43-abe6-efb35504b8ad"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription3()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="74" width="88" height="10" uuid="01e18f04-3803-432f-b8a2-0a026778cb08"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{itemCategoryCode}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="31" y="52" width="67" height="11" uuid="74e82afa-caaf-4050-8a54-242a69ac2d5a"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription4()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="31" y="63" width="67" height="11" uuid="16a98fd9-aaa9-4fe9-a3ae-967476b492cc"/>
 				<textElement>
-					<font fontName="Arial" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descriptions}.getDescription5()]]></textFieldExpression>
 			</textField>
