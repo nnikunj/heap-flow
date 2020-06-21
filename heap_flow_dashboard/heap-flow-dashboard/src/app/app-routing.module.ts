@@ -21,6 +21,7 @@ import { InventoryImportComponent } from './inventory/inventory-import/inventory
 import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
 import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
+import { ImportExcelComponent } from 'src/app/import-excel/import-excel.component'
 
 const routes: Routes = [
 
@@ -30,7 +31,7 @@ const routes: Routes = [
     children: [
       { path: 'inventory-items-list', component: InventoryItemsGridComponent },
       { path: 'inventory-summary', component: InventorySummaryComponent },
-      { path: 'import-inventory-items', component: InventoryImportComponent },
+      { path: 'import-excel', component: ImportExcelComponent },
       { path: 'add-inventory-item', component: AddInventoryItemComponent }
     ]
   },

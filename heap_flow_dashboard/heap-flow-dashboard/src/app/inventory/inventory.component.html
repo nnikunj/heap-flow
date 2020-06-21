@@ -17,7 +17,7 @@
                 Add Inventory Item
             </a> -->
             <div class="nav-divider"></div>
-            <a clrVerticalNavLink routerLink="import-inventory-items" routerLinkActive="active" skipLocationChange>
+            <a clrVerticalNavLink routerLink="import-excel" [queryParams]="{type: 'Inventory'}" routerLinkActive="active" skipLocationChange>
                 <clr-icon shape="download" class="has-badge"></clr-icon>
                 Import Inventory Items
             </a>

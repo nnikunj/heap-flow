@@ -37,6 +37,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core'; 
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule  } from '@angular/material/snack-bar';
@@ -44,7 +47,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog'
-import { PdfViewerModule } from 'ng2-pdf-viewer'
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { ImportExcelComponent } from './import-excel/import-excel.component'
  
 @NgModule({
   declarations: [
@@ -73,7 +77,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'
     VendorImportComponent,
     AddInventoryItemComponent,
     AddInventoryDialog,
-    PrintItemQRCode
+    PrintItemQRCode,
+    ImportExcelComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +101,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer'
     MatProgressSpinnerModule,
     MatSortModule,
     MatDialogModule,
+    MatProgressBarModule,
+    MatIconModule,
+    MatCardModule,
     PdfViewerModule
   ],
   providers: [],
