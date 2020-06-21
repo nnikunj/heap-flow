@@ -255,7 +255,7 @@ export class IssueMaterialComponent implements OnInit {
   machineCodeFocusOut(event: Event) {
     console.log("machine code focus out");
     if (typeof this.issueMaterialForm.get('machineCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/machines/fetch-machine-with-code/' + this.issueMaterialForm.get('machineCode').value)
+      this.httpService.get('http://localhost:9443/api/v1/machines/fetch-machine-with-code/' + btoa(this.issueMaterialForm.get('machineCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
@@ -270,7 +270,7 @@ export class IssueMaterialComponent implements OnInit {
   materialCodeFocusOut(event: Event) {
     console.log("material code focus out");
     if (typeof this.issueMaterialItemForm.get('productCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.issueMaterialItemForm.get('productCode').value)
+      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.issueMaterialItemForm.get('productCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {

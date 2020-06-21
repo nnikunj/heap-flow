@@ -14,7 +14,7 @@ export class VendorService {
     constructor(private httpClient: HttpClient) { }
 
     search(term: string) {
-        let vendors = this.httpClient.get('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/' + term)
+        let vendors = this.httpClient.get('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/' + btoa(term))
             .pipe(
                 debounceTime(500),  // WAIT FOR 500 MILISECONDS ATER EACH KEY STROKE.
                 map(

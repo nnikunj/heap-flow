@@ -13,7 +13,7 @@ export class InventoryService {
   constructor(private httpService: HttpClient) { }
 
   search(term: string) {
-    let inventory = this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + term)
+    let inventory = this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(term))
       .pipe(
         map(
           (data: any) => {

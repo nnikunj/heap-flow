@@ -32,7 +32,7 @@ export class ImportExcelComponent implements OnInit {
     this.filename = this.type + "_template.xlsx";
 
     if (this.type === 'Inventory Stock') {
-      this.file_location = "/assets/template/excel/inventory.xlsx";
+      this.file_location = "/assets/template/excel/InventoryStockTemplate.xlsx";
     } else if (this.type === 'Inventory Item') {
       this.file_location = "/assets/template/excel/InvnetoryItemTemplate.xlsx";
     } else if (this.type === 'Vendor') {

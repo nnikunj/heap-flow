@@ -10,7 +10,7 @@ export class HttpService {
     constructor (private httpClient: HttpClient) { }  
 
     search(url: string, term: string) {
-        let result = this.httpClient.get(url + term)
+        let result = this.httpClient.get(url + btoa(term))
         .pipe(
             debounceTime(500),  // WAIT FOR 500 MILISECONDS AFTER EACH KEY STROKE.
             map(
