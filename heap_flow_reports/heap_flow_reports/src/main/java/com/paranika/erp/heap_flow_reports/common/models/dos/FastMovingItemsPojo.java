@@ -29,7 +29,7 @@ import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDescri
 		+ "		 inner join inventory_items i on i.id=eg.inventory_item_fk  "
 		+ "         where  (eg.record_date >(:startDate)  and record_date <=(:endDate)) "
 		+ "		  group by inventory_item_fk "
-		+ "             order by totalValue DESC, totalQuantity DESC ;", resultSetMapping = "findFastMovingAnalysisMapping")
+		+ "             order by totalQuantity DESC, totalValue DESC ;", resultSetMapping = "findFastMovingAnalysisMapping")
 public class FastMovingItemsPojo {
 	public FastMovingItemsPojo() {
 

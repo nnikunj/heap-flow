@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.MachineDO;
@@ -34,6 +35,8 @@ import com.paranika.erp.heap_flow.services.machines.MachineServiceIX;
 public class MachineController {
 	@Autowired
 	MachineServiceIX machinesService;
+	@Autowired
+	CommonUtil util;
 	private final Logger logger = LoggerFactory.getLogger(MachineController.class);
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.MACHINES_IMPORT_ENDPOINT)
@@ -67,17 +70,17 @@ public class MachineController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE)
-	ResponseEntity<List<MachineDO>> getNameLikeMachinesList(@PathVariable("codeLike") String codeLike) {
+	ResponseEntity<List<MachineDO>> getNameLikeMachinesList(@PathVariable("codeLike") String codeLike,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
 		logger.debug("Invoked: " + HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE);
 		logger.debug("codeLike: " + codeLike);
 		List<MachineDO> fetchedList = null;
 		ResponseEntity<List<MachineDO>> response;
-		if (!StringUtils.isEmpty(codeLike)) {
-			// Get Rid of all extra characters like \n etc
-			codeLike = codeLike.trim();
-		}
+
+		String param = null;
+		param = util.getDecodedTrimmedParameter(codeLike, isEncoded);
 		try {
-			fetchedList = machinesService.getMachineListWithCodeLike(codeLike);
+			fetchedList = machinesService.getMachineListWithCodeLike(param);
 			response = new ResponseEntity<List<MachineDO>>(fetchedList, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_MACHINES_LIST_WITH_CODE_LIKE + " Success");
 		} catch (HeapFlowException e) {
@@ -133,15 +136,15 @@ public class MachineController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_MACHINE_WITH_CODE)
-	ResponseEntity<MachineDO> getMachineWithCode(@PathVariable("code") String code) {
+	ResponseEntity<MachineDO> getMachineWithCode(@PathVariable("code") String code,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
 		MachineDO fetchedobj = null;
 		ResponseEntity<MachineDO> response;
-		if (!StringUtils.isEmpty(code)) {
-			// Get Rid of all extra characters like \n etc
-			code = code.trim();
-		}
+		String param = null;
+		param = util.getDecodedTrimmedParameter(code, isEncoded);
+
 		try {
-			fetchedobj = machinesService.getMachineWithCode(code);
+			fetchedobj = machinesService.getMachineWithCode(param);
 			response = new ResponseEntity<MachineDO>(fetchedobj, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_MACHINE_WITH_CODE + " Success");
 		} catch (HeapFlowException e) {

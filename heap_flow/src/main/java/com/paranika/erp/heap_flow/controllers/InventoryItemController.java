@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
@@ -35,18 +36,19 @@ public class InventoryItemController {
 
 	@Autowired
 	InventoryItemsServiceIX service;
+	@Autowired
+	CommonUtil util;
 	private final Logger logger = LoggerFactory.getLogger(InventoryItemController.class);
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_WITH_PRODUCT_CODE)
-	ResponseEntity<InventoryItemDTO> getItemWithProd(@PathVariable("prodCode") String prodCode) {
+	ResponseEntity<InventoryItemDTO> getItemWithProd(@PathVariable("prodCode") String prodCode,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
+		String param = null;
+		param = util.getDecodedTrimmedParameter(prodCode, isEncoded);
 		InventoryItemDTO fethcedObj = null;
 		ResponseEntity<InventoryItemDTO> response;
-		if (!StringUtils.isEmpty(prodCode)) {
-			// Get Rid of all extra characters like \n etc
-			prodCode = prodCode.trim();
-		}
 		try {
-			fethcedObj = service.getItemWithProdCode(prodCode);
+			fethcedObj = service.getItemWithProdCode(param);
 			response = new ResponseEntity<InventoryItemDTO>(fethcedObj, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_INVENTORYITEM_WITH_PRODUCT_CODE + "Success");
 		} catch (HeapFlowException e) {
@@ -84,15 +86,14 @@ public class InventoryItemController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE)
-	ResponseEntity<List<InventoryItemDTO>> getIdLikeItemList(@PathVariable("idLike") String idLike) {
+	ResponseEntity<List<InventoryItemDTO>> getIdLikeItemList(@PathVariable("idLike") String idLike,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
+		String param = null;
+		param = util.getDecodedTrimmedParameter(idLike, isEncoded);
 		List<InventoryItemDTO> fetchedList = null;
 		ResponseEntity<List<InventoryItemDTO>> response;
-		if (!StringUtils.isEmpty(idLike)) {
-			// Get Rid of all extra characters like \n etc
-			idLike = idLike.trim();
-		}
 		try {
-			fetchedList = service.getItemListWithIdLike(idLike);
+			fetchedList = service.getItemListWithIdLike(param);
 			response = new ResponseEntity<List<InventoryItemDTO>>(fetchedList, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_INVENTORYITEM_LIST_WITH_ID_LIKE + "Success");
 		} catch (HeapFlowException e) {

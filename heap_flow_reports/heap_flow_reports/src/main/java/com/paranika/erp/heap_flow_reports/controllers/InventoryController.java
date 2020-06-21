@@ -1,6 +1,7 @@
 package com.paranika.erp.heap_flow_reports.controllers;
 
 import java.io.ByteArrayInputStream;
+import java.util.Base64;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -36,15 +37,32 @@ public class InventoryController {
 	CommonUtil util;
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowReportsApiEndPoints.GET_ITEM_QRCODE_RPT, produces = "application/pdf")
-	public ResponseEntity<InputStreamResource> getIngressRpt(@PathVariable("prodCode") String prodCode) {
+	public ResponseEntity<InputStreamResource> getIngressRpt(@PathVariable("prodCode") String prodCode,
+			@RequestParam(name = "isEncoded", required = false) String isEncoded) {
+		String decodedProdCode = null;
+		boolean isDecodingRequired = true;
+		if (!isEncoded.isEmpty()) {
+			// Default we will consider it is Encoded
+			try {
+				isDecodingRequired = Boolean.parseBoolean(isEncoded);
+			} catch (Exception e) {
+				logger.warn("Could not parse value of isDecodingRequired and hence will have default value of true.");
+			}
 
+		}
 		if (!StringUtils.isEmpty(prodCode)) {
 			// Get Rid of all extra characters like \n etc
-			prodCode = prodCode.trim();
+			decodedProdCode = prodCode.trim();
+			if (isDecodingRequired) {
+				decodedProdCode = new String(Base64.getDecoder().decode(decodedProdCode));
+			}
+		} else {
+			decodedProdCode = prodCode;
 		}
+
 		ByteArrayInputStream output = null;
 		try {
-			output = service.getProductSticker(prodCode);
+			output = service.getProductSticker(decodedProdCode);
 		} catch (HeapFlowReportException e) {
 			logger.error(HeapFlowReportsApiEndPoints.GET_EGRESS_RPT + " Failed ", e);
 		}

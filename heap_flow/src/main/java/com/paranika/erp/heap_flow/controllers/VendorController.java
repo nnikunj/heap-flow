@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.VendorDO;
@@ -32,6 +33,8 @@ import com.paranika.erp.heap_flow.services.vendors.VendorServiceIX;
 public class VendorController {
 	@Autowired
 	VendorServiceIX service;
+	@Autowired
+	CommonUtil util;
 	private final Logger logger = LoggerFactory.getLogger(VendorController.class);
 
 	@RequestMapping(method = RequestMethod.POST, value = HeapFlowApiEndPoints.VENDORS_IMPORT_ENDPOINT)
@@ -65,15 +68,14 @@ public class VendorController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_VENDORS_LIST_WITH_NAME_LIKE)
-	ResponseEntity<List<VendorDO>> getNameLikeVendorsList(@PathVariable("nameLike") String nameLike) {
+	ResponseEntity<List<VendorDO>> getNameLikeVendorsList(@PathVariable("nameLike") String nameLike,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
 		List<VendorDO> fetchedList = null;
 		ResponseEntity<List<VendorDO>> response;
-		if (!StringUtils.isEmpty(nameLike)) {
-			// Get Rid of all extra characters like \n etc
-			nameLike = nameLike.trim();
-		}
+		String param = null;
+		param = util.getDecodedTrimmedParameter(nameLike, isEncoded);
 		try {
-			fetchedList = service.getVendorListWithNameLike(nameLike);
+			fetchedList = service.getVendorListWithNameLike(param);
 			response = new ResponseEntity<List<VendorDO>>(fetchedList, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_VENDORS_LIST_WITH_NAME_LIKE + " Success");
 		} catch (HeapFlowException e) {
@@ -85,15 +87,14 @@ public class VendorController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_VENDOR_WITH_SEARCH_NAME)
-	ResponseEntity<VendorDO> getNamedVendor(@PathVariable("searchName") String searchName) {
+	ResponseEntity<VendorDO> getNamedVendor(@PathVariable("searchName") String searchName,
+			@RequestParam(name = "isEncoded", defaultValue = "true") String isEncoded) {
 		VendorDO fetchedList = null;
 		ResponseEntity<VendorDO> response;
-		if (!StringUtils.isEmpty(searchName)) {
-			// Get Rid of all extra characters like \n etc
-			searchName = searchName.trim();
-		}
+		String param = null;
+		param = util.getDecodedTrimmedParameter(searchName, isEncoded);
 		try {
-			fetchedList = service.getNamedVendor(searchName);
+			fetchedList = service.getNamedVendor(param);
 			response = new ResponseEntity<VendorDO>(fetchedList, HttpStatus.OK);
 			logger.debug(HeapFlowApiEndPoints.GET_VENDOR_WITH_SEARCH_NAME + " Success");
 		} catch (HeapFlowException e) {
