@@ -27,19 +27,19 @@ export class ImportExcelComponent implements OnInit {
 
     this.activatedRoute.queryParams.subscribe(params => {
       this.type = params['type'];
+
+      this.filename = this.type + "_template.xlsx";
+
+      if (this.type === 'Inventory Stock') {
+        this.file_location = "/assets/template/excel/InventoryStockTemplate.xlsx";
+      } else if (this.type === 'Inventory Item') {
+        this.file_location = "/assets/template/excel/InvnetoryItemTemplate.xlsx";
+      } else if (this.type === 'Vendor') {
+        this.file_location = "/assets/template/excel/VendorsTemplate.xlsx";
+      } else if (this.type === 'Machines') {
+        this.file_location = "/assets/template/excel/MachineImportTemplate.xlsx";
+      }
     });
-
-    this.filename = this.type + "_template.xlsx";
-
-    if (this.type === 'Inventory Stock') {
-      this.file_location = "/assets/template/excel/InventoryStockTemplate.xlsx";
-    } else if (this.type === 'Inventory Item') {
-      this.file_location = "/assets/template/excel/InvnetoryItemTemplate.xlsx";
-    } else if (this.type === 'Vendor') {
-      this.file_location = "/assets/template/excel/VendorsTemplate.xlsx";
-    } else if (this.type === 'Machines') {
-      this.file_location = "/assets/template/excel/MachineImportTemplate.xlsx";
-    }
 
   }
 
