@@ -48,8 +48,6 @@ export class AcceptMaterialComponent implements OnInit {
     baseUnitMeasure: [{ value: '', disabled: true }]
   });
 
-  inventory_url: string = "http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/";
-
   vendorObj: Vendor;
 
   @ViewChild(MatTable) table: MatTable<any>;
@@ -237,7 +235,7 @@ export class AcceptMaterialComponent implements OnInit {
   vendorFocusOut(event: Event) {
     console.log("vendor focus out");
     if (typeof this.acceptMaterialForm.get('vendorCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/vendors/fetch-vendor-with-search-name/' + this.acceptMaterialForm.get('vendorCode').value)
+      this.httpService.get('http://localhost:9443/api/v1/vendors/fetch-vendor-with-search-name/' + btoa(this.acceptMaterialForm.get('vendorCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
@@ -253,7 +251,7 @@ export class AcceptMaterialComponent implements OnInit {
   productFocusOut(event: Event) {
     console.log("product focus out");
     if (typeof this.acceptMaterialItemForm.get('productCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + this.acceptMaterialItemForm.get('productCode').value)
+      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.acceptMaterialItemForm.get('productCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
