@@ -295,7 +295,7 @@ export class IssueMaterialComponent implements OnInit {
 
   updateDepartment(emp: string){
     //let emp = this.issueMaterialForm.get('issuedViaEmp').value;
-    if(emp.includes('$')){
+    if(emp && emp.includes('$')){
       let ary = emp.split('$');
       if(ary.length >= 3){
         this.issueMaterialForm.get('issuedForDept').setValue(ary[2]);
