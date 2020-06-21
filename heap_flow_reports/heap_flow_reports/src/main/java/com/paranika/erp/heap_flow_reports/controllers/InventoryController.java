@@ -41,7 +41,7 @@ public class InventoryController {
 			@RequestParam(name = "isEncoded", required = false) String isEncoded) {
 		String decodedProdCode = null;
 		boolean isDecodingRequired = true;
-		if (!isEncoded.isEmpty()) {
+		if (isEncoded != null && !isEncoded.isEmpty()) {
 			// Default we will consider it is Encoded
 			try {
 				isDecodingRequired = Boolean.parseBoolean(isEncoded);
