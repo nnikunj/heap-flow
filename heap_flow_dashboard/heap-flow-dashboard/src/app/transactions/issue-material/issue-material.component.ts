@@ -117,7 +117,11 @@ export class IssueMaterialComponent implements OnInit {
           })
         }
       }
-    })
+    });
+
+    this.issueMaterialForm.get('issuedViaEmp').valueChanges.subscribe(emp => {
+      this.updateDepartment(emp);
+    });
 
   }
 
@@ -287,6 +291,16 @@ export class IssueMaterialComponent implements OnInit {
     this._snackBar.open(message, action, {
       duration: 5000,
     });
+  }
+
+  updateDepartment(emp: string){
+    //let emp = this.issueMaterialForm.get('issuedViaEmp').value;
+    if(emp.includes('$')){
+      let ary = emp.split('$');
+      if(ary.length >= 3){
+        this.issueMaterialForm.get('issuedForDept').setValue(ary[2]);
+      }
+    }
   }
 
 }

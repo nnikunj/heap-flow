@@ -53,7 +53,7 @@ const routes: Routes = [
     children: [
       { path: 'vendors-list', component: VendorsListComponent },
       { path: 'add-vendor', component: VendorsAddComponent },
-      { path: 'import-vendors', component: VendorImportComponent }
+      { path: 'import-excel', component: ImportExcelComponent }
     ]
   },
   {
@@ -62,7 +62,7 @@ const routes: Routes = [
     children: [
       { path: 'machines-list', component: MachinesListComponent },
       { path: 'add-machine', component: MachinesAddComponent },
-      { path: 'import-machines', component: MachineImportComponent }
+      { path: 'import-excel', component: ImportExcelComponent }
     ]
   },
   { path: 'about', component: AboutComponent },
