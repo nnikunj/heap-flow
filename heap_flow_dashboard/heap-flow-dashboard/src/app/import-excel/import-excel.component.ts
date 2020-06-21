@@ -17,6 +17,8 @@ export class ImportExcelComponent implements OnInit {
   public type: string;
   public max_size = 10000000;
   public fileError: string;
+  public filename: string;
+  public file_location : string;
 
   @ViewChild("fileInput", { static: false }) fileInput: ElementRef;
   files = [];
@@ -28,6 +30,11 @@ export class ImportExcelComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.type = params['type'];
     });
+
+    if(this.type === 'Inventory'){
+      this.filename = this.type + "_template.xlsx";
+      this.file_location = "/assets/template/excel/inventory.xlsx";
+    }
 
   }
 
@@ -94,5 +101,16 @@ export class ImportExcelComponent implements OnInit {
       this.upload();
     };
     fileInput.click();
+  }
+
+  downloadTemplate(){
+    let url : string;
+    if(this.type === 'Inventory'){
+      this.filename = this.type + ".xlsx";
+      url = 'http://localhost:9443/api/v1/inventory/update-inventory-stocks';
+    }
+
+    // File f = new File('');
+    console.log(url);
   }
 }

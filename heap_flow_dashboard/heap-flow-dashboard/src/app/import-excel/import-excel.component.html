@@ -24,4 +24,20 @@
             style="display:none;" />
     </div>
 
+    <div>
+        <mat-card>
+            
+            <mat-card-actions>
+                <!-- <button mat-button color="warn" (click)="downloadTemplate()">
+                    <mat-icon>file_download</mat-icon>
+                    Template Download
+                </button> -->
+
+                <a download="{{filename}}" target="_blank" href="{{file_location}}">
+                    Click here to download template
+                  </a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
 </div>
