@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class CommonUtil {
@@ -44,8 +45,8 @@ public class CommonUtil {
 	public String getDecodedTrimmedParameter(String param, String strIsDecodingRequired) {
 		String decodedValue = null;
 		boolean isDecodingRequired = true;
-		if (!param.isEmpty()) {
-			if (!strIsDecodingRequired.isEmpty()) {
+		if (!StringUtils.isEmpty(param)) {
+			if (!StringUtils.isEmpty(strIsDecodingRequired)) {
 				try {
 					isDecodingRequired = Boolean.parseBoolean(strIsDecodingRequired);
 				} catch (Exception e) {
