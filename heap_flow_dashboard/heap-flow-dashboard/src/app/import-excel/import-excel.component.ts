@@ -39,12 +39,17 @@ export class ImportExcelComponent implements OnInit {
     const reader = new FileReader();
     reader.readAsBinaryString(file.data);
 
+    let url : string;
+    if(this.type === 'Inventory'){
+      url = 'http://localhost:9443/api/v1/inventory/update-inventory-stocks';
+    }
+
     reader.onload = (e: any) => {
 
       let upload : Upload = new Upload();
       upload.base64EncodedWorkbook = btoa(reader.result as string);
 
-      this.uploadService.upload('http://localhost:9443/api/v1/inventory/update-inventory-stocks', upload)
+      this.uploadService.upload(url, upload)
       .subscribe((event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.Sent:
@@ -67,24 +72,7 @@ export class ImportExcelComponent implements OnInit {
       })
 
       console.log('done');
-    }
-
-    
-
-    // this.uploadService.upload('', reader.result).pipe(  
-    //   map(event => {  
-    //     switch (event.type) {  
-    //       case HttpEventType.UploadProgress:  
-    //         file.progress = Math.round(event.loaded * 100 / event.total);  
-    //         break;  
-    //       case HttpEventType.Response:  
-    //         return event;  
-    //     }  
-    //   }).subscribe((event: any) => {  
-    //     if (typeof (event) === 'object') {  
-    //       console.log(event.body);  
-    //     }  
-    //   });  
+    } 
   }
 
   
@@ -107,33 +95,4 @@ export class ImportExcelComponent implements OnInit {
     };
     fileInput.click();
   }
-
-
-
-  // fileChangeEvent(fileInput: any){
-  //   console.log('triggered')
-  //   console.log(fileInput.target.files[0].size)
-  //   if (fileInput.target.files && fileInput.target.files[0]) {
-
-  //     if (fileInput.target.files[0].size > this.max_size) {
-  //       this.fileError =
-  //           'Maximum size allowed is ' + this.max_size / 1000 + 'Mb';
-  //       return false;
-  //     }
-
-  //     const reader = new FileReader();
-  //     reader.readAsBinaryString(fileInput.target.files[0]);
-
-  //     reader.onload = (e: any) => {
-  //       console.log(reader.result);
-  //       console.log('done');
-  //     }
-  //   }
-
-  // }
-
-  // uploadFile(){
-  //   console.log('upload invoked');
-  // }
-
 }
