@@ -65,7 +65,7 @@ export class AcceptMaterialListComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result) {
-        this.apiService.delete('http://localhost:9443/api/v1/inventory/cancel-accepted-mat/' + acceptMaterial.dbId)
+        this.apiService.delete('/api/v1/inventory/cancel-accepted-mat/' + acceptMaterial.dbId)
           .subscribe(data => {
             console.log(data);
             this.loadAcceptMaterials();

@@ -101,7 +101,7 @@ export class AddInventoryDialog {
     item.maxOrderQuant = this.inventoryItemForm.get('maxOrderQuant').value;
     item.reOrderQuant = this.inventoryItemForm.get('reOrderQuant').value;
 
-    this.apiHandlerService.save('http://localhost:9443/api/v1/inventory-items/modify-item', item)
+    this.apiHandlerService.save('/api/v1/inventory-items/modify-item', item)
       .subscribe(data => {
         console.log(data);
         this.openSnackBar('Save', 'Success');

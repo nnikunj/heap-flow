@@ -53,13 +53,13 @@ export class ImportExcelComponent implements OnInit {
 
     let url: string;
     if (this.type === 'Inventory Stock') {
-      url = 'http://localhost:9443/api/v1/inventory/update-inventory-stocks';
+      url = '/api/v1/inventory/update-inventory-stocks';
     } else if (this.type === 'Inventory Item') {
-      url = 'http://localhost:9443/api/v1/inventory-items/import-and-update-inventory-items-list';
+      url = '/api/v1/inventory-items/import-and-update-inventory-items-list';
     } else if (this.type === 'Vendor') {
-      url = 'http://localhost:9443/api/v1/vendors/import-and-update-vendors-list';
+      url = '/api/v1/vendors/import-and-update-vendors-list';
     } else if (this.type === 'Machines') {
-      url = 'http://localhost:9443/api/v1/machines/import-and-update-machine-inventory';
+      url = '/api/v1/machines/import-and-update-machine-inventory';
     }
 
     reader.onload = (e: any) => {

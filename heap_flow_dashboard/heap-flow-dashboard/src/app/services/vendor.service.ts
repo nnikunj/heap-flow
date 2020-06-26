@@ -14,7 +14,7 @@ export class VendorService {
     constructor(private httpClient: HttpClient) { }
 
     search(term: string) {
-        let vendors = this.httpClient.get('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/' + btoa(term))
+        let vendors = this.httpClient.get('/api/v1/vendors/fetch-vendors-with-name-like/' + btoa(term))
             .pipe(
                 debounceTime(500),  // WAIT FOR 500 MILISECONDS ATER EACH KEY STROKE.
                 map(
@@ -29,7 +29,7 @@ export class VendorService {
     }
 
     findVendors(searchNameLike = "", page = 0, size = 10): Observable<VendorResponse> {
-        return this.httpClient.get('http://localhost:9443/api/v1/vendors/fetch-vendors-page-wise', {
+        return this.httpClient.get('/api/v1/vendors/fetch-vendors-page-wise', {
             params: new HttpParams()
                 .set('searchNameLike', searchNameLike)
                 .set('page', page.toString())

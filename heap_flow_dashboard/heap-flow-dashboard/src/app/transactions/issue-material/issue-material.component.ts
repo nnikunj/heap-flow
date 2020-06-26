@@ -52,8 +52,8 @@ export class IssueMaterialComponent implements OnInit {
   outgoingItemList: OutgoingItem[] = [];
   issueMaterial: IssueMaterial;
 
-  machine_search_url: string = 'http://localhost:9443/api/v1/machines/fetch-machines-with-code-like/';
-  item_search_url: string = 'http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-like-id/';
+  machine_search_url: string = '/api/v1/machines/fetch-machines-with-code-like/';
+  item_search_url: string = '/api/v1/inventory-items/fetch-inventory-items-list-like-id/';
 
   inventoryTypeMap = new Map();
 
@@ -231,7 +231,7 @@ export class IssueMaterialComponent implements OnInit {
 
     issueMaterial.outgoingItemsList = this.outgoingItemList;
 
-    this.apiHandlerService.save('http://localhost:9443/api/v1/inventory/issue-materials', issueMaterial).subscribe((res) => {
+    this.apiHandlerService.save('/api/v1/inventory/issue-materials', issueMaterial).subscribe((res) => {
       this.openSnackBar('Save', 'successful');
       this.resetForm(new Event('reset'));
     }, (error) => {
@@ -259,7 +259,7 @@ export class IssueMaterialComponent implements OnInit {
   machineCodeFocusOut(event: Event) {
     console.log("machine code focus out");
     if (typeof this.issueMaterialForm.get('machineCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/machines/fetch-machine-with-code/' + btoa(this.issueMaterialForm.get('machineCode').value))
+      this.httpService.get('/api/v1/machines/fetch-machine-with-code/' + btoa(this.issueMaterialForm.get('machineCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
@@ -274,7 +274,7 @@ export class IssueMaterialComponent implements OnInit {
   materialCodeFocusOut(event: Event) {
     console.log("material code focus out");
     if (typeof this.issueMaterialItemForm.get('productCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.issueMaterialItemForm.get('productCode').value))
+      this.httpService.get('/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.issueMaterialItemForm.get('productCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {

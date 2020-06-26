@@ -48,13 +48,13 @@ export class ReportsComponent implements OnInit {
     console.log('report type : ' + this.reportForm.get('reportType').value);
 
     if (this.reportForm.get('reportType').value === 'Accept Material') {
-      url = 'http://localhost:8443/api/rpts/incoming-rpt/fetch-material-ingress';
+      url = '/api/rpts/incoming-rpt/fetch-material-ingress';
       this.callReportService(url, params, 'accept-material-report');
     } else if (this.reportForm.get('reportType').value === 'Issue Material') {
-      url = 'http://localhost:8443/api/rpts/outgoing-rpt/fetch-material-egress';
+      url = '/api/rpts/outgoing-rpt/fetch-material-egress';
       this.callReportService(url, params, 'issue-material-report');
     } else if (this.reportForm.get('reportType').value === 'ABC-Analysis') {
-      url = 'http://localhost:8443/api/rpts/abc-rpt/inventory-valuation';
+      url = '/api/rpts/abc-rpt/inventory-valuation';
       this.httpService.getBodyFromPost(url, {})
       .subscribe(data => {
         console.log(data)
@@ -64,13 +64,13 @@ export class ReportsComponent implements OnInit {
         saveAs(file);
       });
     } else if (this.reportForm.get('reportType').value === 'Inventory Summary Report'){
-      url = 'http://localhost:8443/api/rpts/inventory/inventory-summary-rpt';
+      url = '/api/rpts/inventory/inventory-summary-rpt';
       this.callReportService(url, null, 'inventory-summary-report');
     } else if (this.reportForm.get('reportType').value === 'Ageing Analysis'){
-      url = 'http://localhost:8443/api/rpts/inventory/inventory-aging-rpt';
+      url = '/api/rpts/inventory/inventory-aging-rpt';
       this.callReportService(url, null, 'ageing-analysys-report');
     } else if (this.reportForm.get('reportType').value === 'Fast Moving Items'){
-      url = 'http://localhost:8443/api/rpts/inventory/inventory-fast-moving-rpt';
+      url = '/api/rpts/inventory/inventory-fast-moving-rpt';
       this.callReportService(url, params, 'fast-moving-report');
     }
 

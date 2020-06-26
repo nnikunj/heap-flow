@@ -12,7 +12,7 @@ export class MachineService {
     constructor(private httpClient: HttpClient) { }
 
     findMachines(codeLike = "", page = 0, size = 10): Observable<MachineResponse> {
-        return this.httpClient.get('http://localhost:9443/api/v1/machines/fetch-machines-page-wise', {
+        return this.httpClient.get('/api/v1/machines/fetch-machines-page-wise', {
             params: new HttpParams()
                 .set('codeLike', codeLike)
                 .set('page', page.toString())

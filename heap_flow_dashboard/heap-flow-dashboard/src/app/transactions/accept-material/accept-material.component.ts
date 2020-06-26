@@ -88,7 +88,7 @@ export class AcceptMaterialComponent implements OnInit {
   ngOnInit(): void {
     this.acceptMaterialForm.get('vendorCode').valueChanges.subscribe(term => {
       if (typeof term === 'string' && term !== '') {
-        this.httpService.search('http://localhost:9443/api/v1/vendors/fetch-vendors-with-name-like/', term).subscribe(data => {
+        this.httpService.search('/api/v1/vendors/fetch-vendors-with-name-like/', term).subscribe(data => {
           console.log(data);
           this.vendors = data as any[]
         }, (error) => {
@@ -99,7 +99,7 @@ export class AcceptMaterialComponent implements OnInit {
 
     this.acceptMaterialItemForm.get('productCode').valueChanges.subscribe((term) => {
       if (typeof term === 'string' && term !== '') {
-        this.httpService.search('http://localhost:9443/api/v1/inventory-items/fetch-inventory-items-list-like-id/', term).subscribe((res) => {
+        this.httpService.search('/api/v1/inventory-items/fetch-inventory-items-list-like-id/', term).subscribe((res) => {
           console.log(res);
           this.inventoryItems = res;
         }, (error) => {
@@ -208,7 +208,7 @@ export class AcceptMaterialComponent implements OnInit {
 
     console.log('am : ' + JSON.stringify(am));
 
-    this.apiHandlerService.save('http://localhost:9443/api/v1/inventory/accept-materials', am).subscribe((data) => {
+    this.apiHandlerService.save('/api/v1/inventory/accept-materials', am).subscribe((data) => {
       console.log('response from save : ' + JSON.stringify(data));
       this.openSnackBar('Save', 'Success');
       this.resetForm(event);
@@ -235,7 +235,7 @@ export class AcceptMaterialComponent implements OnInit {
   vendorFocusOut(event: Event) {
     console.log("vendor focus out");
     if (typeof this.acceptMaterialForm.get('vendorCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/vendors/fetch-vendor-with-search-name/' + btoa(this.acceptMaterialForm.get('vendorCode').value))
+      this.httpService.get('/api/v1/vendors/fetch-vendor-with-search-name/' + btoa(this.acceptMaterialForm.get('vendorCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {
@@ -251,7 +251,7 @@ export class AcceptMaterialComponent implements OnInit {
   productFocusOut(event: Event) {
     console.log("product focus out");
     if (typeof this.acceptMaterialItemForm.get('productCode').value === 'string') {
-      this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.acceptMaterialItemForm.get('productCode').value))
+      this.httpService.get('/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(this.acceptMaterialItemForm.get('productCode').value))
         .subscribe(res => {
           console.log(res.body);
           if (res.body) {

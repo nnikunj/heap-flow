@@ -13,7 +13,7 @@ export class InventoryService {
   constructor(private httpService: HttpClient) { }
 
   search(term: string) {
-    let inventory = this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(term))
+    let inventory = this.httpService.get('/api/v1/inventory-items/fetch-inventory-item-with-product-code/' + btoa(term))
       .pipe(
         map(
           (data: any) => {
@@ -29,7 +29,7 @@ export class InventoryService {
   findInventory(filter = '', sortOrder = 'asc',
     pageNumber = 0, pageSize = 3): Observable<InventoryItemResponse> {
 
-    return this.httpService.get('http://localhost:9443/api/v1/inventory-items/fetch-paged-inventory-items', {
+    return this.httpService.get('/api/v1/inventory-items/fetch-paged-inventory-items', {
       params: new HttpParams()
         .set('idLike', filter)
         .set('page', pageNumber.toString())
@@ -43,7 +43,7 @@ export class InventoryService {
   findInventorySummary(filter = '', sortOrder = 'asc',
     pageNumber = 0, pageSize = 3): Observable<InventorySummaryResponse> {
 
-    return this.httpService.get('http://localhost:9443/api/v1/inventory/fetch-inventory-summary-page-wise', {
+    return this.httpService.get('/api/v1/inventory/fetch-inventory-summary-page-wise', {
       params: new HttpParams()
         .set('idLike', filter)
         .set('page', pageNumber.toString())

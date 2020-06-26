@@ -12,7 +12,7 @@ export class TransactionService {
     constructor(private httpClient: HttpClient) { }
 
     findIssueMaterials(idLike = "", page = 0, size = 10): Observable<IssueMaterialResponse> {
-        return this.httpClient.get('http://localhost:9443/api/v1/inventory/fetch-issued-materials-page-wise', {
+        return this.httpClient.get('/api/v1/inventory/fetch-issued-materials-page-wise', {
             params: new HttpParams()
                 .set('idLike', idLike)
                 .set('page', page.toString())
@@ -23,7 +23,7 @@ export class TransactionService {
     }
 
     findAcceptMaterials(idLike = "", page = 0, size = 10): Observable<AcceptMaterialResponse> {
-        return this.httpClient.get('http://localhost:9443/api/v1/inventory/fetch-accepted-materials-page-wise', {
+        return this.httpClient.get('/api/v1/inventory/fetch-accepted-materials-page-wise', {
             params: new HttpParams()
                 .set('idLike', idLike)
                 .set('page', page.toString())

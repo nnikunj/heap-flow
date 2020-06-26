@@ -65,7 +65,7 @@ export class MachinesAddComponent {
     machine.kWKva = this.machineForm.get('kWKva').value;
     machine.make = this.machineForm.get('make').value;
 
-    this.apiService.save('http://localhost:9443/api/v1/machines/add-update', machine)
+    this.apiService.save('/api/v1/machines/add-update', machine)
       .subscribe(data => {
         console.log(data);
         this.openSnackBar('Save', 'Success');

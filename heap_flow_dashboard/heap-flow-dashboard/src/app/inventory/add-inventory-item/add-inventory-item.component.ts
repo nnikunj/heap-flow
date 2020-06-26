@@ -78,7 +78,7 @@ export class AddInventoryItemComponent implements OnInit {
     item.gstGrpCode = this.inventoryItemForm.get('gstGrpCode').value;
     item.hsnSacCode = this.inventoryItemForm.get('hsnSacCode').value;
 
-    this.apiHandlerService.save('http://localhost:9443/api/v1/inventory-items/modify-item', item)
+    this.apiHandlerService.save('/api/v1/inventory-items/modify-item', item)
       .subscribe(data => {
         console.log(data);
         this.openSnackBar('Save', 'Success');

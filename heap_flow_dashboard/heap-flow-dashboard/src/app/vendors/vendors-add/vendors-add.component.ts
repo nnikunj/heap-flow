@@ -82,7 +82,7 @@ export class VendorsAddComponent implements OnInit {
     vendor.stateCode = this.vendorForm.get('stateCode').value;
 
 
-    this.apiService.save('http://localhost:9443/api/v1/vendors/add-update', vendor)
+    this.apiService.save('/api/v1/vendors/add-update', vendor)
       .subscribe(data => {
         console.log(data);
         this.openSnackBar('Save', 'Success');

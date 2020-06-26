@@ -14,7 +14,7 @@ export class PrintItemQRCode {
     constructor(public dialogRef: MatDialogRef<PrintItemQRCode>,
         @Inject(MAT_DIALOG_DATA) data: InventoryItem,
         @Inject(DOCUMENT) document: any) {
-        this.pdfSrc = 'http://localhost:8443/api/rpts/inventory/fetch-item-qrcode/' + btoa(data.inventoryItemCode);
+        this.pdfSrc = '/api/rpts/inventory/fetch-item-qrcode/' + btoa(data.inventoryItemCode);
     }
 
     loadComplete() {
