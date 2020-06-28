@@ -97,24 +97,32 @@ public class InventoryDaoImpl extends BaseDaoImpl implements InventoryDaoIX {
 
 	@Override
 	@Transactional
-	public void mergeAll(Collection<InventoryDO> oldInventories) throws Exception {
+	public void mergeAll(Collection<InventoryDO> oldInventories, boolean isMergeRequired) throws Exception {
 
 		for (InventoryDO inventoryDO : oldInventories) {
 
 			InventoryDO inventory = invRepo.findInventoryWithProductAndType(inventoryDO.getItem(),
 					inventoryDO.getType());
 			if (inventory != null) {
-				Double price = inventoryDO.getAverageUnitPrice();
-				Double quant = inventoryDO.getQuantity();
-				Double existingAvgPrice = inventory.getAverageUnitPrice();
-				Double existingQuant = inventory.getQuantity();
-				// New Avg Price
-				existingAvgPrice = ((existingQuant * existingAvgPrice) + (quant * price)) / (existingQuant + quant);
-				// New Quant
-				existingQuant = existingQuant + quant;
-				inventory.setAverageUnitPrice(existingAvgPrice);
-				inventory.setQuantity(existingQuant);
-				inventory.setNotes("Excel data Merged with old inventory detail");
+				if (isMergeRequired) {
+					logger.debug("Merge required with old data.");
+					Double price = inventoryDO.getAverageUnitPrice();
+					Double quant = inventoryDO.getQuantity();
+					Double existingAvgPrice = inventory.getAverageUnitPrice();
+					Double existingQuant = inventory.getQuantity();
+					// New Avg Price
+					existingAvgPrice = ((existingQuant * existingAvgPrice) + (quant * price)) / (existingQuant + quant);
+					// New Quant
+					existingQuant = existingQuant + quant;
+					inventory.setAverageUnitPrice(existingAvgPrice);
+					inventory.setQuantity(existingQuant);
+					inventory.setNotes("Excel data Merged with old inventory detail");
+				} else {
+					logger.debug("Overwriting old data with import data.");
+					inventory.setAverageUnitPrice(inventoryDO.getAverageUnitPrice());
+					inventory.setQuantity(inventoryDO.getQuantity());
+					inventory.setNotes(inventoryDO.getNotes());
+				}
 				em.merge(inventory);
 			} else {
 				invRepo.save(inventoryDO);

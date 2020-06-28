@@ -17,7 +17,7 @@ public interface InventoryDaoIX {
 
 	public void persistAllEgressLedgers(Collection<EgressLedgerDO> ledgerList) throws Exception;
 
-	public void mergeAll(Collection<InventoryDO> oldInventories) throws Exception;
+	public void mergeAll(Collection<InventoryDO> oldInventories, boolean isMergeRequired) throws Exception;
 
 	public Page<InventoryDO> getPagedInvSummaryWithIdLike(String idLike, Pageable paging) throws Exception;
 

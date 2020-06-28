@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -281,6 +282,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 		try {
 			workbook = new XSSFWorkbook(targetStream);
+			validateStockWorkBook(workbook);
 			Sheet inventorySheet = workbook.getSheetAt(0);
 			if (inventorySheet == null) {
 				throw new HeapFlowException("Could not find sheet");
@@ -300,7 +302,8 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 				}
 
 			}
-			inventoryDao.mergeAll(oldInventories);
+			// Merge of data not required.
+			inventoryDao.mergeAll(oldInventories, false);
 
 		} catch (IOException e) {
 			throw new HeapFlowException(e);
@@ -322,6 +325,39 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 	}
 
+	private void headerCellVaueCheck(Cell c, String value) throws HeapFlowException {
+		String fetchedCellValue = util.getStringDataFromCell(c);
+		if (fetchedCellValue == null || !fetchedCellValue.equalsIgnoreCase(value)) {
+			throw new HeapFlowException("Expected value of header: " + value + " found value: " + fetchedCellValue);
+		}
+	}
+
+	private void validateStockWorkBook(Workbook workbook) throws HeapFlowException {
+		// Check for Number of Sheets.
+		int sheetNumber = workbook.getNumberOfSheets();
+		if (sheetNumber > 1) {
+			throw new HeapFlowException("Suplied Excel is having more than one sheet, cannot accept.");
+		}
+		Sheet s = workbook.getSheetAt(0);
+		Row headerRow = s.getRow(0);
+		if (headerRow == null) {
+			throw new HeapFlowException("No header row found in the sheet.");
+		}
+		Cell itemCodeCell = headerRow.getCell(0);
+		headerCellVaueCheck(itemCodeCell, "ITEM CODE");
+		headerCellVaueCheck(headerRow.getCell(1), "DESCRIPTION");
+		headerCellVaueCheck(headerRow.getCell(2), "Description 2");
+		headerCellVaueCheck(headerRow.getCell(3), "Description 3");
+		headerCellVaueCheck(headerRow.getCell(4), "Description 4");
+		headerCellVaueCheck(headerRow.getCell(5), "Description 5");
+		headerCellVaueCheck(headerRow.getCell(6), "Description 6");
+		headerCellVaueCheck(headerRow.getCell(7), "UOM");
+		headerCellVaueCheck(headerRow.getCell(8), "CLOSING STOCK");
+		headerCellVaueCheck(headerRow.getCell(9), "RATE");
+		headerCellVaueCheck(headerRow.getCell(10), "CATEGORY");
+		headerCellVaueCheck(headerRow.getCell(11), "Product Group Code");
+	}
+
 	private InventoryItemDO createItem(Row nextRow) throws HeapFlowException {
 		String productId = util.getStringDataFromCell(nextRow.getCell(0));
 		productId = (productId == null) ? null : productId.trim().toUpperCase();
@@ -333,22 +369,18 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		String description3 = util.getStringDataFromCell(nextRow.getCell(3));
 		String description4 = util.getStringDataFromCell(nextRow.getCell(4));
 		String description5 = util.getStringDataFromCell(nextRow.getCell(5));
-		String description6 = null;
+		String description6 = util.getStringDataFromCell(nextRow.getCell(6));
 
 		InventoryItemDescriptions desc = new InventoryItemDescriptions(description, description2, description3,
 				description4, description5, description6);
 		String strDesc = desc.toJson();
 
-		String baseUnitMeasure = util.getStringDataFromCell(nextRow.getCell(6));
+		String baseUnitMeasure = util.getStringDataFromCell(nextRow.getCell(7));
 		baseUnitMeasure = (baseUnitMeasure == null) ? null : baseUnitMeasure.trim();
 
-		String productCodeGroup = util.getStringDataFromCell(nextRow.getCell(13));
+		String productCodeGroup = util.getStringDataFromCell(nextRow.getCell(11));
 		productCodeGroup = (productCodeGroup == null) ? null : productCodeGroup.trim().toUpperCase();
-
-		String genProductPostingGrp = util.getStringDataFromCell(nextRow.getCell(14));
-		genProductPostingGrp = (genProductPostingGrp == null) ? null : genProductPostingGrp.trim().toUpperCase();
-
-		String itemcategoryCode = util.getStringDataFromCell(nextRow.getCell(15));
+		String itemcategoryCode = util.getStringDataFromCell(nextRow.getCell(10));
 		itemcategoryCode = (itemcategoryCode == null) ? null : itemcategoryCode.trim().toUpperCase();
 
 		String gstGrpCode = null;
@@ -360,7 +392,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		inventoryItemDO.setInventoryItemCode(productId);
 		inventoryItemDO.setBaseUnitMeasure(baseUnitMeasure);
 		inventoryItemDO.setDescriptions(strDesc);
-		inventoryItemDO.setGenProductPostingGrp(genProductPostingGrp);
+		inventoryItemDO.setGenProductPostingGrp(null);
 		inventoryItemDO.setGstGrpCode(gstGrpCode);
 		inventoryItemDO.setHsnSacCode(hsnCode);
 
@@ -404,7 +436,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		}
 		// 8 stock
 		// 9 rate
-		// 10 total amt
+
 		String strStockCount = (util.getStringDataFromCell(nextRow.getCell(8)));
 		logger.debug("strStockCount = " + strStockCount);
 		String strRate = (util.getStringDataFromCell(nextRow.getCell(9)));
@@ -441,7 +473,7 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 		InventoryDO invItem = new InventoryDO();
 		invItem.setAverageUnitPrice(rateD);
 		invItem.setItem(itemAsDo);
-		invItem.setNotes("Brought In directly from input, There wont be any ledger entry for it.");
+		invItem.setNotes("Stock Updated via Bulk upload on " + new Date());
 		invItem.setQuantity(stockCount);
 		invItem.setType(inventoryTypeDO);
 		logger.debug("Created and sent InventoryDO for itemCode: " + itemCode);
