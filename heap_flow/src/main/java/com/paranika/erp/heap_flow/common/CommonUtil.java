@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
+
 @Component
 public class CommonUtil {
 	// private final Logger logger =
@@ -66,5 +68,15 @@ public class CommonUtil {
 			}
 		}
 		return decodedValue;
+	}
+
+	public void headerCellVaueCheck(Cell c, String value) throws HeapFlowException {
+		logger.debug("headerCellVaueCheck invoked.");
+		String fetchedCellValue = getStringDataFromCell(c);
+		logger.debug("fetchedCellValue: " + fetchedCellValue);
+		logger.debug("supplied value: " + value);
+		if (fetchedCellValue == null || !fetchedCellValue.equalsIgnoreCase(value)) {
+			throw new HeapFlowException("Expected value of header: " + value + " found value: " + fetchedCellValue);
+		}
 	}
 }

@@ -325,13 +325,6 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 
 	}
 
-	private void headerCellVaueCheck(Cell c, String value) throws HeapFlowException {
-		String fetchedCellValue = util.getStringDataFromCell(c);
-		if (fetchedCellValue == null || !fetchedCellValue.equalsIgnoreCase(value)) {
-			throw new HeapFlowException("Expected value of header: " + value + " found value: " + fetchedCellValue);
-		}
-	}
-
 	private void validateStockWorkBook(Workbook workbook) throws HeapFlowException {
 		// Check for Number of Sheets.
 		int sheetNumber = workbook.getNumberOfSheets();
@@ -344,18 +337,18 @@ public class InventoryServiceImpl implements InventoryServiceIX {
 			throw new HeapFlowException("No header row found in the sheet.");
 		}
 		Cell itemCodeCell = headerRow.getCell(0);
-		headerCellVaueCheck(itemCodeCell, "ITEM CODE");
-		headerCellVaueCheck(headerRow.getCell(1), "DESCRIPTION");
-		headerCellVaueCheck(headerRow.getCell(2), "Description 2");
-		headerCellVaueCheck(headerRow.getCell(3), "Description 3");
-		headerCellVaueCheck(headerRow.getCell(4), "Description 4");
-		headerCellVaueCheck(headerRow.getCell(5), "Description 5");
-		headerCellVaueCheck(headerRow.getCell(6), "Description 6");
-		headerCellVaueCheck(headerRow.getCell(7), "UOM");
-		headerCellVaueCheck(headerRow.getCell(8), "CLOSING STOCK");
-		headerCellVaueCheck(headerRow.getCell(9), "RATE");
-		headerCellVaueCheck(headerRow.getCell(10), "CATEGORY");
-		headerCellVaueCheck(headerRow.getCell(11), "Product Group Code");
+		util.headerCellVaueCheck(itemCodeCell, "ITEM CODE");
+		util.headerCellVaueCheck(headerRow.getCell(1), "DESCRIPTION");
+		util.headerCellVaueCheck(headerRow.getCell(2), "Description 2");
+		util.headerCellVaueCheck(headerRow.getCell(3), "Description 3");
+		util.headerCellVaueCheck(headerRow.getCell(4), "Description 4");
+		util.headerCellVaueCheck(headerRow.getCell(5), "Description 5");
+		util.headerCellVaueCheck(headerRow.getCell(6), "Description 6");
+		util.headerCellVaueCheck(headerRow.getCell(7), "UOM");
+		util.headerCellVaueCheck(headerRow.getCell(8), "CLOSING STOCK");
+		util.headerCellVaueCheck(headerRow.getCell(9), "RATE");
+		util.headerCellVaueCheck(headerRow.getCell(10), "CATEGORY");
+		util.headerCellVaueCheck(headerRow.getCell(11), "Product Group Code");
 	}
 
 	private InventoryItemDO createItem(Row nextRow) throws HeapFlowException {

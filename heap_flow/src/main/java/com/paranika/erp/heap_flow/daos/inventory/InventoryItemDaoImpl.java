@@ -155,7 +155,7 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 				dbFetchedDO.setInventoryItemCode(inventoryItemCode);
 				dbFetchedDO.setItemCategoryCode(inventoryItemDO.getItemCategoryCode());
 				dbFetchedDO.setProductGrpCode(inventoryItemDO.getProductGrpCode());
-
+				dbFetchedDO.setReserveQuantAlert(inventoryItemDO.getReserveQuantAlert());
 				em.merge(dbFetchedDO);
 
 			} else {
