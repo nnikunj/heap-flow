@@ -28,6 +28,7 @@
     "@webcomponents/webcomponentsjs": "^2.0.0",
     "file-saver": "^2.0.2",
     "ng2-pdf-viewer": "^6.3.0",
+    "ng2-pdfjs-viewer": "^5.0.7",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

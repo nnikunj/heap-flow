@@ -92,6 +92,8 @@ export class InventoryItemsGridComponent implements OnInit, AfterViewInit {
 
   print(item : any){
     const dialogRef = this.dialog.open(PrintItemQRCode, {
+      width: '300mm',
+      height: '150mm',
       data:item
     });
 

@@ -48,7 +48,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog'
 import { PdfViewerModule } from 'ng2-pdf-viewer';
-import { ImportExcelComponent } from './import-excel/import-excel.component'
+import { ImportExcelComponent } from './import-excel/import-excel.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
  
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { ImportExcelComponent } from './import-excel/import-excel.component'
     MatProgressBarModule,
     MatIconModule,
     MatCardModule,
-    PdfViewerModule
+    PdfViewerModule,
+    PdfJsViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

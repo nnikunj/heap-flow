@@ -1,1 +1,7 @@
-<pdf-viewer [src]="pdfSrc" [render-text]="true" (after-load-complete)="loadComplete()" style="display: block;"></pdf-viewer>
+<!-- <pdf-viewer [src]="pdfSrc" [render-text]="true" (after-load-complete)="loadComplete()" style="display: block;"></pdf-viewer> -->
+<!-- <embed #embed type="application/pdf" [src]="pdfSrc" width="auto" height="auto" onload="window.print()" onclick="alert('2')"> -->
+
+    <!-- <div *ngIf="innerHtml"    [innerHTML]="innerHtml">  </div> -->
+
+    <ng2-pdfjs-viewer #pdfViewer [startPrint]="true"></ng2-pdfjs-viewer>
+
