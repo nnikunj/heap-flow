@@ -39,7 +39,7 @@
                         <mat-form-field>
                             <mat-label>Issued Via EMP</mat-label>
                             <input matInput type="string" placeholder="Please enter emp."
-                                formControlName="issuedViaEmp">
+                                (focusout)="updateEmpAndDept()" formControlName="issuedViaEmp">
                         </mat-form-field>
 
                         <mat-form-field>
