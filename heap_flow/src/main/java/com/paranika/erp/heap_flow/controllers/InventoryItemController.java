@@ -23,6 +23,7 @@ import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.HeapFlowApiEndPoints;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dos.MinQuantNotifiationEntityProxy;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InputPagedFetchCallData;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
@@ -81,6 +82,24 @@ public class InventoryItemController {
 			logger.error(e.getMessage(), e);
 			response = new ResponseEntity<Page<InventoryItemDTO>>((Page<InventoryItemDTO>) null,
 					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return response;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = HeapFlowApiEndPoints.GET_PAGED_RESERVE_ITEMS)
+	ResponseEntity<Page<MinQuantNotifiationEntityProxy>> getReserveItems(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "25") int size) {
+		Pageable paging = PageRequest.of(page, size);
+		Page<MinQuantNotifiationEntityProxy> fetchedList = null;
+		ResponseEntity<Page<MinQuantNotifiationEntityProxy>> response;
+		try {
+			fetchedList = service.getPagedReservedItems(paging);
+			response = new ResponseEntity<Page<MinQuantNotifiationEntityProxy>>(fetchedList, HttpStatus.OK);
+			logger.debug(HeapFlowApiEndPoints.GET_PAGED_RESERVE_ITEMS + " Success");
+		} catch (HeapFlowException e) {
+			logger.error(e.getMessage(), e);
+			response = new ResponseEntity<Page<MinQuantNotifiationEntityProxy>>(
+					(Page<MinQuantNotifiationEntityProxy>) null, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return response;
 	}

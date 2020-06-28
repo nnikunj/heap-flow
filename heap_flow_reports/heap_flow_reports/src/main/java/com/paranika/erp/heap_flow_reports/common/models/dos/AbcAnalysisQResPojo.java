@@ -26,7 +26,7 @@ import com.paranika.erp.heap_flow_reports.common.models.dtos.InventoryItemDescri
 		+ "i.descriptions as descriptions, sum(inv.quantity) as totalQuantity, "
 		+ "sum(inv.quantity*inv.average_unit_price) as totalValue  " + "from inventories inv "
 		+ "inner join inventory_items i on i.id=inv.inventory_item_fk "
-		+ " group by inventory_item_fk having (totalValue>=:lowerLimit  and totalValue<:upperLimit ) order by totalValue;", resultSetMapping = "findAbcAnalysisMapping"
+		+ " group by inventory_item_fk having (totalValue>=:lowerLimit  and totalValue<:upperLimit ) order by totalValue", resultSetMapping = "findAbcAnalysisMapping"
 
 )
 public class AbcAnalysisQResPojo {

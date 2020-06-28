@@ -36,5 +36,6 @@ public interface HeapFlowApiEndPoints {
 	public String GET_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-inventory-items-list-like-id/{idLike}";
 	public String GET_PAGED_INVENTORYITEM_LIST_WITH_ID_LIKE = "/fetch-paged-inventory-items";
 	public String GET_INVENTORYITEM_WITH_PRODUCT_CODE = "/fetch-inventory-item-with-product-code/{prodCode}";
+	public String GET_PAGED_RESERVE_ITEMS = "/fetch-paged-reserve-inventory-items";
 
 }

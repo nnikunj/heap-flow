@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dos.MinQuantNotifiationEntityProxy;
 
 @Repository
 public interface InventoryItemDaoIx {
@@ -31,4 +32,6 @@ public interface InventoryItemDaoIx {
 	public InventoryItemDO getInventoryItemswithCode(String prodCode) throws Exception;
 
 	public Page<InventoryItemDO> getPagedItemsWithIdLike(String idLike, Pageable paging) throws Exception;
+
+	public Page<MinQuantNotifiationEntityProxy> getPagedReservedItems(Pageable paging) throws Exception;
 }

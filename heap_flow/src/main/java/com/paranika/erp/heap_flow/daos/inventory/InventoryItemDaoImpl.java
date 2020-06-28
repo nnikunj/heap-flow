@@ -19,14 +19,19 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dos.MinQuantNotifiationEntityProxy;
 import com.paranika.erp.heap_flow.daos.BaseDaoImpl;
 import com.paranika.erp.heap_flow.daos.defaultProviders.InventoryItemsRepository;
+import com.paranika.erp.heap_flow.daos.defaultProviders.MinQuantNotifiationEntityProxyRepository;
 
 @Component
 public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDaoIx {
 
 	@Autowired
 	private InventoryItemsRepository inventoryItemsRepo;
+
+	@Autowired
+	MinQuantNotifiationEntityProxyRepository minQuantRepo;
 	@Autowired
 	@PersistenceContext
 	private EntityManager em;
@@ -170,4 +175,8 @@ public class InventoryItemDaoImpl extends BaseDaoImpl implements InventoryItemDa
 
 	}
 
+	@Override
+	public Page<MinQuantNotifiationEntityProxy> getPagedReservedItems(Pageable paging) throws Exception {
+		return minQuantRepo.findReserveItems(paging);
+	}
 }

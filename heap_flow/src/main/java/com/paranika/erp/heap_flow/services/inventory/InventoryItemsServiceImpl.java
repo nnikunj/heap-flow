@@ -23,6 +23,7 @@ import com.google.common.collect.Lists;
 import com.paranika.erp.heap_flow.common.CommonUtil;
 import com.paranika.erp.heap_flow.common.exceptions.HeapFlowException;
 import com.paranika.erp.heap_flow.common.models.dos.InventoryItemDO;
+import com.paranika.erp.heap_flow.common.models.dos.MinQuantNotifiationEntityProxy;
 import com.paranika.erp.heap_flow.common.models.dtos.InputExcelBook;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDTO;
 import com.paranika.erp.heap_flow.common.models.dtos.InventoryItemDescriptions;
@@ -217,6 +218,22 @@ public class InventoryItemsServiceImpl implements InventoryItemsServiceIX {
 		}
 		logger.debug("Service call exit getPagedItemsWithIdLike");
 		return dtoPage;
+	}
+
+	@Override
+	public Page<MinQuantNotifiationEntityProxy> getPagedReservedItems(Pageable paging) throws HeapFlowException {
+
+		logger.debug("Service call getPagedReservedItems");
+		Page<MinQuantNotifiationEntityProxy> collectedData = null;
+
+		try {
+			collectedData = inventoryItemDao.getPagedReservedItems(paging);
+
+		} catch (Exception e) {
+			logger.error("getPagedReservedItems failed", e);
+		}
+		logger.debug("Service call exit getPagedReservedItems");
+		return collectedData;
 	}
 
 	@Override
