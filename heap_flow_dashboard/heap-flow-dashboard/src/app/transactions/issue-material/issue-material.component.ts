@@ -293,11 +293,21 @@ export class IssueMaterialComponent implements OnInit {
     });
   }
 
-  updateDepartment(emp: string){
-    //let emp = this.issueMaterialForm.get('issuedViaEmp').value;
-    if(emp && emp.includes('$')){
+  updateDepartment(emp: string) {
+    if (emp && emp.includes('$')) {
       let ary = emp.split('$');
-      if(ary.length >= 3){
+      if (ary.length >= 3) {
+        this.issueMaterialForm.get('issuedForDept').setValue(ary[2]);
+      }
+    }
+  }
+
+  updateEmpAndDept() {
+    let emp = this.issueMaterialForm.get('issuedViaEmp').value;
+    if (emp && emp.includes('$')) {
+      let ary = emp.split('$');
+      if (ary.length >= 3) {
+        this.issueMaterialForm.get('issuedViaEmp').setValue(ary[1]);
         this.issueMaterialForm.get('issuedForDept').setValue(ary[2]);
       }
     }
