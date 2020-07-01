@@ -26,7 +26,7 @@ export class InventoryReserveComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.loadInventoryReserve(0, 10, this.paginator);
+    this.dataSource.loadInventoryReserve(0, this.paginator.pageSize, this.paginator);
 
     merge(this.paginator.page)
       .pipe(
