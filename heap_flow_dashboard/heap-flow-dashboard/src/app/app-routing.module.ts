@@ -17,11 +17,9 @@ import { VendorsListComponent } from './vendors/vendors-list/vendors-list.compon
 import { VendorsAddComponent } from './vendors/vendors-add/vendors-add.component';
 import { MachinesListComponent } from './machines/machines-list/machines-list.component';
 import { MachinesAddComponent } from './machines/machines-add/machines-add.component';
-import { InventoryImportComponent } from './inventory/inventory-import/inventory-import.component';
-import { VendorImportComponent } from './vendors/vendor-import/vendor-import.component';
-import { MachineImportComponent } from './machines/machine-import/machine-import.component';
 import { AddInventoryItemComponent } from './inventory/add-inventory-item/add-inventory-item.component';
 import { ImportExcelComponent } from 'src/app/import-excel/import-excel.component'
+import { InventoryReserveComponent } from 'src/app/inventory/inventory-reserve/inventory-reserve.component'
 
 const routes: Routes = [
 
@@ -41,8 +39,8 @@ const routes: Routes = [
     children: [
       { path: 'accept-material', component: AcceptMaterialComponent },
       { path: 'issue-material', component: IssueMaterialComponent },
-      { path: 'accept-material-list', component: AcceptMaterialListComponent},
-      { path: 'issue-material-list', component: IssueMaterialListComponent}
+      { path: 'accept-material-list', component: AcceptMaterialListComponent },
+      { path: 'issue-material-list', component: IssueMaterialListComponent }
 
     ]
   },
@@ -66,7 +64,8 @@ const routes: Routes = [
     ]
   },
   { path: 'about', component: AboutComponent },
-  { path: '**', redirectTo: '/' }
+  { path: '**', redirectTo: '/' },
+  { path: '', component: InventoryReserveComponent }
 
 ];
 

@@ -50,6 +50,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { ImportExcelComponent } from './import-excel/import-excel.component';
 import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { InventoryReserveComponent } from './inventory/inventory-reserve/inventory-reserve.component';
  
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
     AddInventoryItemComponent,
     AddInventoryDialog,
     PrintItemQRCode,
-    ImportExcelComponent
+    ImportExcelComponent,
+    InventoryReserveComponent
   ],
   imports: [
     BrowserModule,
